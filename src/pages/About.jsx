@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 
-/* ── TPS Emblem SVG ──────────────────────────────────────────── */
+/* ── TPS Story Emblem SVG ────────────────────────────────────── */
 function TpsEmblemSvg() {
   return (
     <svg
@@ -10,33 +10,41 @@ function TpsEmblemSvg() {
       height="140"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      aria-label="TPS Emblem"
+      aria-label="TPS Emblem — Est. 2005"
     >
       {/* Outer ring */}
       <circle cx="80" cy="80" r="74" stroke="rgba(212,175,55,0.85)" strokeWidth="3.5" fill="none" />
-      {/* Mid ring */}
-      <circle cx="80" cy="80" r="64" stroke="rgba(212,175,55,0.4)" strokeWidth="1.2" fill="none" />
-      {/* Inner ring */}
+      {/* Dashed inner ring */}
+      <circle
+        cx="80"
+        cy="80"
+        r="64"
+        stroke="rgba(212,175,55,0.4)"
+        strokeWidth="1.2"
+        strokeDasharray="5 4"
+        fill="none"
+      />
+      {/* Subtle inner ring */}
       <circle cx="80" cy="80" r="54" stroke="rgba(212,175,55,0.2)" strokeWidth="0.8" fill="none" />
       {/* Top star accent */}
       <polygon
-        points="80,10 82,16.5 88.5,16.5 83.5,20 85.5,26.5 80,23 74.5,26.5 76.5,20 71.5,16.5 78,16.5"
-        fill="rgba(212,175,55,0.7)"
+        points="80,9 82.2,15.8 89.4,15.8 83.8,20 86,26.8 80,22.6 74,26.8 76.2,20 70.6,15.8 77.8,15.8"
+        fill="rgba(212,175,55,0.75)"
       />
-      {/* TPS text */}
+      {/* TPS wordmark */}
       <text
         x="80"
         y="93"
         textAnchor="middle"
         fontFamily="'Barlow Condensed', 'Arial Narrow', Arial, sans-serif"
         fontWeight="900"
-        fontSize="40"
-        fill="rgba(212,175,55,0.9)"
+        fontSize="42"
+        fill="rgba(212,175,55,0.92)"
         letterSpacing="3"
       >
         TPS
       </text>
-      {/* EST label */}
+      {/* Established sub-label */}
       <text
         x="80"
         y="115"
@@ -44,8 +52,8 @@ function TpsEmblemSvg() {
         fontFamily="'Barlow Condensed', 'Arial Narrow', Arial, sans-serif"
         fontWeight="600"
         fontSize="9"
-        fill="rgba(212,175,55,0.55)"
-        letterSpacing="6"
+        fill="rgba(212,175,55,0.5)"
+        letterSpacing="7"
       >
         EST. 2005
       </text>
@@ -53,10 +61,20 @@ function TpsEmblemSvg() {
   )
 }
 
-/* ── Icons ───────────────────────────────────────────────────── */
+/* ── Value card icons ────────────────────────────────────────── */
 function IconShield() {
   return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="32" height="32" aria-hidden="true">
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      width="32"
+      height="32"
+      aria-hidden="true"
+    >
       <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
       <polyline points="9 12 11 14 15 10" />
     </svg>
@@ -65,7 +83,17 @@ function IconShield() {
 
 function IconEye() {
   return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="32" height="32" aria-hidden="true">
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      width="32"
+      height="32"
+      aria-hidden="true"
+    >
       <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
       <circle cx="12" cy="12" r="3" />
     </svg>
@@ -74,13 +102,24 @@ function IconEye() {
 
 function IconLightning() {
   return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="32" height="32" aria-hidden="true">
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      width="32"
+      height="32"
+      aria-hidden="true"
+    >
       <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
     </svg>
   )
 }
 
-function IconPlus({ rotated }) {
+/* ── FAQ toggle icon — a + that rotates 45° to become × ──────── */
+function PlusIcon({ open }) {
   return (
     <svg
       viewBox="0 0 24 24"
@@ -93,8 +132,9 @@ function IconPlus({ rotated }) {
       aria-hidden="true"
       style={{
         display: 'block',
+        flexShrink: 0,
         transition: 'transform 0.25s ease',
-        transform: rotated ? 'rotate(45deg)' : 'rotate(0deg)',
+        transform: open ? 'rotate(45deg)' : 'rotate(0deg)',
       }}
     >
       <line x1="12" y1="5" x2="12" y2="19" />
@@ -190,6 +230,7 @@ export default function About() {
       <section className="section section--white">
         <div className="container">
           <div className="about-story">
+
             {/* Visual — Left */}
             <div className="about-story__visual patch-bg-1">
               <TpsEmblemSvg />
@@ -199,6 +240,7 @@ export default function About() {
             <div>
               <span className="overline">EST. 2005</span>
               <h2 className="heading-1">Two Decades of Patch Excellence</h2>
+
               <p>
                 The Patch Solutions was born in 2005 when our founder, a veteran with a passion for
                 quality craftsmanship, noticed a gap in the market — too many patch companies
@@ -217,7 +259,14 @@ export default function About() {
 
               <div className="gold-divider" style={{ marginLeft: 0 }} />
 
-              <div style={{ display: 'flex', gap: '2.5rem', marginTop: '1.5rem', flexWrap: 'wrap' }}>
+              <div
+                style={{
+                  display: 'flex',
+                  gap: '2.5rem',
+                  marginTop: '1.5rem',
+                  flexWrap: 'wrap',
+                }}
+              >
                 <div className="stat-item">
                   <span className="stat-item__number">10,000+</span>
                   <span className="stat-item__label">Clients Served</span>
@@ -228,6 +277,7 @@ export default function About() {
                 </div>
               </div>
             </div>
+
           </div>
         </div>
       </section>
@@ -253,7 +303,7 @@ export default function About() {
         </div>
       </section>
 
-      {/* ── 4. STATS ────────────────────────────────────────────── */}
+      {/* ── 4. STATS (why choose TPS) ───────────────────────────── */}
       <section className="section section--dark-2">
         <div className="container">
           <div className="stats-grid">
@@ -286,7 +336,7 @@ export default function About() {
                   >
                     {faq.q}
                     <span className="faq-question__icon">
-                      <IconPlus rotated={isOpen} />
+                      <PlusIcon open={isOpen} />
                     </span>
                   </button>
                   <div className={`faq-answer${isOpen ? ' faq-answer--open' : ''}`}>

@@ -52,6 +52,7 @@ export default function Gallery() {
       {/* ── 2. GALLERY SECTION ──────────────────────────────────── */}
       <section className="section section--white">
         <div className="container">
+
           {/* Filter Bar */}
           <div className="gallery-filters">
             {FILTERS.map((filter) => (
@@ -86,6 +87,7 @@ export default function Gallery() {
               </div>
             ))}
           </div>
+
         </div>
       </section>
 

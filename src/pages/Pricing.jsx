@@ -23,17 +23,27 @@ const PRICING_FACTORS = [
 ]
 
 const PRICING_ROWS = [
-  { qty: '25–49',   price: '$3.50–$5.00', turnaround: '12–14 days', notes: 'Standard',       badge: false },
-  { qty: '50–99',   price: '$2.50–$3.75', turnaround: '10–12 days', notes: 'Popular Choice', badge: true  },
-  { qty: '100–249', price: '$1.75–$2.50', turnaround: '8–10 days',  notes: 'Best Value',     badge: true  },
-  { qty: '250–499', price: '$1.25–$1.75', turnaround: '7–9 days',   notes: '—',              badge: false },
-  { qty: '500+',    price: 'Contact Us',  turnaround: '5–7 days',   notes: 'Volume Discount',badge: false },
+  { qty: '25–49',   price: '$3.50–$5.00', turnaround: '12–14 days', notes: 'Standard',        badge: false },
+  { qty: '50–99',   price: '$2.50–$3.75', turnaround: '10–12 days', notes: 'Popular Choice',  badge: true  },
+  { qty: '100–249', price: '$1.75–$2.50', turnaround: '8–10 days',  notes: 'Best Value',      badge: true  },
+  { qty: '250–499', price: '$1.25–$1.75', turnaround: '7–9 days',   notes: '—',               badge: false },
+  { qty: '500+',    price: 'Contact Us',  turnaround: '5–7 days',   notes: 'Volume Discount', badge: false },
 ]
 
-/* ── Icons ───────────────────────────────────────────────────── */
+/* ── Icon components ─────────────────────────────────────────── */
 function IconCheck() {
   return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="28" height="28" aria-hidden="true">
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      width="28"
+      height="28"
+      aria-hidden="true"
+    >
       <path d="M9 12l2 2 4-4" />
       <circle cx="12" cy="12" r="10" />
     </svg>
@@ -42,7 +52,17 @@ function IconCheck() {
 
 function IconGift() {
   return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="28" height="28" aria-hidden="true">
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      width="28"
+      height="28"
+      aria-hidden="true"
+    >
       <polyline points="20 12 20 22 4 22 4 12" />
       <rect x="2" y="7" width="20" height="5" rx="1" />
       <line x1="12" y1="22" x2="12" y2="7" />
@@ -54,7 +74,17 @@ function IconGift() {
 
 function IconTruck() {
   return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="28" height="28" aria-hidden="true">
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      width="28"
+      height="28"
+      aria-hidden="true"
+    >
       <rect x="1" y="3" width="15" height="13" rx="1" />
       <path d="M16 8h4l3 5v4h-7V8z" />
       <circle cx="5.5" cy="18.5" r="2.5" />
@@ -65,7 +95,17 @@ function IconTruck() {
 
 function IconStar() {
   return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="28" height="28" aria-hidden="true">
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      width="28"
+      height="28"
+      aria-hidden="true"
+    >
       <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
     </svg>
   )
@@ -73,7 +113,17 @@ function IconStar() {
 
 function IconPalette() {
   return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="28" height="28" aria-hidden="true">
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      width="28"
+      height="28"
+      aria-hidden="true"
+    >
       <circle cx="13.5" cy="6.5" r="2.5" />
       <circle cx="17.5" cy="10.5" r="2.5" />
       <circle cx="8.5" cy="7.5" r="2.5" />
@@ -85,7 +135,17 @@ function IconPalette() {
 
 function IconRefresh() {
   return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="28" height="28" aria-hidden="true">
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      width="28"
+      height="28"
+      aria-hidden="true"
+    >
       <polyline points="1 4 1 10 7 10" />
       <path d="M3.51 15a9 9 0 102.13-9.36L1 10" />
     </svg>
@@ -93,12 +153,42 @@ function IconRefresh() {
 }
 
 const INCLUDED_FREE = [
-  { id: 1, title: 'Free Design Proof',      description: 'Our artists create a digital proof before production starts. Changes are free.',              Icon: IconCheck   },
-  { id: 2, title: 'Free Sample',            description: 'We send a physical sample patch for approval before full production begins.',                 Icon: IconGift    },
-  { id: 3, title: 'Free Shipping Estimate', description: 'Get your full shipping cost upfront — no surprise fees at checkout.',                        Icon: IconTruck   },
-  { id: 4, title: 'Merrowed Border',        description: 'Standard merrowed border included at no extra cost.',                                        Icon: IconStar    },
-  { id: 5, title: 'Color Matching',         description: 'We match your exact brand colors using industry-standard thread colors.',                    Icon: IconPalette },
-  { id: 6, title: 'Revision Rounds',        description: "Unlimited design revisions until you're 100% happy with the proof.",                        Icon: IconRefresh },
+  {
+    id: 1,
+    title: 'Free Design Proof',
+    description: 'Our artists create a digital proof before production starts. Changes are free.',
+    Icon: IconCheck,
+  },
+  {
+    id: 2,
+    title: 'Free Sample',
+    description: 'We send a physical sample patch for approval before full production begins.',
+    Icon: IconGift,
+  },
+  {
+    id: 3,
+    title: 'Free Shipping Estimate',
+    description: 'Get your full shipping cost upfront — no surprise fees at checkout.',
+    Icon: IconTruck,
+  },
+  {
+    id: 4,
+    title: 'Merrowed Border',
+    description: 'Standard merrowed border included at no extra cost.',
+    Icon: IconStar,
+  },
+  {
+    id: 5,
+    title: 'Color Matching',
+    description: 'We match your exact brand colors using industry-standard thread colors.',
+    Icon: IconPalette,
+  },
+  {
+    id: 6,
+    title: 'Revision Rounds',
+    description: "Unlimited design revisions until you're 100% happy with the proof.",
+    Icon: IconRefresh,
+  },
 ]
 
 /* ══════════════════════════════════════════════════════════════
@@ -144,6 +234,7 @@ export default function Pricing() {
             <span className="overline">Quantity Breaks</span>
             <h2 className="heading-2">More Patches, More Savings</h2>
           </div>
+
           <table className="pricing-table">
             <thead>
               <tr>
@@ -170,6 +261,7 @@ export default function Pricing() {
               ))}
             </tbody>
           </table>
+
           <p className="pricing-note">
             * Prices are estimates for standard 3" embroidered patches with up to 8 thread colors.
             Actual pricing depends on size, type, and complexity. Request a free quote for exact
