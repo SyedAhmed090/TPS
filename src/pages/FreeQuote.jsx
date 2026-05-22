@@ -77,7 +77,7 @@ export default function FreeQuote() {
             ) : (
               <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
                 <h2 style={{ fontFamily: 'var(--font-display)', color: 'var(--navy)', fontSize: '1.8rem', letterSpacing: '0.04em', marginBottom: '0.25rem' }}>Your Contact Info</h2>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem' }}>
+                <div className="fq-grid">
                   <div><label style={labelStyle}>Name *</label><input name="name" value={form.name} onChange={handleChange} required placeholder="Full name" style={inputStyle} /></div>
                   <div><label style={labelStyle}>Email *</label><input name="email" type="email" value={form.email} onChange={handleChange} required placeholder="your@email.com" style={inputStyle} /></div>
                   <div><label style={labelStyle}>Phone</label><input name="phone" value={form.phone} onChange={handleChange} placeholder="Optional" style={inputStyle} /></div>
@@ -85,7 +85,7 @@ export default function FreeQuote() {
                 </div>
 
                 <h2 style={{ fontFamily: 'var(--font-display)', color: 'var(--navy)', fontSize: '1.8rem', letterSpacing: '0.04em', marginBottom: '0.25rem', marginTop: '0.5rem' }}>Patch Details</h2>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem' }}>
+                <div className="fq-grid">
                   <div>
                     <label style={labelStyle}>Patch Type *</label>
                     <select name="patchType" value={form.patchType} onChange={handleChange} required style={{ ...inputStyle, cursor: 'pointer' }}>

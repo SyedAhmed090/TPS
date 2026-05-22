@@ -9,7 +9,7 @@ export default function useReveal() {
           observer.unobserve(e.target)
         }
       }),
-      { threshold: 0.12 }
+      { threshold: 0.05, rootMargin: '0px 0px -40px 0px' }
     )
     const id = requestAnimationFrame(() => {
       document.querySelectorAll('.reveal:not(.visible)').forEach(el => observer.observe(el))

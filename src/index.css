@@ -177,19 +177,30 @@ section { padding: 5.5rem 0; }
   top: 0; left: 0; right: 0;
   z-index: 100;
   background: rgba(11,26,46,0.97);
-  backdrop-filter: blur(12px);
   border-bottom: 1px solid rgba(200,147,26,0.25);
   height: var(--nav-height);
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 2.5rem;
-  animation: slideDown 0.6s ease both;
+  animation: slideDown 0.6s ease;
+}
+
+/* backdrop-filter on ::before so .navbar never becomes a containing block
+   for position:fixed descendants (which would break the mobile menu overlay) */
+.navbar::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: -1;
+  pointer-events: none;
 }
 
 @keyframes slideDown {
   from { transform: translateY(-100%); opacity: 0; }
-  to   { transform: translateY(0);     opacity: 1; }
+  to   { transform: none;              opacity: 1; }
 }
 
 .navbar__logo img { height: 46px; width: auto; display: block; filter: brightness(0) invert(1); }
@@ -254,16 +265,30 @@ section { padding: 5.5rem 0; }
   transition: all var(--transition);
 }
 
+/* Desktop defaults for mobile-only elements — must be BEFORE the media query
+   so the media query overrides take precedence at ≤900px */
+.navbar__item-row  { display: contents; }
+.navbar__toggle-sub { display: none; }
+.navbar__mobile-sub { display: none; }
+.navbar__toggle-arrow { display: inline-block; }
+
 @media (max-width: 900px) {
   .navbar { padding: 0 1.5rem; }
+
+  /* Stack item contents vertically so accordion opens below, not beside */
+  .navbar__item {
+    flex-direction: column;
+    align-items: stretch;
+  }
 
   .navbar__links {
     position: fixed;
     top: var(--nav-height);
     left: 0; right: 0; bottom: 0;
+    z-index: 150;
     background: var(--navy-mid);
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     gap: 0;
     opacity: 0;
     pointer-events: none;
@@ -278,23 +303,104 @@ section { padding: 5.5rem 0; }
     transform: translateY(0);
   }
 
+  /* Hide hover-based dropdowns & mega on mobile — accordion replaces them */
+  .navbar__dropdown,
+  .navbar__mega { display: none !important; }
+
   .navbar__link {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     height: auto;
-    padding: 18px 24px;
+    padding: 16px 24px;
     width: 100%;
-    justify-content: center;
-    border-bottom: none;
+    justify-content: flex-start;
     border-bottom: 1px solid rgba(255,255,255,0.06);
   }
 
   .navbar__link:hover { border-bottom: 1px solid rgba(255,255,255,0.06); }
+
+  /* Items with a sub-accordion use a row layout */
+  .navbar__item-row {
+    display: flex;
+    align-items: stretch;
+    width: 100%;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .navbar__item-row .navbar__link {
+    flex: 1;
+    border-bottom: none;
+  }
+
+  /* ▾ toggle button shown only on mobile */
+  .navbar__toggle-sub {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    flex-shrink: 0;
+    color: rgba(255,255,255,0.45);
+    font-size: 1.1rem;
+    border-left: 1px solid rgba(255,255,255,0.06);
+    transition: color var(--transition), background var(--transition);
+  }
+
+  .navbar__toggle-sub:hover { color: var(--gold); background: rgba(200,147,26,0.06); }
+
+  .navbar__toggle-arrow {
+    display: inline-block;
+    transition: transform 0.22s ease;
+  }
+
+  .navbar__toggle-arrow--open { transform: rotate(180deg); }
+
+  /* Mobile accordion sub-menu */
+  .navbar__mobile-sub {
+    display: none;
+    background: rgba(0,0,0,0.22);
+    width: 100%;
+  }
+
+  .navbar__mobile-sub--open { display: block; }
+
+  .navbar__mobile-sub-link {
+    display: block;
+    padding: 10px 24px 10px 36px;
+    color: rgba(255,255,255,0.6);
+    font-family: var(--font-heading);
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    transition: color var(--transition), background var(--transition);
+  }
+
+  .navbar__mobile-sub-link:active,
+  .navbar__mobile-sub-link:hover {
+    color: var(--gold);
+    background: rgba(200,147,26,0.08);
+  }
+
+  .navbar__mobile-sub-header {
+    padding: 10px 24px 3px 36px;
+    font-family: var(--font-heading);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    opacity: 0.75;
+    margin-top: 4px;
+  }
 
   .navbar__cta-mobile {
     display: flex !important;
     justify-content: center;
     padding: 24px;
   }
+
+  /* Hide link-arrow on mobile (toggle button replaces it) */
+  .navbar__link-arrow { display: none; }
 
   .navbar__cta { display: none; }
   .navbar__hamburger { display: flex; }
@@ -2056,6 +2162,14 @@ footer {
   align-items: start;
 }
 @media (max-width: 860px) { .quote-layout { grid-template-columns: 1fr; gap: 3rem; } }
+
+/* Free Quote form 2-col grid — collapses to 1-col on small screens */
+.fq-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+@media (max-width: 560px) { .fq-grid { grid-template-columns: 1fr; } }
 
 /* Calculator add-ons 2-col grid */
 .calc-addons-grid {
