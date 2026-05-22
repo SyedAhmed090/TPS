@@ -38,7 +38,7 @@ export default function CustomPatchCompany() {
             <span className="detail-label">Our Story</span>
             <h2 className="detail-title">The Patch Solutions</h2>
             <p className="detail-desc">
-              Founded in 2000, The Patch Solutions is a US-based custom patch manufacturer with over 25 years of experience serving military units, motorcycle clubs, sports teams, schools, law enforcement agencies, businesses, and individual collectors.
+              Founded in 2005, The Patch Solutions is a US-based custom patch manufacturer with over 20 years of experience serving military units, motorcycle clubs, sports teams, schools, law enforcement agencies, businesses, and individual collectors.
             </p>
             <p className="detail-desc">
               We started with a simple idea: high-quality custom patches shouldn't be complicated or overpriced. That idea has guided every decision we've made since — from our pricing model to our production standards to how we treat every customer.

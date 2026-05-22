@@ -28,7 +28,7 @@ const SECTIONS = [
   },
   {
     title: 'Contact Us',
-    content: 'If you have questions about this Privacy Policy or how we handle your personal information, please contact us at info@thepatchsolutions.com or by mail at The Patch Solutions, [Address]. This policy was last updated May 2025.',
+    content: 'If you have questions about this Privacy Policy or how we handle your personal information, please contact us at info@thepatchsolutions.com. This policy was last updated May 2025.',
   },
 ]
 

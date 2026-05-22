@@ -42,17 +42,17 @@ export default function Home() {
         <div className="hero-shape" />
         <div className="hero-split">
           <div className="hero-inner">
-            <p className="hero-eyebrow">Custom Patches Since 2000</p>
+            <p className="hero-eyebrow">Custom Patches Since 2005</p>
             <h1 className="hero-title">Crafted with<br /><span>Precision.</span><br />Worn with Pride.</h1>
             <p className="hero-subtitle">
-              From military units to motorcycle clubs, we deliver custom embroidered, woven, PVC, and specialty patches in any shape, any size — backed by 25 years of American craftsmanship.
+              From military units to motorcycle clubs, we deliver custom embroidered, woven, PVC, and specialty patches in any shape, any size — backed by 20 years of American craftsmanship.
             </p>
             <div className="hero-btns">
               <Link to="/contact" className="btn-primary">Get a Free Quote</Link>
               <Link to="/products" className="btn-outline">View Products</Link>
             </div>
             <div className="hero-trust">
-              <div className="trust-item"><span className="trust-num">25+</span><span className="trust-label">Years in Business</span></div>
+              <div className="trust-item"><span className="trust-num">20+</span><span className="trust-label">Years in Business</span></div>
               <div className="trust-item"><span className="trust-num">100%</span><span className="trust-label">Satisfaction Guarantee</span></div>
               <div className="trust-item"><span className="trust-num">Free</span><span className="trust-label">Samples &amp; Quotes</span></div>
               <div className="trust-item"><span className="trust-num">Flat</span><span className="trust-label">Rate Shipping</span></div>
@@ -78,8 +78,8 @@ export default function Home() {
             <div className="why-text reveal">
               <p className="section-label">Why Choose TPS</p>
               <h2 className="section-title">The Standard in Custom Patches</h2>
-              <p className="section-subtitle">Since 2000, The Patch Solutions has been the trusted partner for organizations that demand quality, accuracy, and reliability. Based in the USA, we stand behind every patch we produce.</p>
-              <span className="since-badge">In Business Since <span>2000</span></span>
+              <p className="section-subtitle">Since 2005, The Patch Solutions has been the trusted partner for organizations that demand quality, accuracy, and reliability. Based in the USA, we stand behind every patch we produce.</p>
+              <span className="since-badge">In Business Since <span>2005</span></span>
             </div>
             <div className="why-perks">
               {[
@@ -210,7 +210,7 @@ export default function Home() {
             <Link to="/contact" className="btn-primary-dark">Request Free Samples</Link>
           </div>
           <div className="cta-perks reveal">
-            {['No minimum order','Free design proof','Free samples','Flat-rate shipping','100% satisfaction guarantee'].map(p => (
+            {['25-piece minimum','Free design proof','Free samples','Flat-rate shipping','100% satisfaction guarantee'].map(p => (
               <span key={p} className="cta-perk">{p}</span>
             ))}
           </div>

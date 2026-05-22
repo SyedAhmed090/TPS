@@ -39,7 +39,7 @@ export default function Contact() {
       </section>
 
       <section className="container">
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '5rem', alignItems: 'start' }}>
+        <div className="story-grid" style={{ alignItems: 'start' }}>
           <div className="reveal">
             <h2 style={{ fontFamily: 'var(--font-display)', color: 'var(--navy)', fontSize: '2rem', letterSpacing: '0.04em', marginBottom: '0.75rem' }}>Get a Free Quote</h2>
             <p style={{ color: 'var(--gray-mid)', marginBottom: '2.5rem', lineHeight: 1.7 }}>Fill out the form and we'll respond within 1 business day with a free quote and digital proof timeline.</p>

@@ -55,7 +55,7 @@ export default function Products() {
             </div>
             <div className="reveal" style={{ textAlign: 'center' }}>
               <div style={{ background: 'rgba(255,255,255,0.05)', padding: '3rem', borderRadius: 4 }}>
-                <div style={{ fontFamily: 'var(--font-display)', fontSize: '4rem', color: 'var(--gold)', letterSpacing: '0.04em', lineHeight: 1 }}>25+</div>
+                <div style={{ fontFamily: 'var(--font-display)', fontSize: '4rem', color: 'var(--gold)', letterSpacing: '0.04em', lineHeight: 1 }}>20+</div>
                 <p style={{ color: 'var(--cream)', fontFamily: 'var(--font-heading)', marginTop: '0.5rem', letterSpacing: '0.08em' }}>YEARS OF EXPERIENCE</p>
               </div>
             </div>

@@ -10,7 +10,7 @@ export default function Footer() {
             <Link to="/" className="footer-logo">
               <img src={logo} alt="The Patch Solutions" />
             </Link>
-            <p>Custom patches of every type — designed, produced, and delivered with pride since 2000. Trusted by military units, clubs, teams, and organizations across the United States.</p>
+            <p>Custom patches of every type — designed, produced, and delivered with pride since 2005. Trusted by military units, clubs, teams, and organizations across the United States.</p>
             <p className="footer-since">© {new Date().getFullYear()} The Patch Solutions · USA</p>
           </div>
 
@@ -28,9 +28,9 @@ export default function Footer() {
             <ul>
               <li><Link to="/about">About Us</Link></li>
               <li><Link to="/gallery">Gallery</Link></li>
-              <li><Link to="/about">Testimonials</Link></li>
-              <li><Link to="/about">FAQs</Link></li>
-              <li><Link to="/about">How to Order</Link></li>
+              <li><Link to="/about/testimonials">Testimonials</Link></li>
+              <li><Link to="/about/faqs">FAQs</Link></li>
+              <li><Link to="/about/how-to-order">How to Order</Link></li>
               <li><Link to="/contact">Contact Us</Link></li>
             </ul>
           </div>
@@ -41,20 +41,20 @@ export default function Footer() {
               <li><Link to="/pricing">Pricing</Link></li>
               <li><Link to="/contact">Free Quote</Link></li>
               <li><Link to="/contact">Free Samples</Link></li>
-              <li><a href="#">Privacy Policy</a></li>
-              <li><a href="#">Return Policy</a></li>
-              <li><a href="#">Sitemap</a></li>
+              <li><Link to="/privacy-policy">Privacy Policy</Link></li>
+              <li><Link to="/return-policy">Return Policy</Link></li>
+              <li><Link to="/sitemap">Sitemap</Link></li>
             </ul>
           </div>
         </div>
 
         <div className="footer-bottom">
-          <p>The Patch Solutions · Custom Patches Since 2000 · All Rights Reserved</p>
+          <p>The Patch Solutions · Custom Patches Since 2005 · All Rights Reserved</p>
           <div className="footer-bottom-links">
-            <a href="#">Privacy Policy</a>
-            <a href="#">Return Policy</a>
-            <a href="#">Resources</a>
-            <a href="#">Sitemap</a>
+            <Link to="/privacy-policy">Privacy Policy</Link>
+            <Link to="/return-policy">Return Policy</Link>
+            <Link to="/resources">Resources</Link>
+            <Link to="/sitemap">Sitemap</Link>
           </div>
         </div>
       </div>
