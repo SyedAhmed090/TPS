@@ -23,15 +23,20 @@ export default function ProductDetail() {
         { label: item.name },
       ]} />
 
+      <section className="page-hero">
+        <div className="container" style={{ textAlign: 'center' }}>
+          <span className="section-label">Product</span>
+          <h1>{item.name}</h1>
+          {item.tagline ? <p>{item.tagline}</p> : <p>{item.description}</p>}
+        </div>
+      </section>
+
       <section className="container">
         <div className="detail-layout reveal">
           <div className="detail-img">
             <img src={item.img} alt={item.name} />
           </div>
           <div>
-            <span className="detail-label">Product</span>
-            <h1 className="detail-title">{item.name}</h1>
-            {item.tagline && <p style={{ fontFamily: 'var(--font-heading)', fontSize: '1.1rem', color: 'var(--gold)', marginBottom: '1rem', letterSpacing: '0.04em' }}>{item.tagline}</p>}
             <p className="detail-desc">{item.description}</p>
             <ul className="detail-features">
               {item.features.map(f => <li key={f}>{f}</li>)}

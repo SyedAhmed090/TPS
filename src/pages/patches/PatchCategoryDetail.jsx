@@ -24,14 +24,20 @@ export default function PatchCategoryDetail() {
         { label: item.name },
       ]} />
 
+      <section className="page-hero">
+        <div className="container" style={{ textAlign: 'center' }}>
+          <span className="section-label">Patch Category</span>
+          <h1>{item.name}</h1>
+          <p>{item.description}</p>
+        </div>
+      </section>
+
       <section className="container">
         <div className="detail-layout reveal">
           <div className="detail-img">
             <img src={item.img} alt={item.name} />
           </div>
           <div>
-            <span className="detail-label">Patch Category</span>
-            <h1 className="detail-title">{item.name}</h1>
             <p className="detail-desc">{item.description}</p>
             <ul className="detail-features">
               {item.features.map(f => <li key={f}>{f}</li>)}

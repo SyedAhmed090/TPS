@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom'
 import useReveal from '../hooks/useReveal'
+import PatchCalculator from '../components/PatchCalculator'
+import HeroCalculator from '../components/HeroCalculator'
 
 const PRODUCTS = [
   { name: 'Embroidered Patches', desc: 'Classic, durable, and detailed — the most popular style for uniforms and jackets.', img: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80' },
@@ -38,21 +40,26 @@ export default function Home() {
         <div className="hero-pattern" />
         <div className="hero-accent-left" />
         <div className="hero-shape" />
-        <div className="hero-inner">
-          <p className="hero-eyebrow">Custom Patches Since 2000</p>
-          <h1 className="hero-title">Crafted with<br /><span>Precision.</span><br />Worn with Pride.</h1>
-          <p className="hero-subtitle">
-            From military units to motorcycle clubs, we deliver custom embroidered, woven, PVC, and specialty patches in any shape, any size — backed by 25 years of American craftsmanship.
-          </p>
-          <div className="hero-btns">
-            <Link to="/contact" className="btn-primary">Get a Free Quote</Link>
-            <Link to="/products" className="btn-outline">View Products</Link>
+        <div className="hero-split">
+          <div className="hero-inner">
+            <p className="hero-eyebrow">Custom Patches Since 2000</p>
+            <h1 className="hero-title">Crafted with<br /><span>Precision.</span><br />Worn with Pride.</h1>
+            <p className="hero-subtitle">
+              From military units to motorcycle clubs, we deliver custom embroidered, woven, PVC, and specialty patches in any shape, any size — backed by 25 years of American craftsmanship.
+            </p>
+            <div className="hero-btns">
+              <Link to="/contact" className="btn-primary">Get a Free Quote</Link>
+              <Link to="/products" className="btn-outline">View Products</Link>
+            </div>
+            <div className="hero-trust">
+              <div className="trust-item"><span className="trust-num">25+</span><span className="trust-label">Years in Business</span></div>
+              <div className="trust-item"><span className="trust-num">100%</span><span className="trust-label">Satisfaction Guarantee</span></div>
+              <div className="trust-item"><span className="trust-num">Free</span><span className="trust-label">Samples &amp; Quotes</span></div>
+              <div className="trust-item"><span className="trust-num">Flat</span><span className="trust-label">Rate Shipping</span></div>
+            </div>
           </div>
-          <div className="hero-trust">
-            <div className="trust-item"><span className="trust-num">25+</span><span className="trust-label">Years in Business</span></div>
-            <div className="trust-item"><span className="trust-num">100%</span><span className="trust-label">Satisfaction Guarantee</span></div>
-            <div className="trust-item"><span className="trust-num">Free</span><span className="trust-label">Samples &amp; Quotes</span></div>
-            <div className="trust-item"><span className="trust-num">Flat</span><span className="trust-label">Rate Shipping</span></div>
+          <div className="hero-calc-wrap">
+            <HeroCalculator />
           </div>
         </div>
       </section>
@@ -159,6 +166,20 @@ export default function Home() {
                 <p className="step-desc">{desc}</p>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      <section style={{ background: 'var(--navy-mid)', padding: '5.5rem 0', position: 'relative', overflow: 'hidden' }}>
+        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'repeating-linear-gradient(45deg, rgba(200,147,26,0.03) 0px, rgba(200,147,26,0.03) 1px, transparent 1px, transparent 32px)', pointerEvents: 'none' }} />
+        <div className="container" style={{ position: 'relative' }}>
+          <div style={{ textAlign: 'center', marginBottom: '3rem' }} className="reveal">
+            <span className="section-label">Instant Estimate</span>
+            <h2 className="section-title light">Price Your Custom Patches</h2>
+            <p className="section-subtitle light" style={{ margin: '0 auto' }}>Select your patch type, size, and quantity for an instant estimate. Get your free official quote to lock in the price.</p>
+          </div>
+          <div className="reveal">
+            <PatchCalculator />
           </div>
         </div>
       </section>
