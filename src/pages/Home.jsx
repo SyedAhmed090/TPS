@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import useReveal from '../hooks/useReveal'
+import PatchCalculator from '../components/PatchCalculator'
 
 const PRODUCTS = [
   { name: 'Embroidered Patches', desc: 'Classic, durable, and detailed — the most popular style for uniforms and jackets.', img: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80' },
@@ -159,6 +160,20 @@ export default function Home() {
                 <p className="step-desc">{desc}</p>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      <section style={{ background: 'var(--navy-mid)', padding: '5.5rem 0', position: 'relative', overflow: 'hidden' }}>
+        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'repeating-linear-gradient(45deg, rgba(200,147,26,0.03) 0px, rgba(200,147,26,0.03) 1px, transparent 1px, transparent 32px)', pointerEvents: 'none' }} />
+        <div className="container" style={{ position: 'relative' }}>
+          <div style={{ textAlign: 'center', marginBottom: '3rem' }} className="reveal">
+            <span className="section-label">Instant Estimate</span>
+            <h2 className="section-title light">Price Your Custom Patches</h2>
+            <p className="section-subtitle light" style={{ margin: '0 auto' }}>Select your patch type, size, and quantity for an instant estimate. Get your free official quote to lock in the price.</p>
+          </div>
+          <div className="reveal">
+            <PatchCalculator />
           </div>
         </div>
       </section>

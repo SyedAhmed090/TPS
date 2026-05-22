@@ -2,6 +2,7 @@ import { Routes, Route, useLocation } from 'react-router-dom'
 import { useEffect, lazy, Suspense } from 'react'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
+import PatchCalculator from './components/PatchCalculator'
 
 const Home = lazy(() => import('./pages/Home'))
 const Gallery = lazy(() => import('./pages/Gallery'))
@@ -51,7 +52,24 @@ function ScrollToTop() {
   return null
 }
 
+function CalcSection() {
+  return (
+    <section style={{ background: 'var(--navy-mid)', padding: '5.5rem 0', position: 'relative', overflow: 'hidden' }}>
+      <div style={{ position: 'absolute', inset: 0, backgroundImage: 'repeating-linear-gradient(45deg, rgba(200,147,26,0.03) 0px, rgba(200,147,26,0.03) 1px, transparent 1px, transparent 32px)', pointerEvents: 'none' }} />
+      <div className="container" style={{ position: 'relative' }}>
+        <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
+          <span className="section-label">Instant Estimate</span>
+          <h2 className="section-title light">Price Your Custom Patches</h2>
+          <p className="section-subtitle light" style={{ margin: '0 auto' }}>Get an instant estimate before requesting your free official quote.</p>
+        </div>
+        <PatchCalculator />
+      </div>
+    </section>
+  )
+}
+
 export default function App() {
+  const { pathname } = useLocation()
   return (
     <>
       <ScrollToTop />
@@ -104,6 +122,7 @@ export default function App() {
           </Routes>
         </Suspense>
       </main>
+      {pathname !== '/' && <CalcSection />}
       <Footer />
     </>
   )
