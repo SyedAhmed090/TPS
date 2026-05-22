@@ -1429,6 +1429,7 @@ footer {
   align-items: center;
   gap: 6px;
   flex-wrap: wrap;
+  list-style: none;
 }
 
 .breadcrumb__item {
