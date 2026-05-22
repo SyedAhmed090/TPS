@@ -204,7 +204,7 @@ export default function CustomMilitaryPatches() {
             <span className="section-label">Production Speed</span>
             <h2 className="section-title light">Turnaround for Military Orders</h2>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.5rem', marginBottom: '2rem' }} className="reveal">
+          <div className="card-grid-3 reveal" style={{ marginBottom: '2rem' }}>
             {TURNAROUND.map(t => (
               <div key={t.label} style={{
                 background: t.highlight ? 'var(--gold)' : 'var(--navy-mid)',
@@ -233,7 +233,7 @@ export default function CustomMilitaryPatches() {
             <span className="section-label">Gallery</span>
             <h2 className="section-title">Military Patch Examples</h2>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem' }} className="reveal">
+          <div className="card-grid-2 reveal">
             {GALLERY_IMGS.map(img => (
               <img
                 key={img.src}

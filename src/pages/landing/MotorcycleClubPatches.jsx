@@ -167,7 +167,7 @@ export default function MotorcycleClubPatches() {
             <span className="section-label">Material Options</span>
             <h2 className="section-title">Patch Types for MC</h2>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.5rem' }} className="reveal">
+          <div className="card-grid-3 reveal">
             {PATCH_OPTIONS.map(p => (
               <div key={p.name} style={{
                 background: 'var(--white)',

@@ -2171,6 +2171,42 @@ footer {
 }
 @media (max-width: 560px) { .fq-grid { grid-template-columns: 1fr; } }
 
+/* Content split: text column + stats/visual — collapses to 1-col on mobile */
+.split-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+@media (max-width: 760px) { .split-grid { grid-template-columns: 1fr; gap: 2.5rem; } }
+
+/* 3-col card grid — 2-col at 700px, 1-col at 500px */
+.card-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+@media (max-width: 700px) { .card-grid-3 { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 500px) { .card-grid-3 { grid-template-columns: 1fr; } }
+
+/* 4-col process steps — 2-col at 640px, 1-col at 400px */
+.steps-grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+  margin-top: 2.5rem;
+}
+@media (max-width: 640px) { .steps-grid-4 { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 400px) { .steps-grid-4 { grid-template-columns: 1fr; } }
+
+/* 2-col card grid — 1-col at 560px */
+.card-grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+@media (max-width: 560px) { .card-grid-2 { grid-template-columns: 1fr; } }
+
 /* Calculator add-ons 2-col grid */
 .calc-addons-grid {
   display: grid;

@@ -221,7 +221,7 @@ export default function CustomPVCPatches() {
             <span className="section-label">Attachment</span>
             <h2 className="section-title">PVC Backing Options</h2>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1.5rem' }} className="reveal">
+          <div className="card-grid-2 reveal">
             {BACKINGS.map(b => (
               <div key={b.name} style={{
                 background: 'var(--cream)',

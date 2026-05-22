@@ -40,7 +40,7 @@ export default function Products() {
 
       <section style={{ background: 'var(--navy)', padding: '5rem 0' }}>
         <div className="container">
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4rem', alignItems: 'center' }}>
+          <div className="split-grid">
             <div className="reveal">
               <span className="section-label">Why TPS</span>
               <h2 className="section-title light">Quality You Can Count On</h2>

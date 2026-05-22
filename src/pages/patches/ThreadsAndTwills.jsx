@@ -41,7 +41,7 @@ export default function ThreadsAndTwills() {
         <div className="reveal" style={{ marginBottom: '4rem' }}>
           <h2 className="section-title" style={{ marginBottom: '0.5rem' }}>Thread Types</h2>
           <p className="section-subtitle" style={{ marginBottom: '2.5rem' }}>Different thread types create different visual effects and performance characteristics.</p>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.5rem' }}>
+          <div className="card-grid-3">
             {THREAD_TYPES.map(t => (
               <div key={t.name} style={{ background: 'var(--white)', padding: '2rem', borderTop: '3px solid var(--gold)' }}>
                 <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.15rem', color: 'var(--navy)', marginBottom: '0.75rem', letterSpacing: '0.04em' }}>{t.name}</h3>
@@ -54,7 +54,7 @@ export default function ThreadsAndTwills() {
         <div className="reveal">
           <h2 className="section-title" style={{ marginBottom: '0.5rem' }}>Base Fabrics (Twills)</h2>
           <p className="section-subtitle" style={{ marginBottom: '2.5rem' }}>The twill is the woven fabric base that embroidery stitches are sewn into.</p>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1.5rem' }}>
+          <div className="card-grid-2">
             {TWILL_TYPES.map(t => (
               <div key={t.name} style={{ background: 'var(--white)', padding: '2rem', borderLeft: '4px solid var(--navy)' }}>
                 <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.15rem', color: 'var(--navy)', marginBottom: '0.75rem', letterSpacing: '0.04em' }}>{t.name}</h3>

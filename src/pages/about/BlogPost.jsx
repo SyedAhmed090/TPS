@@ -135,7 +135,7 @@ export default function BlogPost() {
       <section style={{ padding: '4rem 0', background: 'var(--cream)' }}>
         <div className="container">
           <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '2rem', color: 'var(--navy)', letterSpacing: '0.04em', marginBottom: '2rem' }}>Related Posts</h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.5rem' }}>
+          <div className="card-grid-3">
             {related.map(p => (
               <Link key={p.slug} to={`/about/blog/${p.slug}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                 <div style={{ background: 'var(--white)', borderRadius: 4, overflow: 'hidden', border: '1px solid rgba(11,26,46,0.08)' }}>

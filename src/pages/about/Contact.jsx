@@ -53,7 +53,7 @@ export default function Contact() {
               </div>
             ) : (
               <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem' }}>
+                <div className="fq-grid">
                   <div>
                     <label style={{ display: 'block', fontFamily: 'var(--font-heading)', fontSize: '0.75rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--navy)', marginBottom: '6px' }}>Name *</label>
                     <input name="name" value={form.name} onChange={handleChange} required placeholder="Your name"
@@ -65,7 +65,7 @@ export default function Contact() {
                       style={{ width: '100%', padding: '10px 14px', border: '1px solid rgba(11,26,46,0.2)', background: 'var(--white)', fontFamily: 'var(--font-body)', fontSize: '0.9rem', outline: 'none' }} />
                   </div>
                 </div>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem' }}>
+                <div className="fq-grid">
                   <div>
                     <label style={{ display: 'block', fontFamily: 'var(--font-heading)', fontSize: '0.75rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--navy)', marginBottom: '6px' }}>Phone</label>
                     <input name="phone" value={form.phone} onChange={handleChange} placeholder="(optional)"

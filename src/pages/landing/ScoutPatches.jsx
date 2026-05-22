@@ -213,7 +213,7 @@ export default function ScoutPatches() {
             <span className="section-label">How to Order</span>
             <h2 className="section-title light">Ordering Process for Troop Leaders</h2>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '0', position: 'relative' }} className="reveal">
+          <div className="steps-grid-4 reveal" style={{ position: 'relative', gap: 0 }}>
             <div style={{ position: 'absolute', top: 32, left: '12.5%', right: '12.5%', height: 1, background: 'repeating-linear-gradient(90deg, rgba(200,147,26,0.4) 0, rgba(200,147,26,0.4) 10px, transparent 10px, transparent 20px)' }} />
             {ORDER_STEPS.map(s => (
               <div key={s.num} style={{ textAlign: 'center', padding: '0 1.5rem' }}>

@@ -133,7 +133,7 @@ export default function CustomEmbroideredPatches() {
             <span className="section-label">Thread Coverage</span>
             <h2 className="section-title">Coverage Options Explained</h2>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.5rem' }} className="reveal">
+          <div className="card-grid-3 reveal">
             {COVERAGE.map(c => (
               <div key={c.pct} style={{ background: 'var(--white)', padding: '2.25rem 2rem', textAlign: 'center', borderBottom: '3px solid var(--gold)' }}>
                 <div style={{ fontFamily: 'var(--font-display)', fontSize: '3rem', color: 'var(--gold)', lineHeight: 1, marginBottom: '0.25rem' }}>{c.pct}</div>
@@ -181,7 +181,7 @@ export default function CustomEmbroideredPatches() {
             <span className="section-label">Attachment</span>
             <h2 className="section-title">All Backing Options</h2>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem', marginBottom: '2rem' }} className="reveal">
+          <div className="card-grid-2 reveal" style={{ marginBottom: '2rem' }}>
             {BACKINGS.map(b => (
               <div key={b.name} style={{ background: 'var(--white)', padding: '1.25rem 1.5rem', display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>
                 <div style={{ flexShrink: 0, width: 8, height: 8, borderRadius: '50%', background: 'var(--gold)', marginTop: '0.45rem' }} />

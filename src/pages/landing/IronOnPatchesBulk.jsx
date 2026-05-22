@@ -102,7 +102,7 @@ export default function IronOnPatchesBulk() {
           <p style={{ maxWidth: 680, margin: '0 auto 3rem', textAlign: 'center', fontSize: '1rem', color: 'var(--gray-mid)', lineHeight: 1.75 }} className="reveal">
             Iron-on patches (also called heat seal patches) have a thermally activated adhesive applied to the back during production. When you apply heat — from a household iron or a heat press — the adhesive bonds permanently to the fabric.
           </p>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.5rem' }} className="reveal">
+          <div className="card-grid-3 reveal">
             {STEPS.map(s => (
               <div key={s.num} style={{ background: 'var(--cream)', padding: '2rem', textAlign: 'center', borderBottom: '3px solid var(--gold)' }}>
                 <div style={{ fontFamily: 'var(--font-display)', fontSize: '3rem', color: 'var(--gold)', lineHeight: 1, marginBottom: '0.75rem' }}>{s.num}</div>
