@@ -2,7 +2,6 @@ import { Link } from 'react-router-dom'
 import Breadcrumb from '../../components/Breadcrumb'
 import useReveal from '../../hooks/useReveal'
 import useSEO from '../../hooks/useSEO'
-import PatchSizeVisualizer from '../../components/PatchSizeVisualizer'
 
 const FACTORS = [
   { title: 'Patch Type', desc: 'Embroidered patches are most economical. PVC, leather, and bullion crests command higher prices due to materials and production complexity.' },
@@ -43,18 +42,6 @@ export default function Pricing() {
           <span className="section-label">Transparent Pricing</span>
           <h1>Patch Pricing</h1>
           <p>Fair, transparent pricing with no hidden fees. The more you order, the more you save — and quality never changes based on quantity.</p>
-        </div>
-      </section>
-
-      <section style={{ background: 'var(--navy-mid)', padding: '4rem 0' }}>
-        <div className="container">
-          <div style={{ textAlign: 'center', marginBottom: '2rem' }} className="reveal">
-            <span className="section-label">Size Reference</span>
-            <h2 className="section-title light">See How Your Patch Looks on a Jacket</h2>
-          </div>
-          <div className="reveal" style={{ maxWidth: 540, margin: '0 auto' }}>
-            <PatchSizeVisualizer />
-          </div>
         </div>
       </section>
 
