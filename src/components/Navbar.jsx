@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
 import { useEffect } from 'react'
-import logo from '/logo.png'
+import logo from '/logo.jpg'
 
 const ABOUT_LINKS = [
   { to: '/about/custom-patch-company', label: 'Custom Patch Company' },
