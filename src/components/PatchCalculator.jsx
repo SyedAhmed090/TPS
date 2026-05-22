@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import QuoteModal from "./QuoteModal";
 
 // ─── PRICING DATA ───────────────────────────────────────────────
 const SIZES = [2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7];
@@ -374,6 +374,7 @@ export default function PatchCalculator() {
   const [appliedDiscount, setAppliedDiscount] = useState(null);
   const [discountError, setDiscountError] = useState("");
   const [customNote, setCustomNote] = useState("");
+  const [modalOpen, setModalOpen] = useState(false);
 
   const PATCH_TYPES = ["Embroidered", "Blank", "Bullion Crest"];
   const COVERAGE_OPTIONS = ["50%", "75%", "100%"];
@@ -455,6 +456,19 @@ export default function PatchCalculator() {
     if (appliedDiscount.type === "percent") return total * (1 - appliedDiscount.value / 100);
     if (appliedDiscount.type === "fixed")   return Math.max(0, total - appliedDiscount.value);
     return total;
+  }
+
+  function buildSummary() {
+    if (!result) return null
+    const sz = useCustomSize ? `${parseFloat(customSize)}"` : `${size}"`
+    const parts = [patchType]
+    if (patchType === "Bullion Crest") parts.push(bullionVariant)
+    else parts.push(sz)
+    if (patchType === "Embroidered") parts.push(`${coverage} coverage`)
+    parts.push(`${result.q} patches`, `${fmt(result.ppp)}/patch`)
+    const total = appliedDiscount ? getDiscountedTotal(result.total) : result.total
+    parts.push(`Est. ${fmt(total)}`)
+    return parts.join(' · ')
   }
 
   return (
@@ -691,9 +705,13 @@ export default function PatchCalculator() {
                 </div>
               )}
 
-              <Link to="/contact" className="btn-gold" style={{ display: "block", textAlign: "center", marginTop: "1.4rem" }}>
+              <button
+                onClick={() => setModalOpen(true)}
+                className="btn-gold"
+                style={{ display: "block", width: "100%", textAlign: "center", marginTop: "1.4rem", border: "none", cursor: "pointer", padding: "0.85rem" }}
+              >
                 Get Your Free Official Quote →
-              </Link>
+              </button>
             </div>
           </>
         )}
@@ -708,6 +726,12 @@ export default function PatchCalculator() {
           ))}
         </div>
       </div>
+
+      <QuoteModal
+        open={modalOpen}
+        onClose={() => setModalOpen(false)}
+        summary={result ? buildSummary() : null}
+      />
     </div>
   );
 }

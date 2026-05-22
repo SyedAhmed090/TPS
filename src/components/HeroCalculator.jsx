@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import QuoteModal from './QuoteModal'
 
 const SIZES = [2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7]
 const QTY_TIERS = [12, 25, 50, 100, 200, 300, 500, 1000, 2000, 3000, 5000]
@@ -104,6 +104,7 @@ export default function HeroCalculator() {
   const [backing, setBacking]   = useState('None')
   const [result, setResult]     = useState(null)
   const [error, setError]       = useState('')
+  const [modalOpen, setModalOpen] = useState(false)
 
   useEffect(() => {
     setError('')
@@ -211,14 +212,24 @@ export default function HeroCalculator() {
           )}
         </div>
 
-        <Link to="/contact" className="btn-gold" style={{ display: 'block', textAlign: 'center', fontSize: '0.82rem', padding: '0.7rem' }}>
+        <button
+          onClick={() => setModalOpen(true)}
+          className="btn-gold"
+          style={{ display: 'block', width: '100%', textAlign: 'center', fontSize: '0.82rem', padding: '0.7rem', border: 'none', cursor: 'pointer' }}
+        >
           Get Your Free Official Quote →
-        </Link>
+        </button>
 
         <p style={{ fontSize: '0.64rem', color: 'rgba(255,255,255,0.28)', marginTop: 8, textAlign: 'center', lineHeight: 1.5, fontFamily: 'var(--font-heading)', letterSpacing: '0.06em' }}>
           Min. 12 patches · Free setup · Free sample · Flat-rate shipping
         </p>
       </div>
+
+      <QuoteModal
+        open={modalOpen}
+        onClose={() => setModalOpen(false)}
+        summary={result ? `${size}" embroidered · ${coverage} coverage · ${backing !== 'None' ? backing + ' backing · ' : ''}${result.q} patches · ${fmt(result.ppp)}/patch · Est. ${fmt(result.total)}` : null}
+      />
     </div>
   )
 }
