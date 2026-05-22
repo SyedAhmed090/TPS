@@ -1,13 +1,68 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
+import { useEffect } from 'react'
 import logo from '/logo.jpg'
 
-const NAV_LINKS = [
-  { to: '/',         label: 'Home' },
-  { to: '/products', label: 'Products' },
-  { to: '/gallery',  label: 'Gallery' },
-  { to: '/pricing',  label: 'Pricing' },
-  { to: '/about',    label: 'About' },
+const ABOUT_LINKS = [
+  { to: '/about/custom-patch-company', label: 'Custom Patch Company' },
+  { to: '/about/low-minimum-embroidered-patches', label: 'Low Minimum Patches' },
+  { to: '/about/blog', label: 'Blog' },
+  { to: '/about/do-it-yourself', label: 'Do It Yourself' },
+  { to: '/about/faqs', label: 'FAQs' },
+  { to: '/about/how-to-order', label: 'How to Order' },
+  { to: '/about/testimonials', label: 'Testimonials' },
+  { to: '/contact', label: 'Contact Us' },
+]
+
+const BACKING_LINKS = [
+  { to: '/patches/backing-types/heat-seal-patches', label: 'Heat Seal Patches' },
+  { to: '/patches/backing-types/pin-patches', label: 'Pin Patches' },
+  { to: '/patches/backing-types/plastic-patches', label: 'Plastic Patches' },
+  { to: '/patches/backing-types/self-stick-patches', label: 'Self-Stick Patches' },
+  { to: '/patches/backing-types/unbacked-patches', label: 'Unbacked Patches' },
+  { to: '/patches/backing-types/hook-loop-patches', label: 'Hook & Loop Patches' },
+  { to: '/patches/backing-types/magnetic-patches', label: 'Magnetic Patches' },
+]
+
+const CATEGORY_LINKS = [
+  { to: '/patches/categories/applique-patches', label: 'Applique Patches' },
+  { to: '/patches/categories/clothing-patches', label: 'Clothing Patches' },
+  { to: '/patches/categories/custom-patches', label: 'Custom Patches' },
+  { to: '/patches/categories/iron-on-patches', label: 'Iron On Patches' },
+  { to: '/patches/categories/jacket-patches', label: 'Jacket Patches' },
+  { to: '/patches/categories/logo-patches', label: 'Logo Patches' },
+  { to: '/patches/categories/merit-badges', label: 'Merit Badges' },
+  { to: '/patches/categories/morale-patches', label: 'Morale Patches' },
+  { to: '/patches/categories/sew-on-patches', label: 'Sew-On Patches' },
+  { to: '/patches/categories/uniform-patches', label: 'Uniform Patches' },
+  { to: '/patches/categories/wholesale-patches', label: 'Wholesale Patches' },
+]
+
+const STYLE_LINKS = [
+  { to: '/patches/styles/military-patches', label: 'Military Patches' },
+  { to: '/patches/styles/biker-patches', label: 'Biker Patches' },
+  { to: '/patches/styles/police-patches', label: 'Police Patches' },
+  { to: '/patches/styles/motorcycle-patches', label: 'Motorcycle Patches' },
+  { to: '/patches/styles/sports-patches', label: 'Sports Patches' },
+  { to: '/patches/styles/baseball-patches', label: 'Baseball Patches' },
+  { to: '/patches/styles/school-patches', label: 'School Patches' },
+  { to: '/patches/styles/scout-patches', label: 'Scout Patches' },
+]
+
+const PRODUCT_LINKS = [
+  { to: '/products/embroidered-patches', label: 'Embroidered Patches' },
+  { to: '/products/woven-patches', label: 'Woven Patches' },
+  { to: '/products/dye-sublimation-patches', label: 'Dye Sublimation' },
+  { to: '/products/felt-patches', label: 'Felt Patches' },
+  { to: '/products/pvc-patches', label: 'PVC Patches' },
+  { to: '/products/leather-patches', label: 'Leather Patches' },
+  { to: '/products/chenille-patches', label: 'Chenille Patches' },
+  { to: '/products/blank-patches', label: 'Blank Patches' },
+  { to: '/products/bullion-crest-patches', label: 'Bullion Crest Patches' },
+  { to: '/products/combination-patches', label: 'Combination Patches' },
+  { to: '/products/pvc-patch-keychains', label: 'PVC Patch Keychains' },
+  { to: '/products/custom-patch-keychains', label: 'Custom Patch Keychains' },
+  { to: '/products/brand-merchandise', label: 'Brand Merchandise' },
 ]
 
 export default function Navbar() {
@@ -33,25 +88,90 @@ export default function Navbar() {
       </Link>
 
       <ul className={`navbar__links${open ? ' navbar__links--open' : ''}`}>
-        {NAV_LINKS.map(({ to, label }) => (
-          <li key={to}>
-            <NavLink
-              to={to}
-              end={to === '/'}
-              className={({ isActive }) =>
-                `navbar__link${isActive ? ' navbar__link--active' : ''}`
-              }
-            >
-              {label}
-            </NavLink>
-          </li>
-        ))}
+        {/* Home */}
+        <li className="navbar__item">
+          <NavLink to="/" end className={({ isActive }) => `navbar__link${isActive ? ' navbar__link--active' : ''}`}>Home</NavLink>
+        </li>
+
+        {/* About */}
+        <li className="navbar__item">
+          <NavLink to="/about" className={({ isActive }) => `navbar__link${isActive ? ' navbar__link--active' : ''}`}>
+            About <span className="navbar__link-arrow">▾</span>
+          </NavLink>
+          <div className="navbar__dropdown">
+            {ABOUT_LINKS.map(l => <Link key={l.to} to={l.to}>{l.label}</Link>)}
+          </div>
+        </li>
+
+        {/* Gallery */}
+        <li className="navbar__item">
+          <NavLink to="/gallery" className={({ isActive }) => `navbar__link${isActive ? ' navbar__link--active' : ''}`}>Gallery</NavLink>
+        </li>
+
+        {/* Patches — mega menu */}
+        <li className="navbar__item">
+          <NavLink to="/patches" className={({ isActive }) => `navbar__link${isActive ? ' navbar__link--active' : ''}`}>
+            Patches <span className="navbar__link-arrow">▾</span>
+          </NavLink>
+          <div className="navbar__mega">
+            <div className="navbar__mega-col">
+              <div className="navbar__dropdown-header">Backing Types</div>
+              {BACKING_LINKS.map(l => <Link key={l.to} to={l.to}>{l.label}</Link>)}
+              <Link to="/patches/backing-types" style={{ color: 'var(--gold)', marginTop: 4 }}>View All →</Link>
+            </div>
+            <div className="navbar__mega-col">
+              <div className="navbar__dropdown-header">Patch Categories</div>
+              {CATEGORY_LINKS.slice(0, 8).map(l => <Link key={l.to} to={l.to}>{l.label}</Link>)}
+              <Link to="/patches/categories" style={{ color: 'var(--gold)', marginTop: 4 }}>View All →</Link>
+            </div>
+            <div className="navbar__mega-col">
+              <div className="navbar__dropdown-header">Patch Styles</div>
+              {STYLE_LINKS.map(l => <Link key={l.to} to={l.to}>{l.label}</Link>)}
+              <Link to="/patches/styles" style={{ color: 'var(--gold)', marginTop: 4 }}>View All →</Link>
+            </div>
+            <div className="navbar__mega-col">
+              <div className="navbar__dropdown-header">More</div>
+              <Link to="/patches/patch-borders">Patch Borders</Link>
+              <Link to="/patches/threads-and-twills">Threads &amp; Twills</Link>
+              <Link to="/patches/threads-and-twills/camo-twill">Camo Twill</Link>
+              <div className="navbar__dropdown-header" style={{ marginTop: 12 }}>Browse All</div>
+              <Link to="/patches">All Patches</Link>
+            </div>
+          </div>
+        </li>
+
+        {/* Products */}
+        <li className="navbar__item">
+          <NavLink to="/products" className={({ isActive }) => `navbar__link${isActive ? ' navbar__link--active' : ''}`}>
+            Products <span className="navbar__link-arrow">▾</span>
+          </NavLink>
+          <div className="navbar__dropdown" style={{ minWidth: 240 }}>
+            {PRODUCT_LINKS.map(l => <Link key={l.to} to={l.to}>{l.label}</Link>)}
+          </div>
+        </li>
+
+        {/* Pricing */}
+        <li className="navbar__item">
+          <NavLink to="/pricing" className={({ isActive }) => `navbar__link${isActive ? ' navbar__link--active' : ''}`}>
+            Pricing <span className="navbar__link-arrow">▾</span>
+          </NavLink>
+          <div className="navbar__dropdown">
+            <Link to="/pricing">Pricing Overview</Link>
+            <Link to="/pricing/embroidered-patches">Embroidered Patches</Link>
+          </div>
+        </li>
+
+        {/* Promotions */}
+        <li className="navbar__item">
+          <NavLink to="/promotions" className={({ isActive }) => `navbar__link${isActive ? ' navbar__link--active' : ''}`}>Promotions</NavLink>
+        </li>
+
         <li className="navbar__cta-mobile">
-          <Link to="/contact" className="btn-primary">Free Quote</Link>
+          <Link to="/free-quote" className="btn-primary">Free Quote</Link>
         </li>
       </ul>
 
-      <Link to="/contact" className="navbar__cta">Free Quote</Link>
+      <Link to="/free-quote" className="navbar__cta">Free Quote</Link>
 
       <button
         className="navbar__hamburger"
