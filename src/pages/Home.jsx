@@ -3,6 +3,7 @@ import useReveal from '../hooks/useReveal'
 import useSEO from '../hooks/useSEO'
 import PatchCalculator from '../components/PatchCalculator'
 import HeroCalculator from '../components/HeroCalculator'
+import PatchSizeVisualizer from '../components/PatchSizeVisualizer'
 
 const PRODUCTS = [
   { name: 'Embroidered Patches', desc: 'Classic, durable, and detailed — the most popular style for uniforms and jackets.', img: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80' },
@@ -148,6 +149,19 @@ export default function Home() {
         </div>
       </section>
 
+      <section style={{ background: 'var(--cream)', padding: '5rem 0' }}>
+        <div className="container">
+          <div style={{ textAlign: 'center', marginBottom: '2.5rem' }} className="reveal">
+            <p className="section-label">Size Reference</p>
+            <h2 className="section-title">See How Your Patch Looks on a Jacket</h2>
+            <p className="section-subtitle" style={{ margin: '0 auto' }}>Use the slider to visualize any patch size — then get a quote for the exact size you want.</p>
+          </div>
+          <div className="reveal" style={{ maxWidth: 540, margin: '0 auto' }}>
+            <PatchSizeVisualizer />
+          </div>
+        </div>
+      </section>
+
       <section className="how-section">
         <div className="container">
           <div className="how-header reveal">
@@ -160,7 +174,7 @@ export default function Home() {
               { num: '01', title: 'Submit Your Quote', desc: 'Fill out our free quote form with your patch details — size, quantity, and artwork.' },
               { num: '02', title: 'Approve the Proof', desc: 'Our design team creates a digital proof. No production starts until you sign off.' },
               { num: '03', title: 'We Produce It', desc: 'Your patches go into production with our quality-controlled manufacturing process.' },
-              { num: '04', title: 'Ships to Your Door', desc: 'Flat-rate shipping, fast delivery, and 100% satisfaction guaranteed.' },
+              { num: '04', title: 'Ships to Your Door', desc: <span>Flat-rate shipping, fast delivery, and 100% satisfaction guaranteed. <Link to="/rush-order" style={{ color: 'var(--gold-light)' }}>Need it faster? Rush production available →</Link></span> },
             ].map(({ num, title, desc }, i) => (
               <div key={num} className={`step reveal reveal-delay-${i + 1}`}>
                 <div className="step-num">{num}</div>

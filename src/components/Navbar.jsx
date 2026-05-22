@@ -11,6 +11,8 @@ const ABOUT_LINKS = [
   { to: '/about/faqs', label: 'FAQs' },
   { to: '/about/how-to-order', label: 'How to Order' },
   { to: '/about/testimonials', label: 'Testimonials' },
+  { to: '/about/artwork-guidelines', label: 'Artwork Guidelines' },
+  { to: '/about/usa-manufacturing', label: 'USA Manufacturing' },
   { to: '/contact', label: 'Contact Us' },
 ]
 
@@ -164,6 +166,11 @@ export default function Navbar() {
         {/* Promotions */}
         <li className="navbar__item">
           <NavLink to="/promotions" className={({ isActive }) => `navbar__link${isActive ? ' navbar__link--active' : ''}`}>Promotions</NavLink>
+        </li>
+
+        {/* Rush Order */}
+        <li className="navbar__item">
+          <NavLink to="/rush-order" className={({ isActive }) => `navbar__link${isActive ? ' navbar__link--active' : ''}`} style={{ color: 'var(--red)' }}>Rush Order</NavLink>
         </li>
 
         <li className="navbar__cta-mobile">

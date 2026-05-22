@@ -10,6 +10,7 @@ const Home = lazy(() => import('./pages/Home'))
 const Gallery = lazy(() => import('./pages/Gallery'))
 const Promotions = lazy(() => import('./pages/Promotions'))
 const FreeQuote = lazy(() => import('./pages/FreeQuote'))
+const RushOrder = lazy(() => import('./pages/RushOrder'))
 const NotFound = lazy(() => import('./pages/NotFound'))
 
 // About
@@ -22,7 +23,17 @@ const DoItYourself = lazy(() => import('./pages/about/DoItYourself'))
 const FAQs = lazy(() => import('./pages/about/FAQs'))
 const HowToOrder = lazy(() => import('./pages/about/HowToOrder'))
 const Testimonials = lazy(() => import('./pages/about/Testimonials'))
+const ArtworkGuidelines = lazy(() => import('./pages/about/ArtworkGuidelines'))
+const USAManufacturing = lazy(() => import('./pages/about/USAManufacturing'))
 const Contact = lazy(() => import('./pages/about/Contact'))
+
+// Landing Pages
+const CustomMilitaryPatches = lazy(() => import('./pages/landing/CustomMilitaryPatches'))
+const IronOnPatchesBulk = lazy(() => import('./pages/landing/IronOnPatchesBulk'))
+const CustomPVCPatches = lazy(() => import('./pages/landing/CustomPVCPatches'))
+const CustomEmbroideredPatches = lazy(() => import('./pages/landing/CustomEmbroideredPatches'))
+const MotorcycleClubPatches = lazy(() => import('./pages/landing/MotorcycleClubPatches'))
+const ScoutPatches = lazy(() => import('./pages/landing/ScoutPatches'))
 
 // Patches
 const Patches = lazy(() => import('./pages/patches/Patches'))
@@ -87,6 +98,7 @@ export default function App() {
               <Route path="/gallery" element={<Gallery />} />
               <Route path="/promotions" element={<Promotions />} />
               <Route path="/free-quote" element={<FreeQuote />} />
+              <Route path="/rush-order" element={<RushOrder />} />
 
               {/* About */}
               <Route path="/about" element={<About />} />
@@ -98,7 +110,17 @@ export default function App() {
               <Route path="/about/faqs" element={<FAQs />} />
               <Route path="/about/how-to-order" element={<HowToOrder />} />
               <Route path="/about/testimonials" element={<Testimonials />} />
+              <Route path="/about/artwork-guidelines" element={<ArtworkGuidelines />} />
+              <Route path="/about/usa-manufacturing" element={<USAManufacturing />} />
               <Route path="/contact" element={<Contact />} />
+
+              {/* SEO Landing Pages */}
+              <Route path="/custom-military-patches" element={<CustomMilitaryPatches />} />
+              <Route path="/iron-on-patches-bulk" element={<IronOnPatchesBulk />} />
+              <Route path="/custom-pvc-patches" element={<CustomPVCPatches />} />
+              <Route path="/custom-embroidered-patches" element={<CustomEmbroideredPatches />} />
+              <Route path="/motorcycle-club-patches" element={<MotorcycleClubPatches />} />
+              <Route path="/scout-patches" element={<ScoutPatches />} />
 
               {/* Patches */}
               <Route path="/patches" element={<Patches />} />
@@ -132,7 +154,7 @@ export default function App() {
         </ErrorBoundary>
       </main>
       {(() => {
-        const noCalc = ['/privacy-policy', '/return-policy', '/sitemap', '/resources', '/contact', '/free-quote', '/gallery']
+        const noCalc = ['/privacy-policy', '/return-policy', '/sitemap', '/resources', '/contact', '/free-quote', '/gallery', '/rush-order']
         return pathname !== '/' && !noCalc.some(p => pathname === p || pathname.startsWith(p + '/')) && <CalcSection />
       })()}
       <Footer />

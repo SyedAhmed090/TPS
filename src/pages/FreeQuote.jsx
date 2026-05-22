@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import Breadcrumb from '../components/Breadcrumb'
 import useReveal from '../hooks/useReveal'
 import useSEO from '../hooks/useSEO'
+import PatchSizeVisualizer from '../components/PatchSizeVisualizer'
 
 const PATCH_TYPES = ['Embroidered', 'Woven', 'PVC', 'Dye Sublimation', 'Felt', 'Leather', 'Chenille', 'Blank', 'Bullion Crest', 'Combination', 'Not Sure']
 const BACKING_OPTIONS = ['Iron-On (Heat Seal)', 'Sew-On (Unbacked)', 'Hook & Loop (Velcro)', 'Pin Back', 'Magnetic', 'Self-Stick', 'Not Sure']
@@ -188,6 +189,8 @@ export default function FreeQuote() {
               <div style={{ fontFamily: 'var(--font-display)', fontSize: '3rem', color: 'var(--white)', letterSpacing: '0.04em', lineHeight: 1 }}>25</div>
               <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.85rem', marginTop: '0.25rem' }}>patches per design</p>
             </div>
+
+            <PatchSizeVisualizer />
           </div>
         </div>
       </section>

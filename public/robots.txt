@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /free-quote
+
+Sitemap: https://www.thepatchsolutions.com/sitemap.xml
