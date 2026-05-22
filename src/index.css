@@ -13,7 +13,7 @@
   --red-bright:  #D42B2B;
   --white:       #FFFFFF;
   --gray-light:  #F0EDE6;
-  --gray-mid:    #9A9590;
+  --gray-mid:    #5C5855;
   --text-dark:   #1A1410;
 
   --font-display:  'Bebas Neue', 'Arial Narrow', Arial, sans-serif;
@@ -82,14 +82,14 @@ section { padding: 5.5rem 0; }
 .section-title.light { color: var(--white); }
 
 .section-subtitle {
-  font-size: 1.05rem;
-  font-weight: 300;
+  font-size: 1.1rem;
+  font-weight: 400;
   color: var(--gray-mid);
   line-height: 1.7;
   max-width: 560px;
 }
 
-.section-subtitle.light { color: rgba(255,255,255,0.6); }
+.section-subtitle.light { color: rgba(255,255,255,0.85); }
 
 /* ============================================================
    BUTTONS
@@ -429,10 +429,10 @@ section { padding: 5.5rem 0; }
 .hero-title span { color: var(--gold); }
 
 .hero-subtitle {
-  font-size: 1.1rem;
-  font-weight: 300;
+  font-size: 1.15rem;
+  font-weight: 400;
   line-height: 1.65;
-  color: rgba(255,255,255,0.65);
+  color: rgba(255,255,255,0.88);
   margin-bottom: 2.4rem;
   max-width: 520px;
   opacity: 0;
@@ -479,7 +479,7 @@ section { padding: 5.5rem 0; }
   font-weight: 500;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.45);
+  color: rgba(255,255,255,0.72);
   margin-top: 2px;
 }
 
@@ -574,7 +574,7 @@ section { padding: 5.5rem 0; }
   margin-bottom: 0.3rem;
 }
 
-.perk-desc { font-size: 0.85rem; font-weight: 300; color: var(--gray-mid); line-height: 1.55; }
+.perk-desc { font-size: 0.95rem; font-weight: 400; color: var(--gray-mid); line-height: 1.6; }
 
 .why-text .section-subtitle { max-width: 100%; margin-bottom: 1.8rem; }
 
@@ -704,10 +704,10 @@ section { padding: 5.5rem 0; }
 }
 
 .product-desc {
-  font-size: 0.8rem;
-  font-weight: 300;
-  color: rgba(255,255,255,0.45);
-  line-height: 1.5;
+  font-size: 0.92rem;
+  font-weight: 400;
+  color: rgba(255,255,255,0.78);
+  line-height: 1.55;
   flex: 1;
 }
 
@@ -832,10 +832,10 @@ section { padding: 5.5rem 0; }
 }
 
 .step-desc {
-  font-size: 0.85rem;
-  font-weight: 300;
-  color: rgba(255,255,255,0.5);
-  line-height: 1.55;
+  font-size: 0.95rem;
+  font-weight: 400;
+  color: rgba(255,255,255,0.82);
+  line-height: 1.6;
 }
 
 /* ============================================================
@@ -872,8 +872,8 @@ section { padding: 5.5rem 0; }
 .guarantee-text .section-title { color: var(--white); margin-bottom: 0.5rem; }
 
 .guarantee-text p {
-  color: rgba(255,255,255,0.75);
-  font-weight: 300;
+  color: rgba(255,255,255,0.9);
+  font-weight: 400;
   font-size: 1rem;
   max-width: 500px;
   line-height: 1.65;
@@ -966,9 +966,9 @@ footer {
 .footer-brand .footer-logo img { height: 44px; width: auto; }
 
 .footer-brand p {
-  font-size: 0.85rem;
-  font-weight: 300;
-  color: rgba(255,255,255,0.45);
+  font-size: 0.88rem;
+  font-weight: 400;
+  color: rgba(255,255,255,0.72);
   line-height: 1.65;
   margin-bottom: 1.2rem;
 }
@@ -996,9 +996,9 @@ footer {
 .footer-col li { margin-bottom: 0.5rem; }
 
 .footer-col a {
-  font-size: 0.85rem;
-  font-weight: 300;
-  color: rgba(255,255,255,0.55);
+  font-size: 0.88rem;
+  font-weight: 400;
+  color: rgba(255,255,255,0.78);
   transition: color var(--transition);
 }
 
@@ -1015,17 +1015,17 @@ footer {
 }
 
 .footer-bottom p {
-  font-size: 0.78rem;
-  font-weight: 300;
-  color: rgba(255,255,255,0.3);
+  font-size: 0.82rem;
+  font-weight: 400;
+  color: rgba(255,255,255,0.58);
 }
 
 .footer-bottom-links { display: flex; gap: 1.5rem; }
 
 .footer-bottom-links a {
-  font-size: 0.78rem;
-  font-weight: 300;
-  color: rgba(255,255,255,0.3);
+  font-size: 0.82rem;
+  font-weight: 400;
+  color: rgba(255,255,255,0.58);
   transition: color var(--transition);
 }
 
@@ -1054,7 +1054,7 @@ footer {
 
 .page-hero .section-label { color: var(--gold); margin-bottom: 14px; }
 .page-hero h1 { color: var(--white); margin-bottom: 20px; font-family: var(--font-display); font-size: clamp(2.4rem, 5vw, 4.5rem); letter-spacing: 0.04em; }
-.page-hero p  { color: rgba(255,255,255,0.6); max-width: 580px; margin: 0 auto 32px; }
+.page-hero p  { color: rgba(255,255,255,0.85); max-width: 580px; margin: 0 auto 32px; font-size: 1.05rem; }
 
 /* ============================================================
    INNER PAGE SECTIONS
@@ -1141,7 +1141,7 @@ footer {
   color: var(--navy); margin-bottom: 12px;
 }
 
-.pricing-factor-card p { font-size: 0.9rem; color: var(--gray-mid); line-height: 1.7; }
+.pricing-factor-card p { font-size: 0.97rem; font-weight: 400; color: var(--gray-mid); line-height: 1.7; }
 
 .pricing-table { width: 100%; border-collapse: collapse; background: var(--white); border: 1px solid rgba(11,26,46,0.1); }
 
@@ -1184,7 +1184,7 @@ footer {
 
 .faq-answer { overflow: hidden; max-height: 0; transition: max-height 0.3s ease; }
 .faq-answer--open { max-height: 400px; }
-.faq-answer p { padding-bottom: 22px; font-size: 0.92rem; color: var(--gray-mid); line-height: 1.75; }
+.faq-answer p { padding-bottom: 22px; font-size: 1rem; font-weight: 400; color: var(--gray-mid); line-height: 1.75; }
 
 /* Contact */
 .contact-layout { display: grid; grid-template-columns: 1fr 2fr; gap: 64px; align-items: start; }
@@ -1496,8 +1496,8 @@ footer {
 }
 
 .detail-desc {
-  font-size: 1rem;
-  font-weight: 300;
+  font-size: 1.05rem;
+  font-weight: 400;
   color: var(--gray-mid);
   line-height: 1.75;
   margin-bottom: 28px;
@@ -1514,7 +1514,7 @@ footer {
   display: flex;
   align-items: flex-start;
   gap: 10px;
-  font-size: 0.9rem;
+  font-size: 0.97rem;
   color: var(--text-dark);
 }
 
@@ -1589,8 +1589,8 @@ footer {
 }
 
 .overview-card__desc {
-  font-size: 0.84rem;
-  font-weight: 300;
+  font-size: 0.93rem;
+  font-weight: 400;
   color: var(--gray-mid);
   line-height: 1.6;
   flex: 1;
@@ -1665,8 +1665,8 @@ footer {
 }
 
 .blog-card__excerpt {
-  font-size: 0.88rem;
-  font-weight: 300;
+  font-size: 0.96rem;
+  font-weight: 400;
   color: var(--gray-mid);
   line-height: 1.65;
   margin-bottom: 16px;
@@ -1719,8 +1719,8 @@ footer {
 }
 
 .testimonial-text {
-  font-size: 0.92rem;
-  font-weight: 300;
+  font-size: 1rem;
+  font-weight: 400;
   color: var(--gray-mid);
   line-height: 1.75;
   font-style: italic;
@@ -1795,8 +1795,8 @@ footer {
 }
 
 .promo-desc {
-  font-size: 0.92rem;
-  font-weight: 300;
+  font-size: 1rem;
+  font-weight: 400;
   color: var(--gray-mid);
   line-height: 1.7;
 }
@@ -1885,8 +1885,8 @@ footer {
 }
 
 .prose p {
-  font-size: 0.96rem;
-  font-weight: 300;
+  font-size: 1.02rem;
+  font-weight: 400;
   color: var(--gray-mid);
   line-height: 1.8;
   margin-bottom: 16px;
@@ -1899,8 +1899,8 @@ footer {
 }
 
 .prose li {
-  font-size: 0.96rem;
-  font-weight: 300;
+  font-size: 1.02rem;
+  font-weight: 400;
   color: var(--gray-mid);
   line-height: 1.8;
   margin-bottom: 8px;
@@ -1948,8 +1948,8 @@ footer {
 }
 
 .resource-card__desc {
-  font-size: 0.88rem;
-  font-weight: 300;
+  font-size: 0.96rem;
+  font-weight: 400;
   color: var(--gray-mid);
   line-height: 1.65;
 }
