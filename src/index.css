@@ -53,7 +53,8 @@ main { padding-top: var(--nav-height); }
 .container {
   max-width: var(--max-width);
   margin: 0 auto;
-  padding: 0 2.5rem;
+  padding-left: 2.5rem;
+  padding-right: 2.5rem;
 }
 
 section { padding: 5.5rem 0; }
@@ -1228,6 +1229,7 @@ footer {
    RESPONSIVE
    ============================================================ */
 @media (max-width: 900px) {
+  section       { padding: 4.5rem 0; }
   .hero-inner   { padding: 7rem 2rem 4rem; }
   .why-grid     { grid-template-columns: 1fr; gap: 3rem; }
   .products-grid { grid-template-columns: 1fr 1fr; }
@@ -1246,16 +1248,24 @@ footer {
 }
 
 @media (max-width: 600px) {
-  .container    { padding: 0 1.2rem; }
-  section       { padding: 4rem 0; }
+  .container    { padding-left: 1.2rem; padding-right: 1.2rem; }
+  section       { padding: 3.5rem 0; }
+  .hero-inner   { padding: 4.5rem 1.5rem 3rem; }
+  .hero-shape   { width: 380px; height: 380px; right: -80px; }
+  .products-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
   .why-perks    { grid-template-columns: 1fr 1fr; }
   .products-grid { grid-template-columns: 1fr; }
   .serve-grid   { grid-template-columns: 1fr 1fr; }
   .steps-row    { grid-template-columns: 1fr; }
   .footer-grid  { grid-template-columns: 1fr; }
+  .footer-grid  { gap: 2rem; }
   .hero-trust   { gap: 1.2rem; }
   .gallery-grid { grid-template-columns: 1fr; }
   .footer-bottom { flex-direction: column; text-align: center; }
+}
+
+@media (max-width: 400px) {
+  .why-perks    { grid-template-columns: 1fr; }
 }
 
 /* ============================================================
@@ -1951,3 +1961,69 @@ footer {
   transition: background var(--transition), color var(--transition), transform var(--transition);
 }
 .btn-secondary:hover { background: var(--navy); color: var(--white); transform: translateY(-2px); }
+
+/* ============================================================
+   RESPONSIVE GRID UTILITIES
+   ============================================================ */
+
+/* 4-col stats banner (About, Testimonials, Pricing) */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+  text-align: center;
+}
+@media (max-width: 760px) { .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 1.5rem; } }
+@media (max-width: 420px) { .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; } }
+
+/* 3-col cards grid (values, methods, links) */
+.cards-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+@media (max-width: 760px) { .cards-grid-3 { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 500px) { .cards-grid-3 { grid-template-columns: 1fr; } }
+
+/* 2-col story/content layout (text + image or text + tiles) */
+.story-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+@media (max-width: 760px) { .story-grid { grid-template-columns: 1fr; gap: 2.5rem; } }
+
+/* 2-col steps layout */
+.steps-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+}
+@media (max-width: 700px) { .steps-grid-2 { grid-template-columns: 1fr; gap: 2rem; } }
+
+/* 2×2 volume pricing tiles */
+.volume-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+/* 4-col "what's included" grid */
+.included-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+  margin: 2rem 0;
+}
+@media (max-width: 760px) { .included-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 480px) { .included-grid { grid-template-columns: 1fr; } }
+
+/* Quote page 2fr+1fr sidebar layout */
+.quote-layout {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 5rem;
+  align-items: start;
+}
+@media (max-width: 860px) { .quote-layout { grid-template-columns: 1fr; gap: 3rem; } }

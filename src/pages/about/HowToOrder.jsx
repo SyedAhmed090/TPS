@@ -54,7 +54,7 @@ export default function HowToOrder() {
       </section>
 
       <section className="container">
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '3rem' }} className="reveal">
+        <div className="steps-grid-2 reveal">
           {STEPS.map(s => (
             <div key={s.num} style={{ display: 'flex', gap: '2rem', alignItems: 'flex-start' }}>
               <div style={{ flexShrink: 0, width: 64, height: 64, background: 'var(--navy)', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '50%' }}>
@@ -75,7 +75,7 @@ export default function HowToOrder() {
             <span className="section-label">Ways to Reach Us</span>
             <h2 className="section-title">How to Get Started</h2>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '2rem' }} className="reveal">
+          <div className="cards-grid-3 reveal">
             {METHODS.map(m => (
               <div key={m.title} style={{ background: 'var(--white)', padding: '2.5rem 2rem', textAlign: 'center', borderTop: '3px solid var(--gold)' }}>
                 <h3 style={{ fontFamily: 'var(--font-display)', color: 'var(--navy)', fontSize: '1.5rem', letterSpacing: '0.04em', marginBottom: '0.75rem' }}>{m.title}</h3>
@@ -90,7 +90,7 @@ export default function HowToOrder() {
       <section style={{ background: 'var(--navy)', padding: '4rem 0' }}>
         <div className="container">
           <h2 className="section-title light" style={{ textAlign: 'center', marginBottom: '2.5rem' }}>What You'll Need</h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '2rem' }} className="reveal">
+          <div className="cards-grid-3 reveal">
             {[
               { title: 'Your Artwork', items: ['Vector file (AI, EPS, PDF) preferred', 'High-res PNG or JPG accepted', 'Rough sketch or idea — we can help'] },
               { title: 'Order Details', items: ['Patch type (embroidered, PVC, etc.)', 'Approximate size (width × height)', 'Quantity per design'] },

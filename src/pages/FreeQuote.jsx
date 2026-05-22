@@ -61,7 +61,7 @@ export default function FreeQuote() {
       </section>
 
       <section className="container">
-        <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '5rem', alignItems: 'start' }}>
+        <div className="quote-layout">
           <div className="reveal">
             {sent ? (
               <div style={{ background: 'rgba(200,147,26,0.1)', border: '2px solid var(--gold)', padding: '3rem', textAlign: 'center' }}>

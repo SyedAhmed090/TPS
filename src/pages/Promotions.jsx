@@ -38,7 +38,7 @@ export default function Promotions() {
 
       <section style={{ background: 'var(--cream)', padding: '5rem 0' }}>
         <div className="container">
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4rem', alignItems: 'center' }} className="reveal">
+          <div className="story-grid reveal">
             <div>
               <span className="section-label">Volume Savings</span>
               <h2 className="section-title">The More You Order, the More You Save</h2>
@@ -47,7 +47,7 @@ export default function Promotions() {
               </p>
               <Link to="/pricing" className="btn-primary">View Full Pricing</Link>
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
+            <div className="volume-grid">
               {[{ qty: '25+', save: 'Starting Price' }, { qty: '100+', save: 'Save 20%' }, { qty: '250+', save: 'Save 35%' }, { qty: '500+', save: 'Save 50%' }].map(t => (
                 <div key={t.qty} style={{ background: 'var(--white)', padding: '2rem', textAlign: 'center', borderBottom: '3px solid var(--gold)' }}>
                   <div style={{ fontFamily: 'var(--font-display)', fontSize: '2rem', color: 'var(--navy)', marginBottom: '0.25rem' }}>{t.qty}</div>

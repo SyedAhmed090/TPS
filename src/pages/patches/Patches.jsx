@@ -67,7 +67,7 @@ export default function Patches() {
 
       <section style={{ background: 'var(--navy)', padding: '5rem 0' }}>
         <div className="container">
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '2rem', textAlign: 'center' }} className="reveal">
+          <div className="cards-grid-3 reveal" style={{ textAlign: 'center' }}>
             {[
               { href: '/patches/patch-borders', label: 'Patch Borders', desc: 'Merrowed, die-cut, hot-cut, and laser-cut borders explained.' },
               { href: '/patches/threads-and-twills', label: 'Threads & Twills', desc: 'Thread types, twill options, and how they affect your patch.' },
