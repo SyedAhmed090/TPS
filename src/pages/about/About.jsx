@@ -15,7 +15,7 @@ const ABOUT_LINKS = [
 ]
 
 const STATS = [
-  { num: '20+', label: 'Years in Business' },
+  { num: '25+', label: 'Years in Business' },
   { num: '500K+', label: 'Patches Produced' },
   { num: '10K+', label: 'Happy Customers' },
   { num: '25', label: 'Piece Minimum' },
@@ -23,7 +23,7 @@ const STATS = [
 
 export default function About() {
   useReveal()
-  useSEO('About Us', 'Learn about The Patch Solutions — a USA-based custom patch company serving military, law enforcement, sports, and organizations since 2005.')
+  useSEO('About Us', 'Learn about The Patch Solutions — a USA-based custom patch company serving military, law enforcement, sports, and organizations since 2000.')
   return (
     <>
       <Breadcrumb items={[
@@ -35,7 +35,7 @@ export default function About() {
         <div className="container">
           <span className="section-label">Our Story</span>
           <h1>About The Patch Solutions</h1>
-          <p>A US-based custom patch company serving military units, businesses, clubs, and individuals since 2005. Quality, service, and craftsmanship — that's TPS.</p>
+          <p>A US-based custom patch company serving military units, businesses, clubs, and individuals since 2000. Quality, service, and craftsmanship — that's TPS.</p>
         </div>
       </section>
 
@@ -58,7 +58,7 @@ export default function About() {
             <span className="section-label">Who We Are</span>
             <h2 className="section-title" style={{ marginBottom: '1rem' }}>Made in America. Worn Worldwide.</h2>
             <p style={{ fontSize: '1rem', lineHeight: 1.75, color: 'var(--gray-mid)', marginBottom: '1.25rem' }}>
-              The Patch Solutions was founded in 2005 with a single mission: produce the highest quality custom patches at fair prices, backed by real customer service. Two decades later, that mission hasn't changed.
+              The Patch Solutions was founded in 2000 with a single mission: produce the highest quality custom patches at fair prices, backed by real customer service. Twenty-five years later, that mission hasn't changed.
             </p>
             <p style={{ fontSize: '1rem', lineHeight: 1.75, color: 'var(--gray-mid)', marginBottom: '2rem' }}>
               We serve everyone from individual collectors to US military units to Fortune 500 companies — producing embroidered, woven, PVC, leather, chenille, and specialty patches with the same dedication regardless of order size.

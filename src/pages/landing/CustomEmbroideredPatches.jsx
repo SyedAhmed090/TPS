@@ -121,7 +121,7 @@ export default function CustomEmbroideredPatches() {
       <section className="page-hero">
         <div className="container">
           <span className="section-label">The Classic Choice</span>
-          <h1>Custom Embroidered Patches — The Gold Standard Since 2005</h1>
+          <h1>Custom Embroidered Patches — The Gold Standard Since 2000</h1>
           <p>Thread-sewn on quality backing, built to last. Embroidered patches are the most popular choice for uniforms, clubs, teams, and organizations.</p>
         </div>
       </section>

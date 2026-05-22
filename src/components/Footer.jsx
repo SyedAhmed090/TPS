@@ -10,7 +10,7 @@ export default function Footer() {
             <Link to="/" className="footer-logo">
               <img src={logo} alt="The Patch Solutions" />
             </Link>
-            <p>Custom patches of every type — designed, produced, and delivered with pride since 2005. Trusted by military units, clubs, teams, and organizations across the United States.</p>
+            <p>Custom patches of every type — designed, produced, and delivered with pride since 2000. Trusted by military units, clubs, teams, and organizations across the United States.</p>
             <p className="footer-since">© {new Date().getFullYear()} The Patch Solutions · USA</p>
           </div>
 
@@ -74,7 +74,7 @@ export default function Footer() {
         </div>
 
         <div className="footer-bottom">
-          <p>The Patch Solutions · Custom Patches Since 2005 · All Rights Reserved</p>
+          <p>The Patch Solutions · Custom Patches Since 2000 · All Rights Reserved</p>
           <div className="footer-bottom-links">
             <Link to="/privacy-policy">Privacy Policy</Link>
             <Link to="/return-policy">Return Policy</Link>

@@ -154,7 +154,7 @@ export default function App() {
         </ErrorBoundary>
       </main>
       {(() => {
-        const noCalc = ['/privacy-policy', '/return-policy', '/sitemap', '/resources', '/contact', '/free-quote', '/gallery', '/rush-order']
+        const noCalc = ['/privacy-policy', '/return-policy', '/sitemap', '/resources', '/contact', '/free-quote', '/gallery', '/rush-order', '/about/blog']
         return pathname !== '/' && !noCalc.some(p => pathname === p || pathname.startsWith(p + '/')) && <CalcSection />
       })()}
       <Footer />

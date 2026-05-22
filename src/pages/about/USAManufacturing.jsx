@@ -75,7 +75,7 @@ export default function USAManufacturing() {
   useReveal()
   useSEO(
     'USA Manufacturing',
-    'The Patch Solutions is an American-owned custom patch manufacturer. Proudly serving military, law enforcement, and organizations since 2005.'
+    'The Patch Solutions is an American-owned custom patch manufacturer. Proudly serving military, law enforcement, and organizations since 2000.'
   )
 
   const [openAccordion, setOpenAccordion] = useState(null)
@@ -95,7 +95,7 @@ export default function USAManufacturing() {
         <div className="container">
           <span className="section-label">American Made</span>
           <h1>Proudly Made in the USA</h1>
-          <p>American-owned, American-operated — serving military, law enforcement, and organizations since 2005.</p>
+          <p>American-owned, American-operated — serving military, law enforcement, and organizations since 2000.</p>
         </div>
       </section>
 
@@ -118,7 +118,7 @@ export default function USAManufacturing() {
                 Built in America. Backed by 20 Years.
               </h2>
               <p style={{ fontSize: '1rem', lineHeight: 1.8, color: 'var(--gray-mid)', marginBottom: '1.25rem' }}>
-                Founded in 2005, The Patch Solutions has spent over 20 years building relationships with American military units, law enforcement agencies, schools, businesses, and organizations of every size. We are headquartered in the United States and committed to domestic production, quality craftsmanship, and the kind of customer service that only a USA-based team can provide.
+                Founded in 2000, The Patch Solutions has spent over 25 years building relationships with American military units, law enforcement agencies, schools, businesses, and organizations of every size. We are headquartered in the United States and committed to domestic production, quality craftsmanship, and the kind of customer service that only a USA-based team can provide.
               </p>
               <p style={{ fontSize: '1rem', lineHeight: 1.8, color: 'var(--gray-mid)' }}>
                 When you order from TPS, you work directly with our production team — no overseas middlemen, no communication delays, no compromises on quality. Your designs are produced here, reviewed here, and shipped directly from our facility to your door.
@@ -443,7 +443,7 @@ export default function USAManufacturing() {
             Trust Matters. Quality Matters. USA Made.
           </h2>
           <p style={{ color: 'rgba(255,255,255,0.7)', marginBottom: '2.5rem', maxWidth: 560, margin: '0 auto 2.5rem' }}>
-            Twenty years of American craftsmanship behind every patch. Get your free quote today.
+            Twenty-five years of American craftsmanship behind every patch. Get your free quote today.
           </p>
           <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
             <Link to="/free-quote" className="btn-gold">

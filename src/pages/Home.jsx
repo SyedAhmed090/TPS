@@ -35,7 +35,7 @@ const MARQUEE_ITEMS = [
 
 export default function Home() {
   useReveal()
-  useSEO(null, 'Premium custom embroidered, woven, PVC, and specialty patches. Free quotes, fast turnaround, flat-rate shipping since 2005.')
+  useSEO(null, 'Premium custom embroidered, woven, PVC, and specialty patches. Free quotes, fast turnaround, flat-rate shipping since 2000. 25+ years of American craftsmanship.')
 
   return (
     <>
@@ -45,10 +45,10 @@ export default function Home() {
         <div className="hero-shape" />
         <div className="hero-split">
           <div className="hero-inner">
-            <p className="hero-eyebrow">Custom Patches Since 2005</p>
+            <p className="hero-eyebrow">Custom Patches Since 2000</p>
             <h1 className="hero-title">Crafted with<br /><span>Precision.</span><br />Worn with Pride.</h1>
             <p className="hero-subtitle">
-              From military units to motorcycle clubs, we deliver custom embroidered, woven, PVC, and specialty patches in any shape, any size — backed by 20 years of American craftsmanship.
+              From military units to motorcycle clubs, we deliver custom embroidered, woven, PVC, and specialty patches in any shape, any size — backed by 25 years of American craftsmanship.
             </p>
             <div className="hero-btns">
               <Link to="/contact" className="btn-primary">Get a Free Quote</Link>
@@ -81,8 +81,8 @@ export default function Home() {
             <div className="why-text reveal">
               <p className="section-label">Why Choose TPS</p>
               <h2 className="section-title">The Standard in Custom Patches</h2>
-              <p className="section-subtitle">Since 2005, The Patch Solutions has been the trusted partner for organizations that demand quality, accuracy, and reliability. Based in the USA, we stand behind every patch we produce.</p>
-              <span className="since-badge">In Business Since <span>2005</span></span>
+              <p className="section-subtitle">Since 2000, The Patch Solutions has been the trusted partner for organizations that demand quality, accuracy, and reliability. Based in the USA, we stand behind every patch we produce.</p>
+              <span className="since-badge">In Business Since <span>2000</span></span>
             </div>
             <div className="why-perks">
               {[

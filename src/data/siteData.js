@@ -268,7 +268,7 @@ export const ABOUT_PAGES = {
   'custom-patch-company': {
     title: 'Custom Patch Company',
     subtitle: 'Who we are and what drives us.',
-    description: 'The Patch Solutions is a US-based custom patch company founded in 2005 with a single mission: produce the highest quality custom patches at fair prices, backed by real customer service.',
+    description: 'The Patch Solutions is a US-based custom patch company founded in 2000 with a single mission: produce the highest quality custom patches at fair prices, backed by real customer service.',
   },
   'low-minimum-embroidered-patches': {
     title: 'Low Minimum Embroidered Patches',
