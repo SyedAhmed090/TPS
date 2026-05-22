@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import Breadcrumb from '../../components/Breadcrumb'
 import useReveal from '../../hooks/useReveal'
+import useSEO from '../../hooks/useSEO'
 
 const THREAD_TYPES = [
   { name: 'Rayon Thread', desc: 'The most common embroidery thread — smooth, lustrous sheen with vibrant color. Rayon is the standard for most embroidered patches.' },
@@ -19,6 +20,7 @@ const TWILL_TYPES = [
 
 export default function ThreadsAndTwills() {
   useReveal()
+  useSEO('Threads & Twills', 'Explore embroidery thread and twill backing options for your custom patches — colors, textures, and specialty options.')
   return (
     <>
       <Breadcrumb items={[

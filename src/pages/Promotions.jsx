@@ -2,9 +2,11 @@ import { Link } from 'react-router-dom'
 import { PROMOTIONS } from '../data/siteData'
 import Breadcrumb from '../components/Breadcrumb'
 import useReveal from '../hooks/useReveal'
+import useSEO from '../hooks/useSEO'
 
 export default function Promotions() {
   useReveal()
+  useSEO('Promotions & Deals', 'Current promotions and special offers on custom patches from The Patch Solutions.')
   return (
     <>
       <Breadcrumb items={[

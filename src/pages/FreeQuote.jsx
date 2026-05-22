@@ -2,12 +2,14 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import Breadcrumb from '../components/Breadcrumb'
 import useReveal from '../hooks/useReveal'
+import useSEO from '../hooks/useSEO'
 
 const PATCH_TYPES = ['Embroidered', 'Woven', 'PVC', 'Dye Sublimation', 'Felt', 'Leather', 'Chenille', 'Blank', 'Bullion Crest', 'Combination', 'Not Sure']
 const BACKING_OPTIONS = ['Iron-On (Heat Seal)', 'Sew-On (Unbacked)', 'Hook & Loop (Velcro)', 'Pin Back', 'Magnetic', 'Self-Stick', 'Not Sure']
 const QTY_RANGES = ['25–49', '50–99', '100–249', '250–499', '500–999', '1000–2499', '2500+']
 
 export default function FreeQuote() {
+  useSEO('Free Quote', 'Get a free custom patch quote in minutes. No obligation. Free design proof and samples included.')
   const [form, setForm] = useState({
     name: '', email: '', phone: '', company: '',
     patchType: '', backing: '', quantity: '', size: '',

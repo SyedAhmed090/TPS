@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import Breadcrumb from '../../components/Breadcrumb'
 import useReveal from '../../hooks/useReveal'
+import useSEO from '../../hooks/useSEO'
 
 const STEPS = [
   {
@@ -37,6 +38,7 @@ const METHODS = [
 
 export default function HowToOrder() {
   useReveal()
+  useSEO('How to Order', 'Learn how to order custom patches from The Patch Solutions in four easy steps. Free quote, free proof, flat-rate shipping.')
   return (
     <>
       <Breadcrumb items={[

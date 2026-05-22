@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { BACKING_TYPES, PATCH_CATEGORIES, PATCH_STYLES } from '../../data/siteData'
 import Breadcrumb from '../../components/Breadcrumb'
 import useReveal from '../../hooks/useReveal'
+import useSEO from '../../hooks/useSEO'
 
 const SECTIONS = [
   {
@@ -26,6 +27,7 @@ const SECTIONS = [
 
 export default function Patches() {
   useReveal()
+  useSEO('Custom Patches', 'Browse all custom patch types — embroidered, woven, PVC, chenille, leather, and more. Every shape, size, and backing option.')
   return (
     <>
       <Breadcrumb items={[

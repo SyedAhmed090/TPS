@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { TESTIMONIALS } from '../../data/siteData'
 import Breadcrumb from '../../components/Breadcrumb'
 import useReveal from '../../hooks/useReveal'
+import useSEO from '../../hooks/useSEO'
 
 function Stars({ count }) {
   return (
@@ -15,6 +16,7 @@ function Stars({ count }) {
 
 export default function Testimonials() {
   useReveal()
+  useSEO('Testimonials', 'Read what our customers say about The Patch Solutions — military units, sports teams, clubs, and businesses across America.')
   return (
     <>
       <Breadcrumb items={[

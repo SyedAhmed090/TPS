@@ -2,9 +2,11 @@ import { Link } from 'react-router-dom'
 import { PRODUCTS_DATA } from '../../data/siteData'
 import Breadcrumb from '../../components/Breadcrumb'
 import useReveal from '../../hooks/useReveal'
+import useSEO from '../../hooks/useSEO'
 
 export default function Products() {
   useReveal()
+  useSEO('Products', 'All custom patch products from The Patch Solutions — embroidered, woven, PVC, leather, chenille, dye sublimation, and more.')
   return (
     <>
       <Breadcrumb items={[

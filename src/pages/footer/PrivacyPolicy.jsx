@@ -1,5 +1,6 @@
 import Breadcrumb from '../../components/Breadcrumb'
 import useReveal from '../../hooks/useReveal'
+import useSEO from '../../hooks/useSEO'
 
 const SECTIONS = [
   {
@@ -34,6 +35,7 @@ const SECTIONS = [
 
 export default function PrivacyPolicy() {
   useReveal()
+  useSEO('Privacy Policy', 'Privacy Policy for The Patch Solutions — how we collect, use, and protect your information.')
   return (
     <>
       <Breadcrumb items={[

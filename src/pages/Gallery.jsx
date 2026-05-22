@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import Breadcrumb from '../components/Breadcrumb'
+import useSEO from '../hooks/useSEO'
 
 const FILTERS = ['All', 'Military', 'Sports', 'Organizations', 'Motorcycle', 'Schools', 'Corporate']
 
@@ -26,6 +27,7 @@ const ITEMS = [
 ]
 
 export default function Gallery() {
+  useSEO('Gallery', 'Browse our gallery of custom embroidered, woven, PVC, and specialty patches made for military, sports, clubs, and organizations.')
   const [activeFilter, setActiveFilter] = useState('All')
   const visible = activeFilter === 'All' ? ITEMS : ITEMS.filter(i => i.category === activeFilter)
 

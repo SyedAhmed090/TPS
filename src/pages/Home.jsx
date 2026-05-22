@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import useReveal from '../hooks/useReveal'
+import useSEO from '../hooks/useSEO'
 import PatchCalculator from '../components/PatchCalculator'
 import HeroCalculator from '../components/HeroCalculator'
 
@@ -33,6 +34,7 @@ const MARQUEE_ITEMS = [
 
 export default function Home() {
   useReveal()
+  useSEO(null, 'Premium custom embroidered, woven, PVC, and specialty patches. Free quotes, fast turnaround, flat-rate shipping since 2005.')
 
   return (
     <>

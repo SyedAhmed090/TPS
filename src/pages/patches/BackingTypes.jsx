@@ -2,9 +2,11 @@ import { Link } from 'react-router-dom'
 import { BACKING_TYPES } from '../../data/siteData'
 import Breadcrumb from '../../components/Breadcrumb'
 import useReveal from '../../hooks/useReveal'
+import useSEO from '../../hooks/useSEO'
 
 export default function BackingTypes() {
   useReveal()
+  useSEO('Patch Backing Types', 'Explore all patch backing options — heat seal, hook and loop, self-stick, pin, magnetic, and more.')
   return (
     <>
       <Breadcrumb items={[

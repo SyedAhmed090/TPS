@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import Breadcrumb from '../../components/Breadcrumb'
 import useReveal from '../../hooks/useReveal'
+import useSEO from '../../hooks/useSEO'
 
 const SECTIONS = [
   {
@@ -31,6 +32,7 @@ const SECTIONS = [
 
 export default function ReturnPolicy() {
   useReveal()
+  useSEO('Return Policy', 'Return and satisfaction policy for The Patch Solutions — 100% satisfaction guaranteed on all custom patch orders.')
   return (
     <>
       <Breadcrumb items={[

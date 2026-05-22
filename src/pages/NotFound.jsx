@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom'
+import useSEO from '../hooks/useSEO'
 
 export default function NotFound() {
+  useSEO('404 — Page Not Found', 'The page you requested could not be found. Return to The Patch Solutions homepage.')
   return (
     <section style={{ background: 'var(--navy)', minHeight: '80vh', display: 'flex', alignItems: 'center' }}>
       <div className="container" style={{ textAlign: 'center', padding: '6rem 2rem' }}>

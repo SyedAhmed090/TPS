@@ -2,9 +2,11 @@ import { Link } from 'react-router-dom'
 import { PATCH_STYLES } from '../../data/siteData'
 import Breadcrumb from '../../components/Breadcrumb'
 import useReveal from '../../hooks/useReveal'
+import useSEO from '../../hooks/useSEO'
 
 export default function PatchStyles() {
   useReveal()
+  useSEO('Patch Styles', 'Browse patch styles for military, biker, police, motorcycle clubs, sports teams, schools, and scouts.')
   return (
     <>
       <Breadcrumb items={[

@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import Breadcrumb from '../../components/Breadcrumb'
 import useReveal from '../../hooks/useReveal'
+import useSEO from '../../hooks/useSEO'
 
 const ABOUT_LINKS = [
   { to: '/about/custom-patch-company', label: 'Custom Patch Company', desc: 'Who we are and what drives us.' },
@@ -22,6 +23,7 @@ const STATS = [
 
 export default function About() {
   useReveal()
+  useSEO('About Us', 'Learn about The Patch Solutions — a USA-based custom patch company serving military, law enforcement, sports, and organizations since 2005.')
   return (
     <>
       <Breadcrumb items={[

@@ -17,6 +17,7 @@ const About = lazy(() => import('./pages/about/About'))
 const CustomPatchCompany = lazy(() => import('./pages/about/CustomPatchCompany'))
 const LowMinimum = lazy(() => import('./pages/about/LowMinimum'))
 const Blog = lazy(() => import('./pages/about/Blog'))
+const BlogPost = lazy(() => import('./pages/about/BlogPost'))
 const DoItYourself = lazy(() => import('./pages/about/DoItYourself'))
 const FAQs = lazy(() => import('./pages/about/FAQs'))
 const HowToOrder = lazy(() => import('./pages/about/HowToOrder'))
@@ -92,6 +93,7 @@ export default function App() {
               <Route path="/about/custom-patch-company" element={<CustomPatchCompany />} />
               <Route path="/about/low-minimum-embroidered-patches" element={<LowMinimum />} />
               <Route path="/about/blog" element={<Blog />} />
+              <Route path="/about/blog/:slug" element={<BlogPost />} />
               <Route path="/about/do-it-yourself" element={<DoItYourself />} />
               <Route path="/about/faqs" element={<FAQs />} />
               <Route path="/about/how-to-order" element={<HowToOrder />} />

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import Breadcrumb from '../../components/Breadcrumb'
 import useReveal from '../../hooks/useReveal'
+import useSEO from '../../hooks/useSEO'
 
 const CONTACT_INFO = [
   { label: 'Email', value: 'info@thepatchsolutions.com', icon: '✉' },
@@ -10,6 +11,7 @@ const CONTACT_INFO = [
 ]
 
 export default function Contact() {
+  useSEO('Contact Us', 'Contact The Patch Solutions for a free custom patch quote, samples, or any questions about your order.')
   const [form, setForm] = useState({ name: '', email: '', phone: '', subject: '', quantity: '', message: '' })
   const [sent, setSent] = useState(false)
   useReveal()

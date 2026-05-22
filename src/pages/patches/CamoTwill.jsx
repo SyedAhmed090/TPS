@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import Breadcrumb from '../../components/Breadcrumb'
 import useReveal from '../../hooks/useReveal'
+import useSEO from '../../hooks/useSEO'
 
 const CAMO_PATTERNS = [
   { name: 'Woodland ERDL', desc: 'Classic four-color woodland pattern — the original US military camouflage. Popular for Vietnam-era commemorative and heritage patches.' },
@@ -13,6 +14,7 @@ const CAMO_PATTERNS = [
 
 export default function CamoTwill() {
   useReveal()
+  useSEO('Camo Twill Patches', 'Custom embroidered patches on camouflage twill backing — perfect for military, tactical, and outdoor applications.')
   return (
     <>
       <Breadcrumb items={[
