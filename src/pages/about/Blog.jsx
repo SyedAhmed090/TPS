@@ -13,7 +13,7 @@ const POSTS = [
     img: 'https://images.unsplash.com/photo-1617137968427-85924c800a22?w=600&q=80',
   },
   {
-    slug: 'embroidered-patches-vs-printed',
+    slug: '5-reasons-embroidered-patches-outlast-printed',
     title: '5 Reasons Embroidered Patches Outlast Printed Ones',
     excerpt: 'Embroidery vs. printing — it\'s not a close contest. Here\'s why thread-sewn patches hold up over years of wear and washing while printed patches fade.',
     category: 'Industry',
@@ -29,7 +29,7 @@ const POSTS = [
     img: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?w=600&q=80',
   },
   {
-    slug: 'history-of-motorcycle-club-patches',
+    slug: 'history-of-motorcycle-club-patch',
     title: 'The History of the Motorcycle Club Patch',
     excerpt: 'From WWII veterans to today\'s riding clubs — the evolution of the MC patch is a story of identity, brotherhood, and tradition that spans 80 years.',
     category: 'History',
