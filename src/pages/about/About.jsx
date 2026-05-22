@@ -39,7 +39,7 @@ export default function About() {
 
       <section style={{ background: 'var(--navy)', padding: '4rem 0' }}>
         <div className="container">
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '2rem', textAlign: 'center' }} className="reveal">
+          <div className="stats-grid reveal">
             {STATS.map(s => (
               <div key={s.label}>
                 <div style={{ fontFamily: 'var(--font-display)', fontSize: '3rem', color: 'var(--gold)', letterSpacing: '0.04em', lineHeight: 1 }}>{s.num}</div>
@@ -51,7 +51,7 @@ export default function About() {
       </section>
 
       <section className="container">
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4rem', alignItems: 'center' }} className="reveal">
+        <div className="story-grid reveal">
           <div>
             <span className="section-label">Who We Are</span>
             <h2 className="section-title" style={{ marginBottom: '1rem' }}>Made in America. Worn Worldwide.</h2>

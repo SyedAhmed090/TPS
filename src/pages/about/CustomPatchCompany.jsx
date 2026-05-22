@@ -54,7 +54,7 @@ export default function CustomPatchCompany() {
             <span className="section-label">Our Commitment</span>
             <h2 className="section-title">The TPS Promise</h2>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '2rem' }} className="reveal">
+          <div className="cards-grid-3 reveal">
             {VALUES.map(v => (
               <div key={v.title} style={{ background: 'var(--white)', padding: '2.5rem 2rem', borderTop: '3px solid var(--gold)' }}>
                 <h3 style={{ fontFamily: 'var(--font-display)', color: 'var(--navy)', fontSize: '1.5rem', letterSpacing: '0.04em', marginBottom: '0.75rem' }}>{v.title}</h3>

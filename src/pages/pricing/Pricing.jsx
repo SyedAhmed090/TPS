@@ -99,7 +99,7 @@ export default function Pricing() {
         <div className="container" style={{ textAlign: 'center' }}>
           <span className="section-label">No Surprises</span>
           <h2 className="section-title light" style={{ marginBottom: '1rem' }}>What's Always Included</h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '2rem', margin: '2rem 0' }} className="reveal">
+          <div className="included-grid reveal">
             {['Free Digital Proof', 'Free Digitizing', 'Quality Inspection', 'Satisfaction Guarantee'].map(i => (
               <div key={i} style={{ background: 'rgba(255,255,255,0.05)', padding: '2rem 1.5rem', borderTop: '2px solid var(--gold)' }}>
                 <div style={{ color: 'var(--gold)', fontSize: '1.5rem', marginBottom: '0.75rem' }}>✓</div>
