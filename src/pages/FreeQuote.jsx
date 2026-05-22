@@ -14,6 +14,8 @@ export default function FreeQuote() {
     deadline: '', message: '',
   })
   const [sent, setSent] = useState(false)
+  const [designFile, setDesignFile] = useState(null)
+  const [dragOver, setDragOver] = useState(false)
   useReveal()
 
   function handleChange(e) {
@@ -118,6 +120,39 @@ export default function FreeQuote() {
                   <textarea name="message" value={form.message} onChange={handleChange} rows={5}
                     placeholder="Describe your design, colors, intended use, and any other details. You can email artwork separately to info@thepatchsolutions.com"
                     style={{ ...inputStyle, resize: 'vertical' }} />
+                </div>
+
+                <div>
+                  <label style={labelStyle}>Upload Your Design <span style={{ fontWeight: 400, textTransform: 'none', letterSpacing: 0, color: 'var(--gray-mid)', fontSize: '0.8rem' }}>(optional)</span></label>
+                  <label
+                    htmlFor="fq-file"
+                    onDragOver={e => { e.preventDefault(); setDragOver(true) }}
+                    onDragLeave={() => setDragOver(false)}
+                    onDrop={e => { e.preventDefault(); setDragOver(false); setDesignFile(e.dataTransfer.files[0] || null) }}
+                    style={{
+                      display: 'block',
+                      border: `2px dashed ${dragOver ? 'var(--gold)' : 'rgba(11,26,46,0.2)'}`,
+                      padding: '1.5rem',
+                      textAlign: 'center',
+                      cursor: 'pointer',
+                      transition: 'all 0.15s',
+                      background: dragOver ? 'rgba(200,147,26,0.04)' : 'var(--white)',
+                    }}
+                  >
+                    {designFile ? (
+                      <div>
+                        <div style={{ color: 'var(--gold)', fontWeight: 700, marginBottom: 4, fontSize: '0.9rem' }}>✓ {designFile.name}</div>
+                        <div style={{ fontSize: '0.75rem', color: 'var(--gray-mid)' }}>{(designFile.size / 1024).toFixed(0)} KB — click to change</div>
+                      </div>
+                    ) : (
+                      <div>
+                        <div style={{ color: 'var(--gray-mid)', fontSize: '0.9rem', marginBottom: 4 }}>Drag & drop your artwork here</div>
+                        <div style={{ fontSize: '0.78rem', color: 'var(--gold)' }}>or click to browse — AI, EPS, PDF, PNG, JPG, SVG accepted</div>
+                      </div>
+                    )}
+                    <input id="fq-file" type="file" accept=".ai,.eps,.pdf,.png,.jpg,.jpeg,.svg,.psd" onChange={e => setDesignFile(e.target.files[0] || null)} style={{ display: 'none' }} />
+                  </label>
+                  <p style={{ fontSize: '0.72rem', color: 'var(--gray-mid)', marginTop: 6 }}>Can't attach now? Email artwork to info@thepatchsolutions.com after submitting.</p>
                 </div>
 
                 <button type="submit" className="btn-primary" style={{ alignSelf: 'flex-start', fontSize: '1rem', padding: '14px 36px' }}>Submit Quote Request</button>

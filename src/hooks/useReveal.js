@@ -2,7 +2,6 @@ import { useEffect } from 'react'
 
 export default function useReveal() {
   useEffect(() => {
-    const els = document.querySelectorAll('.reveal')
     const observer = new IntersectionObserver(
       entries => entries.forEach(e => {
         if (e.isIntersecting) {
@@ -12,7 +11,12 @@ export default function useReveal() {
       }),
       { threshold: 0.12 }
     )
-    els.forEach(el => observer.observe(el))
-    return () => observer.disconnect()
+    const id = requestAnimationFrame(() => {
+      document.querySelectorAll('.reveal:not(.visible)').forEach(el => observer.observe(el))
+    })
+    return () => {
+      cancelAnimationFrame(id)
+      observer.disconnect()
+    }
   }, [])
 }

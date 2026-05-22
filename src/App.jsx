@@ -3,11 +3,14 @@ import { useEffect, lazy, Suspense } from 'react'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import PatchCalculator from './components/PatchCalculator'
+import PageLoader from './components/PageLoader'
+import ErrorBoundary from './components/ErrorBoundary'
 
 const Home = lazy(() => import('./pages/Home'))
 const Gallery = lazy(() => import('./pages/Gallery'))
 const Promotions = lazy(() => import('./pages/Promotions'))
 const FreeQuote = lazy(() => import('./pages/FreeQuote'))
+const NotFound = lazy(() => import('./pages/NotFound'))
 
 // About
 const About = lazy(() => import('./pages/about/About'))
@@ -75,54 +78,61 @@ export default function App() {
       <ScrollToTop />
       <Navbar />
       <main>
-        <Suspense fallback={<div />}>
-          <Routes>
-            {/* Main */}
-            <Route path="/" element={<Home />} />
-            <Route path="/gallery" element={<Gallery />} />
-            <Route path="/promotions" element={<Promotions />} />
-            <Route path="/free-quote" element={<FreeQuote />} />
+        <ErrorBoundary>
+          <Suspense fallback={<PageLoader />}>
+            <Routes>
+              {/* Main */}
+              <Route path="/" element={<Home />} />
+              <Route path="/gallery" element={<Gallery />} />
+              <Route path="/promotions" element={<Promotions />} />
+              <Route path="/free-quote" element={<FreeQuote />} />
 
-            {/* About */}
-            <Route path="/about" element={<About />} />
-            <Route path="/about/custom-patch-company" element={<CustomPatchCompany />} />
-            <Route path="/about/low-minimum-embroidered-patches" element={<LowMinimum />} />
-            <Route path="/about/blog" element={<Blog />} />
-            <Route path="/about/do-it-yourself" element={<DoItYourself />} />
-            <Route path="/about/faqs" element={<FAQs />} />
-            <Route path="/about/how-to-order" element={<HowToOrder />} />
-            <Route path="/about/testimonials" element={<Testimonials />} />
-            <Route path="/contact" element={<Contact />} />
+              {/* About */}
+              <Route path="/about" element={<About />} />
+              <Route path="/about/custom-patch-company" element={<CustomPatchCompany />} />
+              <Route path="/about/low-minimum-embroidered-patches" element={<LowMinimum />} />
+              <Route path="/about/blog" element={<Blog />} />
+              <Route path="/about/do-it-yourself" element={<DoItYourself />} />
+              <Route path="/about/faqs" element={<FAQs />} />
+              <Route path="/about/how-to-order" element={<HowToOrder />} />
+              <Route path="/about/testimonials" element={<Testimonials />} />
+              <Route path="/contact" element={<Contact />} />
 
-            {/* Patches */}
-            <Route path="/patches" element={<Patches />} />
-            <Route path="/patches/backing-types" element={<BackingTypes />} />
-            <Route path="/patches/backing-types/:slug" element={<BackingTypeDetail />} />
-            <Route path="/patches/categories" element={<PatchCategories />} />
-            <Route path="/patches/categories/:slug" element={<PatchCategoryDetail />} />
-            <Route path="/patches/styles" element={<PatchStyles />} />
-            <Route path="/patches/styles/:slug" element={<PatchStyleDetail />} />
-            <Route path="/patches/patch-borders" element={<PatchBorders />} />
-            <Route path="/patches/threads-and-twills" element={<ThreadsAndTwills />} />
-            <Route path="/patches/threads-and-twills/camo-twill" element={<CamoTwill />} />
+              {/* Patches */}
+              <Route path="/patches" element={<Patches />} />
+              <Route path="/patches/backing-types" element={<BackingTypes />} />
+              <Route path="/patches/backing-types/:slug" element={<BackingTypeDetail />} />
+              <Route path="/patches/categories" element={<PatchCategories />} />
+              <Route path="/patches/categories/:slug" element={<PatchCategoryDetail />} />
+              <Route path="/patches/styles" element={<PatchStyles />} />
+              <Route path="/patches/styles/:slug" element={<PatchStyleDetail />} />
+              <Route path="/patches/patch-borders" element={<PatchBorders />} />
+              <Route path="/patches/threads-and-twills" element={<ThreadsAndTwills />} />
+              <Route path="/patches/threads-and-twills/camo-twill" element={<CamoTwill />} />
 
-            {/* Products */}
-            <Route path="/products" element={<Products />} />
-            <Route path="/products/:slug" element={<ProductDetail />} />
+              {/* Products */}
+              <Route path="/products" element={<Products />} />
+              <Route path="/products/:slug" element={<ProductDetail />} />
 
-            {/* Pricing */}
-            <Route path="/pricing" element={<Pricing />} />
-            <Route path="/pricing/embroidered-patches" element={<EmbroideredPricing />} />
+              {/* Pricing */}
+              <Route path="/pricing" element={<Pricing />} />
+              <Route path="/pricing/embroidered-patches" element={<EmbroideredPricing />} />
 
-            {/* Footer */}
-            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-            <Route path="/return-policy" element={<ReturnPolicy />} />
-            <Route path="/resources" element={<Resources />} />
-            <Route path="/sitemap" element={<Sitemap />} />
-          </Routes>
-        </Suspense>
+              {/* Footer */}
+              <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+              <Route path="/return-policy" element={<ReturnPolicy />} />
+              <Route path="/resources" element={<Resources />} />
+              <Route path="/sitemap" element={<Sitemap />} />
+
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </Suspense>
+        </ErrorBoundary>
       </main>
-      {pathname !== '/' && <CalcSection />}
+      {(() => {
+        const noCalc = ['/privacy-policy', '/return-policy', '/sitemap', '/resources', '/contact', '/free-quote', '/gallery']
+        return pathname !== '/' && !noCalc.some(p => pathname === p || pathname.startsWith(p + '/')) && <CalcSection />
+      })()}
       <Footer />
     </>
   )

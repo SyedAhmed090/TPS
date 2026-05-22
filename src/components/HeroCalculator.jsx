@@ -109,7 +109,7 @@ export default function HeroCalculator() {
   useEffect(() => {
     setError('')
     const q = parseInt(qty)
-    if (!q || q < 12) { setResult(null); if (q && q > 0) setError('Min 12'); return }
+    if (!q || q < 25) { setResult(null); if (q && q > 0) setError('Min 25'); return }
     const base = getEmbPrice(coverage, size, q)
     if (!base) { setResult(null); return }
     const backAddon = getBackingAddon(backing, Math.min(size, 5))
@@ -168,7 +168,7 @@ export default function HeroCalculator() {
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.5fr', gap: '0.75rem', marginBottom: '0.9rem' }}>
           <div>
             <span style={lbl}>Quantity</span>
-            <input type="number" min="12" value={qtyInput} onChange={handleQty}
+            <input type="number" min="25" value={qtyInput} onChange={handleQty}
               style={{ ...inputBase, width: '100%', fontSize: '0.95rem', padding: '0.45rem 0.7rem' }}
               placeholder="100" />
             {error && <div style={{ fontSize: '0.68rem', color: 'var(--gold-light)', marginTop: 3 }}>{error}</div>}
@@ -221,7 +221,7 @@ export default function HeroCalculator() {
         </button>
 
         <p style={{ fontSize: '0.64rem', color: 'rgba(255,255,255,0.28)', marginTop: 8, textAlign: 'center', lineHeight: 1.5, fontFamily: 'var(--font-heading)', letterSpacing: '0.06em' }}>
-          Min. 12 patches · Free setup · Free sample · Flat-rate shipping
+          Min. 25 patches · Free setup · Free sample · Flat-rate shipping
         </p>
       </div>
 

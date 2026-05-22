@@ -393,7 +393,7 @@ export default function PatchCalculator() {
     let basePPP = null, backingAddon = 0, colorAddon = 0, metallicAddon = 0, notes = [];
 
     if (patchType === "Embroidered") {
-      if (q < 12) { setError("Minimum order is 12 patches."); setResult(null); return; }
+      if (q < 25) { setError("Minimum order is 25 patches."); setResult(null); return; }
       if (useCustomSize) {
         if (!sz || sz <= 0) { setResult(null); return; }
         const lower = [...SIZES].reverse().find(s => s <= sz);
@@ -554,7 +554,7 @@ export default function PatchCalculator() {
           <span style={S.label}>Quantity</span>
           <input type="number" min="1" value={qtyInput} onChange={handleQtyChange}
             style={S.input} placeholder="e.g. 100" />
-          {patchType === "Embroidered"   && <div style={S.addonNote}>Min: 12 · Best value at 100+</div>}
+          {patchType === "Embroidered"   && <div style={S.addonNote}>Min: 25 · Best value at 100+</div>}
           {patchType === "Blank"         && <div style={S.addonNote}>Min: 100</div>}
           {patchType === "Bullion Crest" && <div style={S.addonNote}>Min: 10</div>}
           {error && <div style={S.errorMsg}>⚠ {error}</div>}

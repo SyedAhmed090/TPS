@@ -1,108 +1,77 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import Breadcrumb from '../components/Breadcrumb'
 
-/* ── Constants ───────────────────────────────────────────────── */
 const FILTERS = ['All', 'Military', 'Sports', 'Organizations', 'Motorcycle', 'Schools', 'Corporate']
 
-const GALLERY_ITEMS = [
-  { id: 1,  title: 'Army Unit Patch',      category: 'Military',      bgClass: 'patch-bg-1', emoji: '★'  },
-  { id: 2,  title: 'Ranger Battalion',     category: 'Military',      bgClass: 'patch-bg-7', emoji: '⚔'  },
-  { id: 3,  title: 'Navy Squadron',        category: 'Military',      bgClass: 'patch-bg-1', emoji: '⚓'  },
-  { id: 4,  title: 'Police Department',    category: 'Organizations', bgClass: 'patch-bg-6', emoji: '🛡'  },
-  { id: 5,  title: 'Fire Station 12',      category: 'Organizations', bgClass: 'patch-bg-8', emoji: '🔥'  },
-  { id: 6,  title: 'Soccer Club FC',       category: 'Sports',        bgClass: 'patch-bg-3', emoji: '⚽'  },
-  { id: 7,  title: 'Baseball League',      category: 'Sports',        bgClass: 'patch-bg-3', emoji: '⚾'  },
-  { id: 8,  title: 'Wrestling Team',       category: 'Sports',        bgClass: 'patch-bg-2', emoji: '🏆'  },
-  { id: 9,  title: 'MC Iron Brotherhood', category: 'Motorcycle',    bgClass: 'patch-bg-2', emoji: '✕'  },
-  { id: 10, title: 'Desert Riders MC',     category: 'Motorcycle',    bgClass: 'patch-bg-5', emoji: '🏍'  },
-  { id: 11, title: 'Rolling Thunder',      category: 'Motorcycle',    bgClass: 'patch-bg-6', emoji: '⚡'  },
-  { id: 12, title: 'East High School',     category: 'Schools',       bgClass: 'patch-bg-8', emoji: 'E'   },
-  { id: 13, title: 'Scout Troop 42',       category: 'Schools',       bgClass: 'patch-bg-3', emoji: '◆'  },
-  { id: 14, title: 'University Athletics', category: 'Schools',       bgClass: 'patch-bg-1', emoji: 'U'   },
-  { id: 15, title: 'Tech Corp Logo',       category: 'Corporate',     bgClass: 'patch-bg-6', emoji: 'T'   },
-  { id: 16, title: 'Eagle Scout Merit',    category: 'Organizations', bgClass: 'patch-bg-3', emoji: '◎'  },
-  { id: 17, title: 'Marathon 2024',        category: 'Sports',        bgClass: 'patch-bg-5', emoji: '🏅'  },
-  { id: 18, title: 'Volunteer EMT',        category: 'Organizations', bgClass: 'patch-bg-8', emoji: '✚'  },
+const ITEMS = [
+  { id: 1,  title: 'Army Unit Patch',        category: 'Military',       img: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80' },
+  { id: 2,  title: 'Special Forces Tab',     category: 'Military',       img: 'https://images.unsplash.com/photo-1517466787929-bc90951d0974?w=600&q=80' },
+  { id: 3,  title: 'Naval Squadron',         category: 'Military',       img: 'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=600&q=80' },
+  { id: 4,  title: 'Police Department',      category: 'Organizations',  img: 'https://images.unsplash.com/photo-1504151932400-72d4384f04b3?w=600&q=80' },
+  { id: 5,  title: 'Fire Station Badge',     category: 'Organizations',  img: 'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=600&q=80' },
+  { id: 6,  title: 'Soccer Club Crest',      category: 'Sports',         img: 'https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=600&q=80' },
+  { id: 7,  title: 'Baseball League',        category: 'Sports',         img: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?w=600&q=80' },
+  { id: 8,  title: 'Wrestling Championship', category: 'Sports',         img: 'https://images.unsplash.com/photo-1617137968427-85924c800a22?w=600&q=80' },
+  { id: 9,  title: 'Iron Brotherhood MC',    category: 'Motorcycle',     img: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80' },
+  { id: 10, title: 'Desert Riders MC',       category: 'Motorcycle',     img: 'https://images.unsplash.com/photo-1504151932400-72d4384f04b3?w=600&q=80' },
+  { id: 11, title: 'Rolling Thunder MC',     category: 'Motorcycle',     img: 'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=600&q=80' },
+  { id: 12, title: 'East High School',       category: 'Schools',        img: 'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=600&q=80' },
+  { id: 13, title: 'Scout Troop 42',         category: 'Schools',        img: 'https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=600&q=80' },
+  { id: 14, title: 'University Athletics',   category: 'Schools',        img: 'https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=600&q=80' },
+  { id: 15, title: 'Tech Corp Logo',         category: 'Corporate',      img: 'https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=600&q=80' },
+  { id: 16, title: 'Eagle Scout Merit',      category: 'Organizations',  img: 'https://images.unsplash.com/photo-1617137968427-85924c800a22?w=600&q=80' },
+  { id: 17, title: 'Marathon 2024',          category: 'Sports',         img: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?w=600&q=80' },
+  { id: 18, title: 'Volunteer EMT',          category: 'Organizations',  img: 'https://images.unsplash.com/photo-1617137968427-85924c800a22?w=600&q=80' },
 ]
 
-/* ══════════════════════════════════════════════════════════════
-   GALLERY PAGE
-══════════════════════════════════════════════════════════════ */
 export default function Gallery() {
   const [activeFilter, setActiveFilter] = useState('All')
-
-  const visibleItems =
-    activeFilter === 'All'
-      ? GALLERY_ITEMS
-      : GALLERY_ITEMS.filter((item) => item.category === activeFilter)
+  const visible = activeFilter === 'All' ? ITEMS : ITEMS.filter(i => i.category === activeFilter)
 
   return (
     <>
-      {/* ── 1. PAGE HERO ────────────────────────────────────────── */}
+      <Breadcrumb items={[{ href: '/', label: 'Home' }, { label: 'Gallery' }]} />
+
       <section className="page-hero">
-        <div className="container">
-          <span className="overline">Our Portfolio</span>
-          <h1 className="heading-1">Patches We've Built</h1>
-          <p className="lead">
-            A showcase of our craft — thousands of unique patches delivered to clients worldwide.
-          </p>
+        <div className="container" style={{ textAlign: 'center' }}>
+          <span className="section-label">Our Portfolio</span>
+          <h1>Patches We've Built</h1>
+          <p>A showcase of our craft — thousands of unique patches delivered to clients across the country.</p>
         </div>
       </section>
 
-      {/* ── 2. GALLERY SECTION ──────────────────────────────────── */}
-      <section className="section section--white">
+      <section style={{ background: 'var(--white)' }}>
         <div className="container">
-
-          {/* Filter Bar */}
           <div className="gallery-filters">
-            {FILTERS.map((filter) => (
-              <button
-                key={filter}
-                className={`filter-btn${activeFilter === filter ? ' filter-btn--active' : ''}`}
-                onClick={() => setActiveFilter(filter)}
-              >
-                {filter}
-              </button>
+            {FILTERS.map(f => (
+              <button key={f} className={`filter-btn${activeFilter === f ? ' filter-btn--active' : ''}`} onClick={() => setActiveFilter(f)}>{f}</button>
             ))}
           </div>
-
-          {/* Gallery Grid */}
           <div className="gallery-grid">
-            {visibleItems.map((item) => (
+            {visible.map(item => (
               <div key={item.id} className="gallery-item">
-                <div
-                  className={`gallery-item__visual ${item.bgClass}`}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontSize: '3rem',
-                  }}
-                >
-                  {item.emoji}
-                </div>
+                <img src={item.img} alt={item.title} className="gallery-item__visual" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                 <div className="gallery-item__overlay">
                   <span className="gallery-item__label">{item.title}</span>
                 </div>
               </div>
             ))}
           </div>
-
         </div>
       </section>
 
-      {/* ── 3. CTA BANNER ───────────────────────────────────────── */}
-      <div className="cta-banner">
-        <div className="container">
-          <h2 className="heading-1">Inspired by What You See?</h2>
-          <p>Let's create something unique for your group, team, or organization.</p>
-          <div className="cta-banner__actions">
-            <Link to="/contact" className="btn btn--gold btn--lg">
-              Start Your Order
-            </Link>
+      <section style={{ background: 'var(--navy)', padding: '3.5rem 0' }}>
+        <div className="container" style={{ textAlign: 'center' }}>
+          <span className="section-label">Start Your Order</span>
+          <h2 className="section-title light" style={{ marginBottom: '0.75rem' }}>See Your Design Here</h2>
+          <p style={{ color: 'rgba(255,255,255,0.78)', marginBottom: '2rem', maxWidth: 480, margin: '0 auto 2rem' }}>Every patch we've made started with a free quote. Yours is one click away.</p>
+          <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
+            <Link to="/free-quote" className="btn-gold">Get a Free Quote</Link>
+            <Link to="/contact" className="btn-outline-light">Contact Us</Link>
           </div>
         </div>
-      </div>
+      </section>
     </>
   )
 }
