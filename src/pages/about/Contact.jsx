@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import Breadcrumb from '../../components/Breadcrumb'
 import useReveal from '../../hooks/useReveal'
+import useSEO from '../../hooks/useSEO'
 
 const CONTACT_INFO = [
   { label: 'Email', value: 'info@thepatchsolutions.com', icon: '✉' },
@@ -10,6 +11,7 @@ const CONTACT_INFO = [
 ]
 
 export default function Contact() {
+  useSEO('Contact Us', 'Contact The Patch Solutions for a free custom patch quote, samples, or any questions about your order.')
   const [form, setForm] = useState({ name: '', email: '', phone: '', subject: '', quantity: '', message: '' })
   const [sent, setSent] = useState(false)
   useReveal()
@@ -39,7 +41,7 @@ export default function Contact() {
       </section>
 
       <section className="container">
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '5rem', alignItems: 'start' }}>
+        <div className="story-grid" style={{ alignItems: 'start' }}>
           <div className="reveal">
             <h2 style={{ fontFamily: 'var(--font-display)', color: 'var(--navy)', fontSize: '2rem', letterSpacing: '0.04em', marginBottom: '0.75rem' }}>Get a Free Quote</h2>
             <p style={{ color: 'var(--gray-mid)', marginBottom: '2.5rem', lineHeight: 1.7 }}>Fill out the form and we'll respond within 1 business day with a free quote and digital proof timeline.</p>
@@ -51,7 +53,7 @@ export default function Contact() {
               </div>
             ) : (
               <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem' }}>
+                <div className="fq-grid">
                   <div>
                     <label style={{ display: 'block', fontFamily: 'var(--font-heading)', fontSize: '0.75rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--navy)', marginBottom: '6px' }}>Name *</label>
                     <input name="name" value={form.name} onChange={handleChange} required placeholder="Your name"
@@ -63,7 +65,7 @@ export default function Contact() {
                       style={{ width: '100%', padding: '10px 14px', border: '1px solid rgba(11,26,46,0.2)', background: 'var(--white)', fontFamily: 'var(--font-body)', fontSize: '0.9rem', outline: 'none' }} />
                   </div>
                 </div>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem' }}>
+                <div className="fq-grid">
                   <div>
                     <label style={{ display: 'block', fontFamily: 'var(--font-heading)', fontSize: '0.75rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--navy)', marginBottom: '6px' }}>Phone</label>
                     <input name="phone" value={form.phone} onChange={handleChange} placeholder="(optional)"

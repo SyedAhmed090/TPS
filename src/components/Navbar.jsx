@@ -1,6 +1,5 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
-import { useEffect } from 'react'
 import logo from '/logo.jpg'
 
 const ABOUT_LINKS = [
@@ -11,6 +10,8 @@ const ABOUT_LINKS = [
   { to: '/about/faqs', label: 'FAQs' },
   { to: '/about/how-to-order', label: 'How to Order' },
   { to: '/about/testimonials', label: 'Testimonials' },
+  { to: '/about/artwork-guidelines', label: 'Artwork Guidelines' },
+  { to: '/about/usa-manufacturing', label: 'USA Manufacturing' },
   { to: '/contact', label: 'Contact Us' },
 ]
 
@@ -65,20 +66,36 @@ const PRODUCT_LINKS = [
   { to: '/products/brand-merchandise', label: 'Brand Merchandise' },
 ]
 
+function ToggleArrow({ open }) {
+  return (
+    <span className={`navbar__toggle-arrow${open ? ' navbar__toggle-arrow--open' : ''}`}>▾</span>
+  )
+}
+
 export default function Navbar() {
   const [open, setOpen] = useState(false)
+  const [expanded, setExpanded] = useState(null)
   const location = useLocation()
 
   useEffect(() => {
     setOpen(false)
+    setExpanded(null)
     document.body.style.overflow = ''
   }, [location])
 
   function toggleMenu() {
     setOpen(v => {
-      document.body.style.overflow = !v ? 'hidden' : ''
-      return !v
+      const next = !v
+      document.body.style.overflow = next ? 'hidden' : ''
+      if (!next) setExpanded(null)
+      return next
     })
+  }
+
+  function toggleSub(name, e) {
+    e.preventDefault()
+    e.stopPropagation()
+    setExpanded(v => v === name ? null : name)
   }
 
   return (
@@ -88,6 +105,7 @@ export default function Navbar() {
       </Link>
 
       <ul className={`navbar__links${open ? ' navbar__links--open' : ''}`}>
+
         {/* Home */}
         <li className="navbar__item">
           <NavLink to="/" end className={({ isActive }) => `navbar__link${isActive ? ' navbar__link--active' : ''}`}>Home</NavLink>
@@ -95,11 +113,19 @@ export default function Navbar() {
 
         {/* About */}
         <li className="navbar__item">
-          <NavLink to="/about" className={({ isActive }) => `navbar__link${isActive ? ' navbar__link--active' : ''}`}>
-            About <span className="navbar__link-arrow">▾</span>
-          </NavLink>
+          <div className="navbar__item-row">
+            <NavLink to="/about" className={({ isActive }) => `navbar__link${isActive ? ' navbar__link--active' : ''}`}>
+              About <span className="navbar__link-arrow">▾</span>
+            </NavLink>
+            <button className="navbar__toggle-sub" onClick={e => toggleSub('about', e)} aria-label="Toggle About menu">
+              <ToggleArrow open={expanded === 'about'} />
+            </button>
+          </div>
           <div className="navbar__dropdown">
             {ABOUT_LINKS.map(l => <Link key={l.to} to={l.to}>{l.label}</Link>)}
+          </div>
+          <div className={`navbar__mobile-sub${expanded === 'about' ? ' navbar__mobile-sub--open' : ''}`}>
+            {ABOUT_LINKS.map(l => <Link key={l.to} to={l.to} className="navbar__mobile-sub-link">{l.label}</Link>)}
           </div>
         </li>
 
@@ -110,9 +136,14 @@ export default function Navbar() {
 
         {/* Patches — mega menu */}
         <li className="navbar__item">
-          <NavLink to="/patches" className={({ isActive }) => `navbar__link${isActive ? ' navbar__link--active' : ''}`}>
-            Patches <span className="navbar__link-arrow">▾</span>
-          </NavLink>
+          <div className="navbar__item-row">
+            <NavLink to="/patches" className={({ isActive }) => `navbar__link${isActive ? ' navbar__link--active' : ''}`}>
+              Patches <span className="navbar__link-arrow">▾</span>
+            </NavLink>
+            <button className="navbar__toggle-sub" onClick={e => toggleSub('patches', e)} aria-label="Toggle Patches menu">
+              <ToggleArrow open={expanded === 'patches'} />
+            </button>
+          </div>
           <div className="navbar__mega">
             <div className="navbar__mega-col">
               <div className="navbar__dropdown-header">Backing Types</div>
@@ -138,32 +169,62 @@ export default function Navbar() {
               <Link to="/patches">All Patches</Link>
             </div>
           </div>
+          <div className={`navbar__mobile-sub${expanded === 'patches' ? ' navbar__mobile-sub--open' : ''}`}>
+            <p className="navbar__mobile-sub-header">Backing Types</p>
+            {BACKING_LINKS.map(l => <Link key={l.to} to={l.to} className="navbar__mobile-sub-link">{l.label}</Link>)}
+            <p className="navbar__mobile-sub-header">Categories</p>
+            {CATEGORY_LINKS.map(l => <Link key={l.to} to={l.to} className="navbar__mobile-sub-link">{l.label}</Link>)}
+            <p className="navbar__mobile-sub-header">Styles</p>
+            {STYLE_LINKS.map(l => <Link key={l.to} to={l.to} className="navbar__mobile-sub-link">{l.label}</Link>)}
+          </div>
         </li>
 
         {/* Products */}
         <li className="navbar__item">
-          <NavLink to="/products" className={({ isActive }) => `navbar__link${isActive ? ' navbar__link--active' : ''}`}>
-            Products <span className="navbar__link-arrow">▾</span>
-          </NavLink>
+          <div className="navbar__item-row">
+            <NavLink to="/products" className={({ isActive }) => `navbar__link${isActive ? ' navbar__link--active' : ''}`}>
+              Products <span className="navbar__link-arrow">▾</span>
+            </NavLink>
+            <button className="navbar__toggle-sub" onClick={e => toggleSub('products', e)} aria-label="Toggle Products menu">
+              <ToggleArrow open={expanded === 'products'} />
+            </button>
+          </div>
           <div className="navbar__dropdown" style={{ minWidth: 240 }}>
             {PRODUCT_LINKS.map(l => <Link key={l.to} to={l.to}>{l.label}</Link>)}
+          </div>
+          <div className={`navbar__mobile-sub${expanded === 'products' ? ' navbar__mobile-sub--open' : ''}`}>
+            {PRODUCT_LINKS.map(l => <Link key={l.to} to={l.to} className="navbar__mobile-sub-link">{l.label}</Link>)}
           </div>
         </li>
 
         {/* Pricing */}
         <li className="navbar__item">
-          <NavLink to="/pricing" className={({ isActive }) => `navbar__link${isActive ? ' navbar__link--active' : ''}`}>
-            Pricing <span className="navbar__link-arrow">▾</span>
-          </NavLink>
+          <div className="navbar__item-row">
+            <NavLink to="/pricing" className={({ isActive }) => `navbar__link${isActive ? ' navbar__link--active' : ''}`}>
+              Pricing <span className="navbar__link-arrow">▾</span>
+            </NavLink>
+            <button className="navbar__toggle-sub" onClick={e => toggleSub('pricing', e)} aria-label="Toggle Pricing menu">
+              <ToggleArrow open={expanded === 'pricing'} />
+            </button>
+          </div>
           <div className="navbar__dropdown">
             <Link to="/pricing">Pricing Overview</Link>
             <Link to="/pricing/embroidered-patches">Embroidered Patches</Link>
+          </div>
+          <div className={`navbar__mobile-sub${expanded === 'pricing' ? ' navbar__mobile-sub--open' : ''}`}>
+            <Link to="/pricing" className="navbar__mobile-sub-link">Pricing Overview</Link>
+            <Link to="/pricing/embroidered-patches" className="navbar__mobile-sub-link">Embroidered Patches</Link>
           </div>
         </li>
 
         {/* Promotions */}
         <li className="navbar__item">
           <NavLink to="/promotions" className={({ isActive }) => `navbar__link${isActive ? ' navbar__link--active' : ''}`}>Promotions</NavLink>
+        </li>
+
+        {/* Rush Order */}
+        <li className="navbar__item">
+          <NavLink to="/rush-order" className={({ isActive }) => `navbar__link${isActive ? ' navbar__link--active' : ''}`} style={{ color: 'var(--red)' }}>Rush Order</NavLink>
         </li>
 
         <li className="navbar__cta-mobile">

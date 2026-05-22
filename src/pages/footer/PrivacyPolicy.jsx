@@ -1,5 +1,6 @@
 import Breadcrumb from '../../components/Breadcrumb'
 import useReveal from '../../hooks/useReveal'
+import useSEO from '../../hooks/useSEO'
 
 const SECTIONS = [
   {
@@ -28,12 +29,13 @@ const SECTIONS = [
   },
   {
     title: 'Contact Us',
-    content: 'If you have questions about this Privacy Policy or how we handle your personal information, please contact us at info@thepatchsolutions.com or by mail at The Patch Solutions, [Address]. This policy was last updated May 2025.',
+    content: 'If you have questions about this Privacy Policy or how we handle your personal information, please contact us at info@thepatchsolutions.com. This policy was last updated May 2025.',
   },
 ]
 
 export default function PrivacyPolicy() {
   useReveal()
+  useSEO('Privacy Policy', 'Privacy Policy for The Patch Solutions — how we collect, use, and protect your information.')
   return (
     <>
       <Breadcrumb items={[

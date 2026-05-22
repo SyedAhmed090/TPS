@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import Breadcrumb from '../../components/Breadcrumb'
 import useReveal from '../../hooks/useReveal'
+import useSEO from '../../hooks/useSEO'
 
 const RESOURCE_GROUPS = [
   {
@@ -50,6 +51,7 @@ const RESOURCE_GROUPS = [
 
 export default function Resources() {
   useReveal()
+  useSEO('Resources', 'Helpful resources for ordering custom patches — guides, artwork requirements, and FAQ links.')
   return (
     <>
       <Breadcrumb items={[

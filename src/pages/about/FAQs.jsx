@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import Breadcrumb from '../../components/Breadcrumb'
 import useReveal from '../../hooks/useReveal'
+import useSEO from '../../hooks/useSEO'
 
 const FAQS = [
   {
@@ -71,6 +72,7 @@ function FaqItem({ q, a }) {
 
 export default function FAQs() {
   useReveal()
+  useSEO('FAQs', 'Frequently asked questions about ordering custom patches — materials, minimums, turnaround, pricing, and more.')
   return (
     <>
       <Breadcrumb items={[

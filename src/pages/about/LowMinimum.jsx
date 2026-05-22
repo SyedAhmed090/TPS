@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import Breadcrumb from '../../components/Breadcrumb'
 import useReveal from '../../hooks/useReveal'
+import useSEO from '../../hooks/useSEO'
 
 const TIERS = [
   { qty: '25–49', label: 'Starter', desc: 'Perfect for small clubs, teams, and personal projects. Same quality, smaller run.' },
@@ -11,6 +12,7 @@ const TIERS = [
 
 export default function LowMinimum() {
   useReveal()
+  useSEO('Low Minimum Embroidered Patches', 'Order as few as 25 custom embroidered patches. Low minimums, no setup fees, free design proof.')
   return (
     <>
       <Breadcrumb items={[
@@ -59,7 +61,7 @@ export default function LowMinimum() {
             <span className="section-label">Pricing Tiers</span>
             <h2 className="section-title">The More You Order, the More You Save</h2>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1.5rem' }} className="reveal">
+          <div className="steps-grid-4 reveal">
             {TIERS.map(t => (
               <div key={t.qty} style={{ background: 'var(--white)', padding: '2.5rem 2rem', textAlign: 'center', borderBottom: '3px solid var(--gold)' }}>
                 <div style={{ fontFamily: 'var(--font-display)', fontSize: '2rem', color: 'var(--navy)', letterSpacing: '0.04em', marginBottom: '0.25rem' }}>{t.qty}</div>

@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import Breadcrumb from '../../components/Breadcrumb'
 import useReveal from '../../hooks/useReveal'
+import useSEO from '../../hooks/useSEO'
 
 const VALUES = [
   { title: 'Quality First', desc: 'Every patch undergoes strict quality control — accurate colors, clean stitching, consistent sizing, and perfect finishing before it leaves our facility.' },
@@ -13,6 +14,7 @@ const VALUES = [
 
 export default function CustomPatchCompany() {
   useReveal()
+  useSEO('Custom Patch Company', 'The Patch Solutions is America\'s trusted custom patch company. Embroidered, woven, PVC, and specialty patches with free proofs and samples.')
   return (
     <>
       <Breadcrumb items={[

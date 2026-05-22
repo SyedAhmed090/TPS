@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import useReveal from '../hooks/useReveal'
+import useSEO from '../hooks/useSEO'
 import PatchCalculator from '../components/PatchCalculator'
 import HeroCalculator from '../components/HeroCalculator'
 
@@ -33,10 +34,17 @@ const MARQUEE_ITEMS = [
 
 export default function Home() {
   useReveal()
+  useSEO(null, 'Premium custom embroidered, woven, PVC, and specialty patches. Free quotes, fast turnaround, flat-rate shipping since 2000. 25+ years of American craftsmanship.')
 
   return (
     <>
       <section className="hero">
+        <img
+          src="/hero-patch.jpg"
+          alt=""
+          aria-hidden="true"
+          className="hero-bg-img"
+        />
         <div className="hero-pattern" />
         <div className="hero-accent-left" />
         <div className="hero-shape" />
@@ -52,7 +60,7 @@ export default function Home() {
               <Link to="/products" className="btn-outline">View Products</Link>
             </div>
             <div className="hero-trust">
-              <div className="trust-item"><span className="trust-num">25+</span><span className="trust-label">Years in Business</span></div>
+              <div className="trust-item"><span className="trust-num">20+</span><span className="trust-label">Years in Business</span></div>
               <div className="trust-item"><span className="trust-num">100%</span><span className="trust-label">Satisfaction Guarantee</span></div>
               <div className="trust-item"><span className="trust-num">Free</span><span className="trust-label">Samples &amp; Quotes</span></div>
               <div className="trust-item"><span className="trust-num">Flat</span><span className="trust-label">Rate Shipping</span></div>
@@ -158,7 +166,7 @@ export default function Home() {
               { num: '01', title: 'Submit Your Quote', desc: 'Fill out our free quote form with your patch details — size, quantity, and artwork.' },
               { num: '02', title: 'Approve the Proof', desc: 'Our design team creates a digital proof. No production starts until you sign off.' },
               { num: '03', title: 'We Produce It', desc: 'Your patches go into production with our quality-controlled manufacturing process.' },
-              { num: '04', title: 'Ships to Your Door', desc: 'Flat-rate shipping, fast delivery, and 100% satisfaction guaranteed.' },
+              { num: '04', title: 'Ships to Your Door', desc: <span>Flat-rate shipping, fast delivery, and 100% satisfaction guaranteed. <Link to="/rush-order" style={{ color: 'var(--gold-light)' }}>Need it faster? Rush production available →</Link></span> },
             ].map(({ num, title, desc }, i) => (
               <div key={num} className={`step reveal reveal-delay-${i + 1}`}>
                 <div className="step-num">{num}</div>
@@ -210,7 +218,7 @@ export default function Home() {
             <Link to="/contact" className="btn-primary-dark">Request Free Samples</Link>
           </div>
           <div className="cta-perks reveal">
-            {['No minimum order','Free design proof','Free samples','Flat-rate shipping','100% satisfaction guarantee'].map(p => (
+            {['25-piece minimum','Free design proof','Free samples','Flat-rate shipping','100% satisfaction guarantee'].map(p => (
               <span key={p} className="cta-perk">{p}</span>
             ))}
           </div>

@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import Breadcrumb from '../../components/Breadcrumb'
 import useReveal from '../../hooks/useReveal'
+import useSEO from '../../hooks/useSEO'
 
 const BORDER_TYPES = [
   {
@@ -31,6 +32,7 @@ const BORDER_TYPES = [
 
 export default function PatchBorders() {
   useReveal()
+  useSEO('Patch Borders', 'Learn about custom patch border styles — merrowed, laser-cut, die-cut, and more from The Patch Solutions.')
   return (
     <>
       <Breadcrumb items={[

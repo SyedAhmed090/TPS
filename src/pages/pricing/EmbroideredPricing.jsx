@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import Breadcrumb from '../../components/Breadcrumb'
 import useReveal from '../../hooks/useReveal'
+import useSEO from '../../hooks/useSEO'
 
 const PRICING_TABLE = [
   { size: '1" – 2"', q25: '$3.50', q50: '$2.80', q100: '$2.20', q250: '$1.75', q500: '$1.40' },
@@ -24,6 +25,7 @@ const INCLUDES = [
 
 export default function EmbroideredPricing() {
   useReveal()
+  useSEO('Embroidered Patch Pricing', 'Embroidered patch pricing by size and quantity. Free setup, free samples, flat-rate shipping on all orders.')
   return (
     <>
       <Breadcrumb items={[

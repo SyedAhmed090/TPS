@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { TESTIMONIALS } from '../../data/siteData'
 import Breadcrumb from '../../components/Breadcrumb'
 import useReveal from '../../hooks/useReveal'
+import useSEO from '../../hooks/useSEO'
 
 function Stars({ count }) {
   return (
@@ -15,6 +16,7 @@ function Stars({ count }) {
 
 export default function Testimonials() {
   useReveal()
+  useSEO('Testimonials', 'Read what our customers say about The Patch Solutions — military units, sports teams, clubs, and businesses across America.')
   return (
     <>
       <Breadcrumb items={[
@@ -34,7 +36,7 @@ export default function Testimonials() {
       <section style={{ background: 'var(--navy)', padding: '4rem 0' }}>
         <div className="container">
           <div className="stats-grid">
-          {[{ num: '10,000+', label: 'Happy Customers' }, { num: '4.9/5', label: 'Average Rating' }, { num: '500K+', label: 'Patches Delivered' }, { num: '25+', label: 'Years in Business' }].map(s => (
+          {[{ num: '10,000+', label: 'Happy Customers' }, { num: '4.9/5', label: 'Average Rating' }, { num: '500K+', label: 'Patches Delivered' }, { num: '20+', label: 'Years in Business' }].map(s => (
             <div key={s.label} className="reveal">
               <div style={{ fontFamily: 'var(--font-display)', fontSize: '2.8rem', color: 'var(--gold)', letterSpacing: '0.04em', lineHeight: 1 }}>{s.num}</div>
               <p style={{ color: 'rgba(255,255,255,0.55)', fontFamily: 'var(--font-heading)', fontSize: '0.8rem', letterSpacing: '0.1em', textTransform: 'uppercase', marginTop: '0.5rem' }}>{s.label}</p>

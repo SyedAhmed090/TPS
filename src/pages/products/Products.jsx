@@ -2,9 +2,11 @@ import { Link } from 'react-router-dom'
 import { PRODUCTS_DATA } from '../../data/siteData'
 import Breadcrumb from '../../components/Breadcrumb'
 import useReveal from '../../hooks/useReveal'
+import useSEO from '../../hooks/useSEO'
 
 export default function Products() {
   useReveal()
+  useSEO('Products', 'All custom patch products from The Patch Solutions — embroidered, woven, PVC, leather, chenille, dye sublimation, and more.')
   return (
     <>
       <Breadcrumb items={[
@@ -38,7 +40,7 @@ export default function Products() {
 
       <section style={{ background: 'var(--navy)', padding: '5rem 0' }}>
         <div className="container">
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4rem', alignItems: 'center' }}>
+          <div className="split-grid">
             <div className="reveal">
               <span className="section-label">Why TPS</span>
               <h2 className="section-title light">Quality You Can Count On</h2>
@@ -55,7 +57,7 @@ export default function Products() {
             </div>
             <div className="reveal" style={{ textAlign: 'center' }}>
               <div style={{ background: 'rgba(255,255,255,0.05)', padding: '3rem', borderRadius: 4 }}>
-                <div style={{ fontFamily: 'var(--font-display)', fontSize: '4rem', color: 'var(--gold)', letterSpacing: '0.04em', lineHeight: 1 }}>25+</div>
+                <div style={{ fontFamily: 'var(--font-display)', fontSize: '4rem', color: 'var(--gold)', letterSpacing: '0.04em', lineHeight: 1 }}>20+</div>
                 <p style={{ color: 'var(--cream)', fontFamily: 'var(--font-heading)', marginTop: '0.5rem', letterSpacing: '0.08em' }}>YEARS OF EXPERIENCE</p>
               </div>
             </div>

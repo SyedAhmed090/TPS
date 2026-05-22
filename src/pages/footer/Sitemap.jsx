@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import Breadcrumb from '../../components/Breadcrumb'
 import useReveal from '../../hooks/useReveal'
+import useSEO from '../../hooks/useSEO'
 
 const SITEMAP = [
   {
@@ -88,6 +89,7 @@ const SITEMAP = [
 
 export default function Sitemap() {
   useReveal()
+  useSEO('Sitemap', 'Complete sitemap for The Patch Solutions website.')
   return (
     <>
       <Breadcrumb items={[

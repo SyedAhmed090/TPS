@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import Breadcrumb from '../../components/Breadcrumb'
 import useReveal from '../../hooks/useReveal'
+import useSEO from '../../hooks/useSEO'
 
 const CAMO_PATTERNS = [
   { name: 'Woodland ERDL', desc: 'Classic four-color woodland pattern — the original US military camouflage. Popular for Vietnam-era commemorative and heritage patches.' },
@@ -13,6 +14,7 @@ const CAMO_PATTERNS = [
 
 export default function CamoTwill() {
   useReveal()
+  useSEO('Camo Twill Patches', 'Custom embroidered patches on camouflage twill backing — perfect for military, tactical, and outdoor applications.')
   return (
     <>
       <Breadcrumb items={[
@@ -56,7 +58,7 @@ export default function CamoTwill() {
         <div className="reveal" style={{ marginTop: '5rem' }}>
           <h2 className="section-title" style={{ marginBottom: '0.5rem' }}>Available Camo Patterns</h2>
           <p className="section-subtitle" style={{ marginBottom: '2.5rem' }}>We stock or can source the following camouflage twill backgrounds.</p>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.5rem' }}>
+          <div className="card-grid-3">
             {CAMO_PATTERNS.map(p => (
               <div key={p.name} style={{ background: 'var(--white)', padding: '1.75rem', borderLeft: '4px solid var(--gold)' }}>
                 <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.1rem', color: 'var(--navy)', marginBottom: '0.6rem', letterSpacing: '0.04em' }}>{p.name}</h3>

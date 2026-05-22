@@ -2,18 +2,22 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import Breadcrumb from '../components/Breadcrumb'
 import useReveal from '../hooks/useReveal'
+import useSEO from '../hooks/useSEO'
 
 const PATCH_TYPES = ['Embroidered', 'Woven', 'PVC', 'Dye Sublimation', 'Felt', 'Leather', 'Chenille', 'Blank', 'Bullion Crest', 'Combination', 'Not Sure']
 const BACKING_OPTIONS = ['Iron-On (Heat Seal)', 'Sew-On (Unbacked)', 'Hook & Loop (Velcro)', 'Pin Back', 'Magnetic', 'Self-Stick', 'Not Sure']
 const QTY_RANGES = ['25–49', '50–99', '100–249', '250–499', '500–999', '1000–2499', '2500+']
 
 export default function FreeQuote() {
+  useSEO('Free Quote', 'Get a free custom patch quote in minutes. No obligation. Free design proof and samples included.')
   const [form, setForm] = useState({
     name: '', email: '', phone: '', company: '',
     patchType: '', backing: '', quantity: '', size: '',
     deadline: '', message: '',
   })
   const [sent, setSent] = useState(false)
+  const [designFile, setDesignFile] = useState(null)
+  const [dragOver, setDragOver] = useState(false)
   useReveal()
 
   function handleChange(e) {
@@ -73,7 +77,7 @@ export default function FreeQuote() {
             ) : (
               <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
                 <h2 style={{ fontFamily: 'var(--font-display)', color: 'var(--navy)', fontSize: '1.8rem', letterSpacing: '0.04em', marginBottom: '0.25rem' }}>Your Contact Info</h2>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem' }}>
+                <div className="fq-grid">
                   <div><label style={labelStyle}>Name *</label><input name="name" value={form.name} onChange={handleChange} required placeholder="Full name" style={inputStyle} /></div>
                   <div><label style={labelStyle}>Email *</label><input name="email" type="email" value={form.email} onChange={handleChange} required placeholder="your@email.com" style={inputStyle} /></div>
                   <div><label style={labelStyle}>Phone</label><input name="phone" value={form.phone} onChange={handleChange} placeholder="Optional" style={inputStyle} /></div>
@@ -81,7 +85,7 @@ export default function FreeQuote() {
                 </div>
 
                 <h2 style={{ fontFamily: 'var(--font-display)', color: 'var(--navy)', fontSize: '1.8rem', letterSpacing: '0.04em', marginBottom: '0.25rem', marginTop: '0.5rem' }}>Patch Details</h2>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem' }}>
+                <div className="fq-grid">
                   <div>
                     <label style={labelStyle}>Patch Type *</label>
                     <select name="patchType" value={form.patchType} onChange={handleChange} required style={{ ...inputStyle, cursor: 'pointer' }}>
@@ -120,6 +124,39 @@ export default function FreeQuote() {
                     style={{ ...inputStyle, resize: 'vertical' }} />
                 </div>
 
+                <div>
+                  <label style={labelStyle}>Upload Your Design <span style={{ fontWeight: 400, textTransform: 'none', letterSpacing: 0, color: 'var(--gray-mid)', fontSize: '0.8rem' }}>(optional)</span></label>
+                  <label
+                    htmlFor="fq-file"
+                    onDragOver={e => { e.preventDefault(); setDragOver(true) }}
+                    onDragLeave={() => setDragOver(false)}
+                    onDrop={e => { e.preventDefault(); setDragOver(false); setDesignFile(e.dataTransfer.files[0] || null) }}
+                    style={{
+                      display: 'block',
+                      border: `2px dashed ${dragOver ? 'var(--gold)' : 'rgba(11,26,46,0.2)'}`,
+                      padding: '1.5rem',
+                      textAlign: 'center',
+                      cursor: 'pointer',
+                      transition: 'all 0.15s',
+                      background: dragOver ? 'rgba(200,147,26,0.04)' : 'var(--white)',
+                    }}
+                  >
+                    {designFile ? (
+                      <div>
+                        <div style={{ color: 'var(--gold)', fontWeight: 700, marginBottom: 4, fontSize: '0.9rem' }}>✓ {designFile.name}</div>
+                        <div style={{ fontSize: '0.75rem', color: 'var(--gray-mid)' }}>{(designFile.size / 1024).toFixed(0)} KB — click to change</div>
+                      </div>
+                    ) : (
+                      <div>
+                        <div style={{ color: 'var(--gray-mid)', fontSize: '0.9rem', marginBottom: 4 }}>Drag & drop your artwork here</div>
+                        <div style={{ fontSize: '0.78rem', color: 'var(--gold)' }}>or click to browse — AI, EPS, PDF, PNG, JPG, SVG accepted</div>
+                      </div>
+                    )}
+                    <input id="fq-file" type="file" accept=".ai,.eps,.pdf,.png,.jpg,.jpeg,.svg,.psd" onChange={e => setDesignFile(e.target.files[0] || null)} style={{ display: 'none' }} />
+                  </label>
+                  <p style={{ fontSize: '0.72rem', color: 'var(--gray-mid)', marginTop: 6 }}>Can't attach now? Email artwork to info@thepatchsolutions.com after submitting.</p>
+                </div>
+
                 <button type="submit" className="btn-primary" style={{ alignSelf: 'flex-start', fontSize: '1rem', padding: '14px 36px' }}>Submit Quote Request</button>
               </form>
             )}
@@ -151,6 +188,7 @@ export default function FreeQuote() {
               <div style={{ fontFamily: 'var(--font-display)', fontSize: '3rem', color: 'var(--white)', letterSpacing: '0.04em', lineHeight: 1 }}>25</div>
               <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.85rem', marginTop: '0.25rem' }}>patches per design</p>
             </div>
+
           </div>
         </div>
       </section>

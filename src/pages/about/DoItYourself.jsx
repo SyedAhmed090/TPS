@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import Breadcrumb from '../../components/Breadcrumb'
 import useReveal from '../../hooks/useReveal'
+import useSEO from '../../hooks/useSEO'
 
 const GUIDES = [
   {
@@ -46,6 +47,7 @@ const GUIDES = [
 
 export default function DoItYourself() {
   useReveal()
+  useSEO('Do It Yourself Patches', 'DIY patch guides from The Patch Solutions — how to apply, sew, and design your own custom patches.')
   return (
     <>
       <Breadcrumb items={[

@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import Breadcrumb from '../../components/Breadcrumb'
 import useReveal from '../../hooks/useReveal'
+import useSEO from '../../hooks/useSEO'
 
 const FACTORS = [
   { title: 'Patch Type', desc: 'Embroidered patches are most economical. PVC, leather, and bullion crests command higher prices due to materials and production complexity.' },
@@ -28,6 +29,7 @@ const PRODUCT_PRICING = [
 
 export default function Pricing() {
   useReveal()
+  useSEO('Patch Pricing', 'Transparent custom patch pricing with no hidden fees. See per-piece prices by size, quantity, and patch type.')
   return (
     <>
       <Breadcrumb items={[

@@ -64,7 +64,7 @@ export default function ProductDetail() {
         <div className="container" style={{ textAlign: 'center' }}>
           <span className="section-label">Order Process</span>
           <h2 className="section-title light" style={{ marginBottom: '1rem' }}>How It Works</h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '2rem', marginTop: '2.5rem' }}>
+          <div className="steps-grid-4">
             {['Submit Your Design', 'Approve Free Proof', 'Production Begins', 'Fast Delivery'].map((step, i) => (
               <div key={step} style={{ textAlign: 'center' }}>
                 <div style={{ width: 48, height: 48, borderRadius: '50%', background: 'var(--gold)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1rem', fontFamily: 'var(--font-display)', fontSize: '1.4rem', color: 'var(--navy)' }}>{i + 1}</div>

@@ -2,9 +2,11 @@ import { Link } from 'react-router-dom'
 import { PATCH_CATEGORIES } from '../../data/siteData'
 import Breadcrumb from '../../components/Breadcrumb'
 import useReveal from '../../hooks/useReveal'
+import useSEO from '../../hooks/useSEO'
 
 export default function PatchCategories() {
   useReveal()
+  useSEO('Patch Categories', 'Shop by patch category — iron-on, sew-on, jacket, uniform, merit badge, morale patches, and more.')
   return (
     <>
       <Breadcrumb items={[
