@@ -39,6 +39,12 @@ export default function Home() {
   return (
     <>
       <section className="hero">
+        <img
+          src="/hero-patch.jpg"
+          alt=""
+          aria-hidden="true"
+          className="hero-bg-img"
+        />
         <div className="hero-pattern" />
         <div className="hero-accent-left" />
         <div className="hero-shape" />

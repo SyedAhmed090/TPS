@@ -420,6 +420,19 @@ section { padding: 5.5rem 0; }
   overflow: hidden;
 }
 
+.hero-bg-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  opacity: 0.45;
+  mix-blend-mode: screen;
+  pointer-events: none;
+  user-select: none;
+}
+
 .hero-pattern {
   position: absolute;
   inset: 0;
