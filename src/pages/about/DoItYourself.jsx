@@ -15,7 +15,7 @@ const GUIDES = [
       'Test adhesion by gently tugging an edge. If needed, press again.',
     ],
     tip: 'For best results, we recommend finishing with a few stitches around the border — especially for items that will be washed frequently.',
-    img: 'https://images.unsplash.com/photo-1617137968427-85924c800a22?w=800&q=80',
+    img: 'https://placehold.co/800x500/142340/C8931A?text=Custom+Patches',
   },
   {
     title: 'How to Sew On a Patch by Hand',
@@ -28,7 +28,7 @@ const GUIDES = [
       'Tie off securely at the back when you reach your starting point.',
     ],
     tip: 'Use a thimble to push the needle through thick fabrics. A curved needle helps on tight areas.',
-    img: 'https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=800&q=80',
+    img: 'https://placehold.co/800x500/142340/C8931A?text=Custom+Patches',
   },
   {
     title: 'How to Care for Patched Garments',
@@ -41,7 +41,7 @@ const GUIDES = [
       'For sew-on patches, check stitching periodically and re-sew loose areas.',
     ],
     tip: 'Iron-on patches may loosen over time on garments washed frequently. A few stitches at the corners will extend patch life significantly.',
-    img: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80',
+    img: 'https://placehold.co/800x500/142340/C8931A?text=Custom+Patches',
   },
 ]
 

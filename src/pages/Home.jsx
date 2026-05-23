@@ -5,14 +5,14 @@ import PatchCalculator from '../components/PatchCalculator'
 import HeroCalculator from '../components/HeroCalculator'
 
 const PRODUCTS = [
-  { name: 'Embroidered Patches', desc: 'Classic, durable, and detailed — the most popular style for uniforms and jackets.', img: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80' },
-  { name: 'Woven Patches', desc: 'Ultra-fine detail for complex logos and small text with a flat finish.', img: 'https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=600&q=80' },
-  { name: 'PVC Patches', desc: '3D rubber feel, fully waterproof, and built for tough gear and tactical use.', img: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?w=600&q=80' },
-  { name: 'Dye Sublimation', desc: 'Photographic color reproduction and sharp gradients — no design limits.', img: 'https://images.unsplash.com/photo-1617137968427-85924c800a22?w=600&q=80' },
-  { name: 'Chenille Patches', desc: 'Varsity-style raised texture with a classic athletic look and feel.', img: 'https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=600&q=80' },
-  { name: 'Leather Patches', desc: 'Premium genuine leather for jackets, bags, hats, and accessories.', img: 'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=600&q=80' },
-  { name: 'Patch Keychains', desc: 'PVC and custom patch keychains — perfect merch, gifts, or giveaways.', img: 'https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=600&q=80' },
-  { name: 'Brand Merchandise', desc: 'Custom branded goods beyond patches — for businesses and organizations.', img: 'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=600&q=80' },
+  { name: 'Embroidered Patches', desc: 'Classic, durable, and detailed — the most popular style for uniforms and jackets.', img: 'https://placehold.co/600x400/142340/C8931A?text=Custom+Patches' },
+  { name: 'Woven Patches', desc: 'Ultra-fine detail for complex logos and small text with a flat finish.', img: 'https://placehold.co/600x400/142340/C8931A?text=Custom+Patches' },
+  { name: 'PVC Patches', desc: '3D rubber feel, fully waterproof, and built for tough gear and tactical use.', img: 'https://placehold.co/600x400/142340/C8931A?text=Custom+Patches' },
+  { name: 'Dye Sublimation', desc: 'Photographic color reproduction and sharp gradients — no design limits.', img: 'https://placehold.co/600x400/142340/C8931A?text=Custom+Patches' },
+  { name: 'Chenille Patches', desc: 'Varsity-style raised texture with a classic athletic look and feel.', img: 'https://placehold.co/600x400/142340/C8931A?text=Custom+Patches' },
+  { name: 'Leather Patches', desc: 'Premium genuine leather for jackets, bags, hats, and accessories.', img: 'https://placehold.co/600x400/142340/C8931A?text=Custom+Patches' },
+  { name: 'Patch Keychains', desc: 'PVC and custom patch keychains — perfect merch, gifts, or giveaways.', img: 'https://placehold.co/600x400/142340/C8931A?text=Custom+Patches' },
+  { name: 'Brand Merchandise', desc: 'Custom branded goods beyond patches — for businesses and organizations.', img: 'https://placehold.co/600x400/142340/C8931A?text=Custom+Patches' },
 ]
 
 const SERVE = [

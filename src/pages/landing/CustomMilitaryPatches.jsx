@@ -67,10 +67,10 @@ const TURNAROUND = [
 ]
 
 const GALLERY_IMGS = [
-  { src: 'https://images.unsplash.com/photo-1547489432-cf93fa6c71ee?w=600&q=80', alt: 'Military tactical gear' },
-  { src: 'https://images.unsplash.com/photo-1580752300992-559f8e0734e0?w=600&q=80', alt: 'Military uniform detail' },
-  { src: 'https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?w=600&q=80', alt: 'Military insignia' },
-  { src: 'https://images.unsplash.com/photo-1486702986012-63b6e2d1ad6f?w=600&q=80', alt: 'Tactical equipment' },
+  { src: 'https://placehold.co/600x400/142340/C8931A?text=Custom+Patches', alt: 'Military tactical gear' },
+  { src: 'https://placehold.co/600x400/142340/C8931A?text=Custom+Patches', alt: 'Military uniform detail' },
+  { src: 'https://placehold.co/600x400/142340/C8931A?text=Custom+Patches', alt: 'Military insignia' },
+  { src: 'https://placehold.co/600x400/142340/C8931A?text=Custom+Patches', alt: 'Tactical equipment' },
 ]
 
 const FAQS = [
