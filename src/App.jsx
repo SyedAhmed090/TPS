@@ -5,6 +5,21 @@ import Footer from './components/Footer'
 import PatchCalculator from './components/PatchCalculator'
 import PageLoader from './components/PageLoader'
 import ErrorBoundary from './components/ErrorBoundary'
+import { AuthProvider } from './contexts/AuthContext'
+import AdminRoute from './components/admin/AdminRoute'
+
+// Admin pages
+const AdminLogin  = lazy(() => import('./pages/admin/AdminLogin'))
+const AdminLayout = lazy(() => import('./pages/admin/AdminLayout'))
+const Dashboard      = lazy(() => import('./pages/admin/Dashboard'))
+const AdminQuotes    = lazy(() => import('./pages/admin/Quotes'))
+const AdminOrders    = lazy(() => import('./pages/admin/Orders'))
+const AdminContacts  = lazy(() => import('./pages/admin/Contacts'))
+const AdminCustomers = lazy(() => import('./pages/admin/Customers'))
+const BlogManager    = lazy(() => import('./pages/admin/BlogManager'))
+const DiscountCodes  = lazy(() => import('./pages/admin/DiscountCodes'))
+const SampleRequests = lazy(() => import('./pages/admin/SampleRequests'))
+const AdminSettings  = lazy(() => import('./pages/admin/Settings'))
 
 const Home = lazy(() => import('./pages/Home'))
 const Gallery = lazy(() => import('./pages/Gallery'))
@@ -84,8 +99,34 @@ function CalcSection() {
   )
 }
 
+function AdminApp() {
+  return (
+    <AuthProvider>
+      <Suspense fallback={<PageLoader />}>
+        <Routes>
+          <Route path="/admin/login" element={<AdminLogin />} />
+          <Route path="/admin" element={<AdminRoute><AdminLayout /></AdminRoute>}>
+            <Route index element={<Dashboard />} />
+            <Route path="quotes"    element={<AdminQuotes />} />
+            <Route path="orders"    element={<AdminOrders />} />
+            <Route path="contacts"  element={<AdminContacts />} />
+            <Route path="customers" element={<AdminCustomers />} />
+            <Route path="blog"      element={<BlogManager />} />
+            <Route path="discounts" element={<DiscountCodes />} />
+            <Route path="samples"   element={<SampleRequests />} />
+            <Route path="settings"  element={<AdminSettings />} />
+          </Route>
+        </Routes>
+      </Suspense>
+    </AuthProvider>
+  )
+}
+
 export default function App() {
   const { pathname } = useLocation()
+
+  if (pathname.startsWith('/admin')) return <AdminApp />
+
   return (
     <>
       <ScrollToTop />
