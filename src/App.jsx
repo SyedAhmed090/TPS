@@ -21,6 +21,12 @@ const DiscountCodes  = lazy(() => import('./pages/admin/DiscountCodes'))
 const SampleRequests = lazy(() => import('./pages/admin/SampleRequests'))
 const AdminSettings  = lazy(() => import('./pages/admin/Settings'))
 
+// Account pages
+const AccountLogin    = lazy(() => import('./pages/account/Login'))
+const AccountSignUp   = lazy(() => import('./pages/account/SignUp'))
+const ResetPassword   = lazy(() => import('./pages/account/ResetPassword'))
+const Account         = lazy(() => import('./pages/account/Account'))
+
 const Home = lazy(() => import('./pages/Home'))
 const Gallery = lazy(() => import('./pages/Gallery'))
 const Promotions = lazy(() => import('./pages/Promotions'))
@@ -128,7 +134,7 @@ export default function App() {
   if (pathname.startsWith('/admin')) return <AdminApp />
 
   return (
-    <>
+    <AuthProvider>
       <ScrollToTop />
       <Navbar />
       <main>
@@ -142,6 +148,12 @@ export default function App() {
               <Route path="/free-quote" element={<FreeQuote />} />
               <Route path="/request-samples" element={<RequestSample />} />
               <Route path="/rush-order" element={<RushOrder />} />
+
+              {/* Account */}
+              <Route path="/account/login"          element={<AccountLogin />} />
+              <Route path="/account/signup"         element={<AccountSignUp />} />
+              <Route path="/account/reset-password" element={<ResetPassword />} />
+              <Route path="/account"                element={<Account />} />
 
               {/* About */}
               <Route path="/about" element={<About />} />
@@ -197,10 +209,10 @@ export default function App() {
         </ErrorBoundary>
       </main>
       {(() => {
-        const noCalc = ['/privacy-policy', '/return-policy', '/sitemap', '/resources', '/contact', '/free-quote', '/request-samples', '/gallery', '/rush-order', '/about/blog']
+        const noCalc = ['/privacy-policy', '/return-policy', '/sitemap', '/resources', '/contact', '/free-quote', '/request-samples', '/gallery', '/rush-order', '/about/blog', '/account']
         return pathname !== '/' && !noCalc.some(p => pathname === p || pathname.startsWith(p + '/')) && <CalcSection />
       })()}
       <Footer />
-    </>
+    </AuthProvider>
   )
 }
