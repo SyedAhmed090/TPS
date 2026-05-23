@@ -10,6 +10,7 @@ const Home = lazy(() => import('./pages/Home'))
 const Gallery = lazy(() => import('./pages/Gallery'))
 const Promotions = lazy(() => import('./pages/Promotions'))
 const FreeQuote = lazy(() => import('./pages/FreeQuote'))
+const RequestSample = lazy(() => import('./pages/RequestSample'))
 const RushOrder = lazy(() => import('./pages/RushOrder'))
 const NotFound = lazy(() => import('./pages/NotFound'))
 
@@ -98,6 +99,7 @@ export default function App() {
               <Route path="/gallery" element={<Gallery />} />
               <Route path="/promotions" element={<Promotions />} />
               <Route path="/free-quote" element={<FreeQuote />} />
+              <Route path="/request-samples" element={<RequestSample />} />
               <Route path="/rush-order" element={<RushOrder />} />
 
               {/* About */}
@@ -154,7 +156,7 @@ export default function App() {
         </ErrorBoundary>
       </main>
       {(() => {
-        const noCalc = ['/privacy-policy', '/return-policy', '/sitemap', '/resources', '/contact', '/free-quote', '/gallery', '/rush-order', '/about/blog']
+        const noCalc = ['/privacy-policy', '/return-policy', '/sitemap', '/resources', '/contact', '/free-quote', '/request-samples', '/gallery', '/rush-order', '/about/blog']
         return pathname !== '/' && !noCalc.some(p => pathname === p || pathname.startsWith(p + '/')) && <CalcSection />
       })()}
       <Footer />

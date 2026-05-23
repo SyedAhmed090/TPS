@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import QuoteModal from "./QuoteModal";
+import { supabase } from "../lib/supabase";
 import {
   SIZES, QTY_TIERS, BACKINGS,
-  BLANK_SIZES, BLANK_QTY_TIERS, BULLION, DISCOUNT_CODES,
+  BLANK_SIZES, BLANK_QTY_TIERS, BULLION,
   getEmbPrice, getBackingAddon, getBlankPrice, getBullionPrice,
 } from "../data/pricingData";
 
@@ -260,6 +261,7 @@ export default function PatchCalculator() {
   const [discountCode, setDiscountCode] = useState("");
   const [appliedDiscount, setAppliedDiscount] = useState(null);
   const [discountError, setDiscountError] = useState("");
+  const [discountLoading, setDiscountLoading] = useState(false);
   const [customNote, setCustomNote] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -326,12 +328,27 @@ export default function PatchCalculator() {
     if (!isNaN(n)) setQty(n);
   }
 
-  function applyDiscount() {
-    setDiscountError("");
-    const code = discountCode.trim().toUpperCase();
-    const found = DISCOUNT_CODES[code];
-    if (!found) { setAppliedDiscount(null); setDiscountError("Invalid code. Please check and try again."); }
-    else { setAppliedDiscount({ code, ...found }); }
+  async function applyDiscount() {
+    setDiscountError("")
+    const code = discountCode.trim().toUpperCase()
+    if (!code) return
+    setDiscountLoading(true)
+    try {
+      const q = parseInt(qty)
+      const { data, error } = await supabase.functions.invoke('validate-discount', {
+        body: { code, quantity: q || 0 }
+      })
+      if (error || !data?.valid) {
+        setAppliedDiscount(null)
+        setDiscountError(data?.message || 'Invalid code. Please check and try again.')
+      } else {
+        setAppliedDiscount({ code, label: `${data.pct_off}% off`, type: 'percent', value: data.pct_off })
+      }
+    } catch {
+      setDiscountError('Unable to validate code. Please try again.')
+    } finally {
+      setDiscountLoading(false)
+    }
   }
 
   function removeDiscount() {
@@ -498,7 +515,7 @@ export default function PatchCalculator() {
                   onChange={e => { setDiscountCode(e.target.value); setDiscountError(""); }}
                   onKeyDown={e => e.key === "Enter" && applyDiscount()}
                   style={S.discountInput} placeholder="Enter code e.g. WELCOME10" />
-                <button style={S.discountBtn} onClick={applyDiscount}>Apply</button>
+                <button style={S.discountBtn} onClick={applyDiscount} disabled={discountLoading}>{discountLoading ? 'Checking...' : 'Apply'}</button>
               </div>
               {discountError && <div style={S.errorMsg}>⚠ {discountError}</div>}
             </>
@@ -618,6 +635,11 @@ export default function PatchCalculator() {
         open={modalOpen}
         onClose={() => setModalOpen(false)}
         summary={result ? buildSummary() : null}
+        patchType={patchType}
+        quantity={qty}
+        discountCode={appliedDiscount?.code || ''}
+        discountPct={appliedDiscount?.value || 0}
+        estimatedPrice={result ? (appliedDiscount ? getDiscountedTotal(result.total) : result.total) : undefined}
       />
     </div>
   );

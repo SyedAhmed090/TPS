@@ -2,6 +2,7 @@ import { useState } from 'react'
 import Breadcrumb from '../../components/Breadcrumb'
 import useReveal from '../../hooks/useReveal'
 import useSEO from '../../hooks/useSEO'
+import { supabase } from '../../lib/supabase'
 
 const CONTACT_INFO = [
   { label: 'Email', value: 'info@thepatchsolutions.com', icon: '✉' },
@@ -14,15 +15,32 @@ export default function Contact() {
   useSEO('Contact Us', 'Contact The Patch Solutions for a free custom patch quote, samples, or any questions about your order.')
   const [form, setForm] = useState({ name: '', email: '', phone: '', subject: '', quantity: '', message: '' })
   const [sent, setSent] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [submitError, setSubmitError] = useState('')
   useReveal()
 
   function handleChange(e) {
     setForm(f => ({ ...f, [e.target.name]: e.target.value }))
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault()
-    setSent(true)
+    setLoading(true)
+    setSubmitError('')
+    try {
+      const { error } = await supabase.functions.invoke('submit-contact', {
+        body: { name: form.name, email: form.email, phone: form.phone, subject: form.subject, message: form.message }
+      })
+      if (error) {
+        setSubmitError('Failed to send. Please try again or email us at info@thepatchsolutions.com')
+      } else {
+        setSent(true)
+      }
+    } catch {
+      setSubmitError('Failed to send. Please try again or email us at info@thepatchsolutions.com')
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -87,7 +105,12 @@ export default function Contact() {
                   <textarea name="message" value={form.message} onChange={handleChange} required rows={5} placeholder="Describe your patch project — type, size, backing, and any artwork details..."
                     style={{ width: '100%', padding: '10px 14px', border: '1px solid rgba(11,26,46,0.2)', background: 'var(--white)', fontFamily: 'var(--font-body)', fontSize: '0.9rem', outline: 'none', resize: 'vertical' }} />
                 </div>
-                <button type="submit" className="btn-primary" style={{ alignSelf: 'flex-start' }}>Send Message</button>
+                <div>
+                  <button type="submit" className="btn-primary" disabled={loading} style={{ alignSelf: 'flex-start', opacity: loading ? 0.7 : 1, cursor: loading ? 'not-allowed' : 'pointer' }}>
+                    {loading ? 'Sending…' : 'Send Message'}
+                  </button>
+                  {submitError && <p style={{ color: '#c0392b', fontSize: '0.85rem', marginTop: '0.75rem' }}>{submitError}</p>}
+                </div>
               </form>
             )}
           </div>

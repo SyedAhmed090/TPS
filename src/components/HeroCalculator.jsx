@@ -163,6 +163,9 @@ export default function HeroCalculator() {
         open={modalOpen}
         onClose={() => setModalOpen(false)}
         summary={result ? `${size}" embroidered · ${coverage} coverage · ${backing !== 'None' ? backing + ' backing · ' : ''}${result.q} patches · ${fmt(result.ppp)}/patch · Est. ${fmt(result.total)}` : null}
+        patchType="Embroidered"
+        quantity={qty}
+        estimatedPrice={result ? result.total : undefined}
       />
     </div>
   )

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import Breadcrumb from '../components/Breadcrumb'
 import useReveal from '../hooks/useReveal'
 import useSEO from '../hooks/useSEO'
+import { supabase } from '../lib/supabase'
 
 const PATCH_TYPES = ['Embroidered', 'Woven', 'PVC', 'Dye Sublimation', 'Felt', 'Leather', 'Chenille', 'Blank', 'Bullion Crest', 'Combination', 'Not Sure']
 const BACKING_OPTIONS = ['Iron-On (Heat Seal)', 'Sew-On (Unbacked)', 'Hook & Loop (Velcro)', 'Pin Back', 'Magnetic', 'Self-Stick', 'Not Sure']
@@ -18,15 +19,41 @@ export default function FreeQuote() {
   const [sent, setSent] = useState(false)
   const [designFile, setDesignFile] = useState(null)
   const [dragOver, setDragOver] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [submitError, setSubmitError] = useState('')
   useReveal()
 
   function handleChange(e) {
     setForm(f => ({ ...f, [e.target.name]: e.target.value }))
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault()
-    setSent(true)
+    setLoading(true)
+    setSubmitError('')
+    try {
+      const formData = new FormData()
+      formData.append('name', form.name)
+      formData.append('email', form.email)
+      formData.append('phone', form.phone)
+      formData.append('company', form.company)
+      formData.append('patch_type', form.patchType)
+      formData.append('backing', form.backing)
+      formData.append('quantity', form.quantity)
+      const notes = [form.message, form.size ? `Size: ${form.size}` : '', form.deadline ? `Needed by: ${form.deadline}` : ''].filter(Boolean).join(' | ')
+      formData.append('special_notes', notes)
+      if (designFile) formData.append('artwork', designFile)
+      const { error } = await supabase.functions.invoke('submit-quote', { body: formData })
+      if (error) {
+        setSubmitError('Failed to send. Please try again or email us directly at info@thepatchsolutions.com')
+      } else {
+        setSent(true)
+      }
+    } catch {
+      setSubmitError('Failed to send. Please try again or email us directly at info@thepatchsolutions.com')
+    } finally {
+      setLoading(false)
+    }
   }
 
   const inputStyle = {
@@ -157,7 +184,12 @@ export default function FreeQuote() {
                   <p style={{ fontSize: '0.72rem', color: 'var(--gray-mid)', marginTop: 6 }}>Can't attach now? Email artwork to info@thepatchsolutions.com after submitting.</p>
                 </div>
 
-                <button type="submit" className="btn-primary" style={{ alignSelf: 'flex-start', fontSize: '1rem', padding: '14px 36px' }}>Submit Quote Request</button>
+                <div>
+                  <button type="submit" className="btn-primary" disabled={loading} style={{ alignSelf: 'flex-start', fontSize: '1rem', padding: '14px 36px', opacity: loading ? 0.7 : 1, cursor: loading ? 'not-allowed' : 'pointer' }}>
+                    {loading ? 'Sending…' : 'Submit Quote Request'}
+                  </button>
+                  {submitError && <p style={{ color: '#c0392b', fontSize: '0.85rem', marginTop: '0.75rem' }}>{submitError}</p>}
+                </div>
               </form>
             )}
           </div>

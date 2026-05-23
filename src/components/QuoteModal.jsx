@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { createPortal } from 'react-dom'
+import { supabase } from '../lib/supabase'
 
 const inputStyle = {
   background: 'rgba(255,255,255,0.06)',
@@ -24,12 +25,14 @@ const labelStyle = {
   marginBottom: 6,
 }
 
-export default function QuoteModal({ open, onClose, summary }) {
+export default function QuoteModal({ open, onClose, summary, patchType = 'Custom Patch', quantity = 25, discountCode = '', discountPct = 0, estimatedPrice }) {
   const [form, setForm] = useState({ name: '', email: '', phone: '' })
   const [file, setFile] = useState(null)
   const [dragOver, setDragOver] = useState(false)
   const [submitted, setSubmitted] = useState(false)
   const [errors, setErrors] = useState({})
+  const [loading, setLoading] = useState(false)
+  const [submitError, setSubmitError] = useState('')
 
   useEffect(() => {
     if (!open) return
@@ -49,6 +52,7 @@ export default function QuoteModal({ open, onClose, summary }) {
     setFile(null)
     setErrors({})
     setSubmitted(false)
+    setSubmitError('')
     onClose()
   }
 
@@ -78,12 +82,35 @@ export default function QuoteModal({ open, onClose, summary }) {
     return errs
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault()
     const errs = validate()
     if (Object.keys(errs).length) { setErrors(errs); return }
-    // TODO: send form data + file to your backend / email service
-    setSubmitted(true)
+    setLoading(true)
+    setSubmitError('')
+    try {
+      const formData = new FormData()
+      formData.append('name', form.name)
+      formData.append('email', form.email)
+      formData.append('phone', form.phone)
+      formData.append('patch_type', patchType)
+      formData.append('quantity', String(quantity))
+      formData.append('discount_code', discountCode)
+      formData.append('discount_pct', String(discountPct))
+      if (estimatedPrice !== undefined) formData.append('estimated_price', String(estimatedPrice))
+      if (summary) formData.append('special_notes', summary)
+      if (file) formData.append('artwork', file)
+      const { error } = await supabase.functions.invoke('submit-quote', { body: formData })
+      if (error) {
+        setSubmitError('Failed to send. Please try again or email us directly.')
+      } else {
+        setSubmitted(true)
+      }
+    } catch {
+      setSubmitError('Failed to send. Please try again or email us directly.')
+    } finally {
+      setLoading(false)
+    }
   }
 
   function handleBackdrop(e) {
@@ -245,10 +272,15 @@ export default function QuoteModal({ open, onClose, summary }) {
               <button
                 type="submit"
                 className="btn-gold"
-                style={{ display: 'block', width: '100%', textAlign: 'center', padding: '0.85rem', fontSize: '0.9rem', border: 'none', cursor: 'pointer' }}
+                disabled={loading}
+                style={{ display: 'block', width: '100%', textAlign: 'center', padding: '0.85rem', fontSize: '0.9rem', border: 'none', cursor: loading ? 'not-allowed' : 'pointer', opacity: loading ? 0.7 : 1 }}
               >
-                Send My Quote Request →
+                {loading ? 'Sending…' : 'Send My Quote Request →'}
               </button>
+
+              {submitError && (
+                <p style={{ fontSize: '0.78rem', color: 'var(--red-bright, #e55)', textAlign: 'center', marginTop: 8 }}>{submitError}</p>
+              )}
 
               <p style={{ fontSize: '0.65rem', color: 'rgba(255,255,255,0.25)', textAlign: 'center', marginTop: 10, lineHeight: 1.5, fontFamily: 'var(--font-heading)', letterSpacing: '0.06em' }}>
                 Free quote · No obligation · We reply within 1 business day
