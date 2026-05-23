@@ -28,6 +28,15 @@ export default function Account() {
   useEffect(() => {
     if (!user) { navigate('/account/login'); return }
     loadData()
+
+    const sub = supabase
+      .channel('account-orders')
+      .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'orders' }, payload => {
+        setOrders(prev => prev.map(o => o.id === payload.new.id ? { ...o, ...payload.new } : o))
+      })
+      .subscribe()
+
+    return () => { supabase.removeChannel(sub) }
   }, [user])
 
   async function loadData() {
