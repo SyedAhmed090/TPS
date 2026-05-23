@@ -5,11 +5,33 @@ import Footer from './components/Footer'
 import PatchCalculator from './components/PatchCalculator'
 import PageLoader from './components/PageLoader'
 import ErrorBoundary from './components/ErrorBoundary'
+import { AuthProvider } from './contexts/AuthContext'
+import AdminRoute from './components/admin/AdminRoute'
+
+// Admin pages
+const AdminLogin  = lazy(() => import('./pages/admin/AdminLogin'))
+const AdminLayout = lazy(() => import('./pages/admin/AdminLayout'))
+const Dashboard      = lazy(() => import('./pages/admin/Dashboard'))
+const AdminQuotes    = lazy(() => import('./pages/admin/Quotes'))
+const AdminOrders    = lazy(() => import('./pages/admin/Orders'))
+const AdminContacts  = lazy(() => import('./pages/admin/Contacts'))
+const AdminCustomers = lazy(() => import('./pages/admin/Customers'))
+const BlogManager    = lazy(() => import('./pages/admin/BlogManager'))
+const DiscountCodes  = lazy(() => import('./pages/admin/DiscountCodes'))
+const SampleRequests = lazy(() => import('./pages/admin/SampleRequests'))
+const AdminSettings  = lazy(() => import('./pages/admin/Settings'))
+
+// Account pages
+const AccountLogin    = lazy(() => import('./pages/account/Login'))
+const AccountSignUp   = lazy(() => import('./pages/account/SignUp'))
+const ResetPassword   = lazy(() => import('./pages/account/ResetPassword'))
+const Account         = lazy(() => import('./pages/account/Account'))
 
 const Home = lazy(() => import('./pages/Home'))
 const Gallery = lazy(() => import('./pages/Gallery'))
 const Promotions = lazy(() => import('./pages/Promotions'))
 const FreeQuote = lazy(() => import('./pages/FreeQuote'))
+const RequestSample = lazy(() => import('./pages/RequestSample'))
 const RushOrder = lazy(() => import('./pages/RushOrder'))
 const NotFound = lazy(() => import('./pages/NotFound'))
 
@@ -83,10 +105,36 @@ function CalcSection() {
   )
 }
 
+function AdminApp() {
+  return (
+    <AuthProvider>
+      <Suspense fallback={<PageLoader />}>
+        <Routes>
+          <Route path="/admin/login" element={<AdminLogin />} />
+          <Route path="/admin" element={<AdminRoute><AdminLayout /></AdminRoute>}>
+            <Route index element={<Dashboard />} />
+            <Route path="quotes"    element={<AdminQuotes />} />
+            <Route path="orders"    element={<AdminOrders />} />
+            <Route path="contacts"  element={<AdminContacts />} />
+            <Route path="customers" element={<AdminCustomers />} />
+            <Route path="blog"      element={<BlogManager />} />
+            <Route path="discounts" element={<DiscountCodes />} />
+            <Route path="samples"   element={<SampleRequests />} />
+            <Route path="settings"  element={<AdminSettings />} />
+          </Route>
+        </Routes>
+      </Suspense>
+    </AuthProvider>
+  )
+}
+
 export default function App() {
   const { pathname } = useLocation()
+
+  if (pathname.startsWith('/admin')) return <AdminApp />
+
   return (
-    <>
+    <AuthProvider>
       <ScrollToTop />
       <Navbar />
       <main>
@@ -98,7 +146,14 @@ export default function App() {
               <Route path="/gallery" element={<Gallery />} />
               <Route path="/promotions" element={<Promotions />} />
               <Route path="/free-quote" element={<FreeQuote />} />
+              <Route path="/request-samples" element={<RequestSample />} />
               <Route path="/rush-order" element={<RushOrder />} />
+
+              {/* Account */}
+              <Route path="/account/login"          element={<AccountLogin />} />
+              <Route path="/account/signup"         element={<AccountSignUp />} />
+              <Route path="/account/reset-password" element={<ResetPassword />} />
+              <Route path="/account"                element={<Account />} />
 
               {/* About */}
               <Route path="/about" element={<About />} />
@@ -154,10 +209,10 @@ export default function App() {
         </ErrorBoundary>
       </main>
       {(() => {
-        const noCalc = ['/privacy-policy', '/return-policy', '/sitemap', '/resources', '/contact', '/free-quote', '/gallery', '/rush-order', '/about/blog']
+        const noCalc = ['/privacy-policy', '/return-policy', '/sitemap', '/resources', '/contact', '/free-quote', '/request-samples', '/gallery', '/rush-order', '/about/blog', '/account']
         return pathname !== '/' && !noCalc.some(p => pathname === p || pathname.startsWith(p + '/')) && <CalcSection />
       })()}
       <Footer />
-    </>
+    </AuthProvider>
   )
 }

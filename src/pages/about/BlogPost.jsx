@@ -1,8 +1,9 @@
 import { useParams, Link } from 'react-router-dom'
-import { useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import useSEO from '../../hooks/useSEO'
 import Breadcrumb from '../../components/Breadcrumb'
-import { POSTS } from '../../data/blogData'
+import PageLoader from '../../components/PageLoader'
+import { supabase } from '../../lib/supabase'
 
 function ContentSection({ section }) {
   switch (section.type) {
@@ -39,14 +40,44 @@ function ContentSection({ section }) {
 
 export default function BlogPost() {
   const { slug } = useParams()
-  const post = POSTS.find(p => p.slug === slug)
+  const [post, setPost] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [related, setRelated] = useState([])
 
   useSEO(
-    post ? post.title : '404 — Post Not Found',
-    post ? post.excerpt : 'This blog post was not found.'
+    post ? post.title : loading ? 'Loading…' : '404 — Post Not Found',
+    post ? post.excerpt : loading ? '' : 'This blog post was not found.'
   )
 
-  // Structured data for SEO
+  useEffect(() => {
+    supabase
+      .from('blog_posts')
+      .select('*')
+      .eq('slug', slug)
+      .eq('published', true)
+      .maybeSingle()
+      .then(({ data }) => {
+        setPost(data)
+        setLoading(false)
+        if (data) {
+          supabase.rpc('increment_view_count', { post_slug: slug })
+        }
+      })
+  }, [slug])
+
+  useEffect(() => {
+    if (!post) return
+    supabase
+      .from('blog_posts')
+      .select('slug, title, category, cover_image')
+      .eq('published', true)
+      .neq('slug', slug)
+      .limit(3)
+      .then(({ data }) => {
+        if (data) setRelated(data)
+      })
+  }, [post, slug])
+
   useEffect(() => {
     if (!post) return
     const script = document.createElement('script')
@@ -56,14 +87,21 @@ export default function BlogPost() {
       '@type': 'BlogPosting',
       headline: post.title,
       description: post.excerpt,
-      datePublished: post.date,
-      image: post.img,
+      datePublished: post.published_at,
+      image: post.cover_image,
       author: { '@type': 'Organization', name: 'The Patch Solutions' },
       publisher: { '@type': 'Organization', name: 'The Patch Solutions', url: 'https://www.thepatchsolutions.com' },
     })
     document.head.appendChild(script)
     return () => { if (script.parentNode) script.parentNode.removeChild(script) }
   }, [post])
+
+  function formatDate(dateStr) {
+    if (!dateStr) return ''
+    return new Date(dateStr).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+  }
+
+  if (loading) return <PageLoader />
 
   if (!post) {
     return (
@@ -76,8 +114,6 @@ export default function BlogPost() {
       </section>
     )
   }
-
-  const related = POSTS.filter(p => p.slug !== slug).slice(0, 3)
 
   return (
     <>
@@ -94,16 +130,16 @@ export default function BlogPost() {
           <span className="section-label">{post.category}</span>
           <h1>{post.title}</h1>
           <p style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap', justifyContent: 'center', fontSize: '0.85rem', opacity: 0.7, marginTop: '0.5rem' }}>
-            <span>{post.date}</span>
+            <span>{formatDate(post.published_at)}</span>
             <span>·</span>
-            <span>{post.readTime}</span>
+            <span>{post.read_time} min read</span>
           </p>
         </div>
       </section>
 
       {/* Featured image */}
       <div style={{ width: '100%', maxHeight: 460, overflow: 'hidden' }}>
-        <img src={post.img} alt={post.title} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+        <img src={post.cover_image} alt={post.title} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
       </div>
 
       {/* Content */}
@@ -112,7 +148,7 @@ export default function BlogPost() {
           {/* Excerpt lead */}
           <p style={{ fontSize: '1.18rem', color: 'var(--navy)', lineHeight: 1.75, marginBottom: '2.5rem', fontWeight: 500, borderBottom: '1px solid rgba(11,26,46,0.1)', paddingBottom: '2rem' }}>{post.excerpt}</p>
 
-          {post.content.map((section, i) => (
+          {Array.isArray(post.content) && post.content.map((section, i) => (
             <ContentSection key={i} section={section} />
           ))}
         </div>
@@ -132,27 +168,29 @@ export default function BlogPost() {
       </section>
 
       {/* Related Posts */}
-      <section style={{ padding: '4rem 0', background: 'var(--cream)' }}>
-        <div className="container">
-          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '2rem', color: 'var(--navy)', letterSpacing: '0.04em', marginBottom: '2rem' }}>Related Posts</h2>
-          <div className="card-grid-3">
-            {related.map(p => (
-              <Link key={p.slug} to={`/about/blog/${p.slug}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-                <div style={{ background: 'var(--white)', borderRadius: 4, overflow: 'hidden', border: '1px solid rgba(11,26,46,0.08)' }}>
-                  <div style={{ height: 160, overflow: 'hidden' }}>
-                    <img src={p.img} alt={p.title} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+      {related.length > 0 && (
+        <section style={{ padding: '4rem 0', background: 'var(--cream)' }}>
+          <div className="container">
+            <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '2rem', color: 'var(--navy)', letterSpacing: '0.04em', marginBottom: '2rem' }}>Related Posts</h2>
+            <div className="card-grid-3">
+              {related.map(p => (
+                <Link key={p.slug} to={`/about/blog/${p.slug}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                  <div style={{ background: 'var(--white)', borderRadius: 4, overflow: 'hidden', border: '1px solid rgba(11,26,46,0.08)' }}>
+                    <div style={{ height: 160, overflow: 'hidden' }}>
+                      <img src={p.cover_image} alt={p.title} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+                    </div>
+                    <div style={{ padding: '1rem' }}>
+                      <span style={{ fontFamily: 'var(--font-heading)', fontSize: '0.65rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--gold)' }}>{p.category}</span>
+                      <p style={{ fontFamily: 'var(--font-heading)', fontWeight: 700, color: 'var(--navy)', margin: '0.4rem 0 0.6rem', lineHeight: 1.3 }}>{p.title}</p>
+                      <span style={{ fontFamily: 'var(--font-heading)', fontSize: '0.78rem', color: 'var(--gold)', fontWeight: 600 }}>Read More →</span>
+                    </div>
                   </div>
-                  <div style={{ padding: '1rem' }}>
-                    <span style={{ fontFamily: 'var(--font-heading)', fontSize: '0.65rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--gold)' }}>{p.category}</span>
-                    <p style={{ fontFamily: 'var(--font-heading)', fontWeight: 700, color: 'var(--navy)', margin: '0.4rem 0 0.6rem', lineHeight: 1.3 }}>{p.title}</p>
-                    <span style={{ fontFamily: 'var(--font-heading)', fontSize: '0.78rem', color: 'var(--gold)', fontWeight: 600 }}>Read More →</span>
-                  </div>
-                </div>
-              </Link>
-            ))}
+                </Link>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
     </>
   )
 }
