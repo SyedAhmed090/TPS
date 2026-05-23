@@ -6,7 +6,7 @@ export const POSTS = [
     category: 'DIY Guides',
     date: 'May 10, 2025',
     readTime: '6 min read',
-    img: 'https://images.unsplash.com/photo-1617137968427-85924c800a22?w=1200&q=80',
+    img: 'https://placehold.co/1200x600/142340/C8931A?text=Custom+Patches',
     content: [
       {
         type: 'heading',
@@ -111,7 +111,7 @@ export const POSTS = [
     category: 'Industry',
     date: 'April 22, 2025',
     readTime: '5 min read',
-    img: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200&q=80',
+    img: 'https://placehold.co/1200x600/142340/C8931A?text=Custom+Patches',
     content: [
       {
         type: 'paragraph',
@@ -183,7 +183,7 @@ export const POSTS = [
     category: 'Product Guide',
     date: 'April 5, 2025',
     readTime: '5 min read',
-    img: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?w=1200&q=80',
+    img: 'https://placehold.co/1200x600/142340/C8931A?text=Custom+Patches',
     content: [
       {
         type: 'paragraph',
@@ -286,7 +286,7 @@ export const POSTS = [
     category: 'History',
     date: 'March 18, 2025',
     readTime: '7 min read',
-    img: 'https://images.unsplash.com/photo-1504151932400-72d4384f04b3?w=1200&q=80',
+    img: 'https://placehold.co/1200x600/142340/C8931A?text=Custom+Patches',
     content: [
       {
         type: 'heading',
@@ -370,7 +370,7 @@ export const POSTS = [
     category: 'DIY Guides',
     date: 'March 2, 2025',
     readTime: '5 min read',
-    img: 'https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=1200&q=80',
+    img: 'https://placehold.co/1200x600/142340/C8931A?text=Custom+Patches',
     content: [
       {
         type: 'heading',
@@ -486,7 +486,7 @@ export const POSTS = [
     category: 'Getting Started',
     date: 'February 14, 2025',
     readTime: '8 min read',
-    img: 'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=1200&q=80',
+    img: 'https://placehold.co/1200x600/142340/C8931A?text=Custom+Patches',
     content: [
       {
         type: 'heading',

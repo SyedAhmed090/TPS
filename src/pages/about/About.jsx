@@ -66,7 +66,7 @@ export default function About() {
             <Link to="/contact" className="btn-primary">Contact Us</Link>
           </div>
           <div>
-            <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80" alt="The Patch Solutions workshop" style={{ borderRadius: 4, width: '100%' }} />
+            <img src="https://placehold.co/800x500/142340/C8931A?text=Custom+Patches" alt="The Patch Solutions workshop" style={{ borderRadius: 4, width: '100%' }} />
           </div>
         </div>
       </section>

@@ -35,7 +35,7 @@ export default function CamoTwill() {
       <section className="container">
         <div className="detail-layout reveal">
           <div className="detail-img">
-            <img src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=900&q=80" alt="Camo Twill Patches" />
+            <img src="https://placehold.co/900x500/142340/C8931A?text=Custom+Patches" alt="Camo Twill Patches" />
           </div>
           <div>
             <span className="detail-label">What Is Camo Twill?</span>

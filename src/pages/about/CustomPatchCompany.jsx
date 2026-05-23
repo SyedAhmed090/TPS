@@ -34,7 +34,7 @@ export default function CustomPatchCompany() {
       <section className="container">
         <div className="detail-layout reveal">
           <div className="detail-img">
-            <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=900&q=80" alt="TPS Workshop" />
+            <img src="https://placehold.co/900x500/142340/C8931A?text=Custom+Patches" alt="TPS Workshop" />
           </div>
           <div>
             <span className="detail-label">Our Story</span>
