@@ -24,7 +24,7 @@ export function AuthProvider({ children }) {
   }, [])
 
   async function checkAdmin(userId) {
-    const { data } = await supabase.from('admin_users').select('id').eq('user_id', userId).maybeSingle()
+    const { data } = await supabase.from('admin_users').select('id').eq('auth_user_id', userId).maybeSingle()
     setIsAdmin(!!data)
     setLoading(false)
   }
