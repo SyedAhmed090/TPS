@@ -3,6 +3,65 @@ import { PROMOTIONS } from '../data/siteData'
 import Breadcrumb from '../components/Breadcrumb'
 import useReveal from '../hooks/useReveal'
 import useSEO from '../hooks/useSEO'
+import useCountdown from '../hooks/useCountdown'
+
+function CountdownUnit({ value, label }) {
+  return (
+    <div style={{ textAlign: 'center', minWidth: 48 }}>
+      <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.6rem', color: 'var(--gold)', lineHeight: 1, letterSpacing: '0.04em' }}>
+        {String(value).padStart(2, '0')}
+      </div>
+      <div style={{ fontFamily: 'var(--font-heading)', fontSize: '0.55rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.5)', marginTop: 3 }}>
+        {label}
+      </div>
+    </div>
+  )
+}
+
+function CountdownSep() {
+  return <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.4rem', color: 'var(--gold)', opacity: 0.5, alignSelf: 'flex-start', paddingTop: 2 }}>:</div>
+}
+
+function PromoCard({ promo }) {
+  const timeLeft = useCountdown(promo.expiresAt)
+  const expired  = promo.expiresAt && !timeLeft
+
+  return (
+    <div className="promo-card" style={{ opacity: expired ? 0.5 : 1 }}>
+      <div className="promo-badge">{promo.badge}</div>
+      <h2 className="promo-title">{promo.title}</h2>
+      <p className="promo-desc">{promo.desc}</p>
+
+      {promo.expiresAt && timeLeft && (
+        <div style={{ background: 'var(--navy)', padding: '0.9rem 1rem', margin: '1rem 0', borderTop: '2px solid rgba(200,147,26,0.25)' }}>
+          <div style={{ fontFamily: 'var(--font-heading)', fontSize: '0.6rem', letterSpacing: '0.18em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.45)', marginBottom: '0.6rem' }}>
+            Offer Ends In
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+            <CountdownUnit value={timeLeft.days}    label="Days" />
+            <CountdownSep />
+            <CountdownUnit value={timeLeft.hours}   label="Hours" />
+            <CountdownSep />
+            <CountdownUnit value={timeLeft.minutes} label="Min" />
+            <CountdownSep />
+            <CountdownUnit value={timeLeft.seconds} label="Sec" />
+          </div>
+        </div>
+      )}
+
+      {expired && (
+        <div style={{ background: 'rgba(0,0,0,0.2)', padding: '0.6rem 0.9rem', margin: '1rem 0', fontFamily: 'var(--font-heading)', fontSize: '0.7rem', letterSpacing: '0.1em', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase' }}>
+          Offer Expired
+        </div>
+      )}
+
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 'auto' }}>
+        <span className="promo-expires">Valid: {promo.expires}</span>
+        {!expired && <Link to="/free-quote" className="btn-primary" style={{ fontSize: '0.82rem', padding: '10px 20px' }}>Claim Offer</Link>}
+      </div>
+    </div>
+  )
+}
 
 export default function Promotions() {
   useReveal()
@@ -24,17 +83,7 @@ export default function Promotions() {
 
       <section className="container">
         <div className="promo-grid reveal">
-          {PROMOTIONS.map(p => (
-            <div key={p.title} className="promo-card">
-              <div className="promo-badge">{p.badge}</div>
-              <h2 className="promo-title">{p.title}</h2>
-              <p className="promo-desc">{p.desc}</p>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 'auto' }}>
-                <span className="promo-expires">Valid: {p.expires}</span>
-                <Link to="/contact" className="btn-primary" style={{ fontSize: '0.82rem', padding: '10px 20px' }}>Claim Offer</Link>
-              </div>
-            </div>
-          ))}
+          {PROMOTIONS.map(p => <PromoCard key={p.title} promo={p} />)}
         </div>
       </section>
 
@@ -59,11 +108,11 @@ export default function Promotions() {
               </thead>
               <tbody>
                 {[
-                  { qty: '25',   ppp: 4.59, total: 114.75, save: '—',    base: true },
-                  { qty: '50',   ppp: 2.36, total: 118.00, save: '49%' },
-                  { qty: '100',  ppp: 1.66, total: 166.00, save: '64%' },
-                  { qty: '200',  ppp: 1.12, total: 224.00, save: '76%' },
-                  { qty: '500',  ppp: 0.87, total: 435.00, save: '81%' },
+                  { qty: '25',    ppp: 4.59, total: 114.75, save: '—',   base: true },
+                  { qty: '50',    ppp: 2.36, total: 118.00, save: '49%' },
+                  { qty: '100',   ppp: 1.66, total: 166.00, save: '64%' },
+                  { qty: '200',   ppp: 1.12, total: 224.00, save: '76%' },
+                  { qty: '500',   ppp: 0.87, total: 435.00, save: '81%' },
                   { qty: '1,000', ppp: 0.62, total: 620.00, save: '87%' },
                 ].map((row, i) => (
                   <tr key={row.qty} style={{ background: row.base ? 'rgba(200,147,26,0.06)' : i % 2 === 0 ? 'var(--white)' : '#f9f7f3', borderBottom: '1px solid rgba(11,26,46,0.07)' }}>
@@ -98,7 +147,7 @@ export default function Promotions() {
         <div className="container" style={{ textAlign: 'center' }}>
           <h2 className="section-title light" style={{ marginBottom: '0.75rem' }}>Ready to Save?</h2>
           <p style={{ color: 'rgba(255,255,255,0.75)', marginBottom: '2rem' }}>Get a free quote and mention any promotion to apply your savings.</p>
-          <Link to="/contact" className="btn-outline-light">Get a Free Quote</Link>
+          <Link to="/free-quote" className="btn-outline-light">Get a Free Quote</Link>
         </div>
       </section>
     </>

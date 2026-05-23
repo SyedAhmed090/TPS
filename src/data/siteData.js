@@ -304,10 +304,10 @@ export const ABOUT_PAGES = {
 
 // ─── PROMOTIONS ──────────────────────────────────────────────
 export const PROMOTIONS = [
-  { title: '10% Off Your First Order', desc: 'New customers save 10% on their first patch order. Use code WELCOME10 at checkout.', badge: 'New Customers', expires: 'Dec 31, 2026' },
-  { title: 'Free Samples on Orders 50+', desc: 'Order 50 or more patches and receive a free pre-production physical sample before full production.', badge: 'Quality Guarantee', expires: 'Ongoing' },
-  { title: 'Volume Discount: 500+ Patches', desc: 'Orders of 500+ patches receive our lowest per-unit pricing. Contact us for a custom volume quote.', badge: 'Bulk Savings', expires: 'Ongoing' },
-  { title: 'Rush Order Service', desc: 'Need patches in 5 days? Our rush production service gets your order out fast. Surcharge applies.', badge: 'Rush Available', expires: 'Limited Availability' },
+  { title: '10% Off Your First Order', desc: 'New customers save 10% on their first patch order. Use code WELCOME10 at checkout.', badge: 'New Customers', expires: 'Dec 31, 2026', expiresAt: '2026-12-31T23:59:59' },
+  { title: 'Free Samples on Orders 50+', desc: 'Order 50 or more patches and receive a free pre-production physical sample before full production.', badge: 'Quality Guarantee', expires: 'Ongoing', expiresAt: null },
+  { title: 'Volume Discount: 500+ Patches', desc: 'Orders of 500+ patches receive our lowest per-unit pricing. Contact us for a custom volume quote.', badge: 'Bulk Savings', expires: 'Ongoing', expiresAt: null },
+  { title: 'Rush Order Service', desc: 'Need patches in 5 days? Our rush production service gets your order out fast. Surcharge applies.', badge: 'Rush Available', expires: 'Limited Availability', expiresAt: '2026-08-31T23:59:59' },
 ]
 
 // ─── TESTIMONIALS ────────────────────────────────────────────
