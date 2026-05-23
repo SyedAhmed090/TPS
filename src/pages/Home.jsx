@@ -60,7 +60,7 @@ export default function Home() {
               <Link to="/products" className="btn-outline">View Products</Link>
             </div>
             <div className="hero-trust">
-              <div className="trust-item"><span className="trust-num">20+</span><span className="trust-label">Years in Business</span></div>
+              <div className="trust-item"><span className="trust-num">25+</span><span className="trust-label">Years in Business</span></div>
               <div className="trust-item"><span className="trust-num">100%</span><span className="trust-label">Satisfaction Guarantee</span></div>
               <div className="trust-item"><span className="trust-num">Free</span><span className="trust-label">Samples &amp; Quotes</span></div>
               <div className="trust-item"><span className="trust-num">Flat</span><span className="trust-label">Rate Shipping</span></div>
