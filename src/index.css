@@ -436,9 +436,12 @@ section { padding: 5.5rem 0; }
   /* Hide desktop auth on mobile — hamburger menu handles auth */
   .navbar__signin-link { display: none; }
   .navbar__user-area { display: none; }
+  /* Show mobile-only items when hamburger menu is active */
+  .navbar__mobile-only { display: block; }
 }
 
 .navbar__cta-mobile { display: none; }
+.navbar__mobile-only { display: none; }
 
 /* ============================================================
    HERO

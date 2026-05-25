@@ -265,7 +265,7 @@ export default function Navbar() {
         </li>
 
         {/* Mobile auth */}
-        <li style={{ borderTop: '1px solid rgba(255,255,255,0.08)', marginTop: '0.5rem', paddingTop: '0.5rem' }}>
+        <li className="navbar__mobile-only" style={{ borderTop: '1px solid rgba(255,255,255,0.08)', marginTop: '0.5rem', paddingTop: '0.5rem' }}>
           {user ? (
             <>
               <div style={{ fontFamily: 'var(--font-heading)', fontSize: '0.7rem', color: 'rgba(255,255,255,0.4)', letterSpacing: '0.1em', padding: '0.4rem 1.5rem', textTransform: 'uppercase' }}>{profile?.full_name || user.email}</div>
