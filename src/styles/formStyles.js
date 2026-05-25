@@ -22,3 +22,4 @@ export const labelStyle = {
 
 export const selectStyle = { ...inputStyle, cursor: 'pointer' }
 export const textareaStyle = { ...inputStyle, resize: 'vertical' }
+export const fieldErrorStyle = { fontSize: '0.72rem', color: '#c0392b', marginTop: '4px', display: 'block' }

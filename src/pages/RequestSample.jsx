@@ -3,8 +3,9 @@ import { Link } from 'react-router-dom'
 import Breadcrumb from '../components/Breadcrumb'
 import useReveal from '../hooks/useReveal'
 import useSEO from '../hooks/useSEO'
-import { inputStyle, labelStyle, selectStyle, textareaStyle } from '../styles/formStyles'
+import { inputStyle, labelStyle, selectStyle, textareaStyle, fieldErrorStyle } from '../styles/formStyles'
 import { useFormSubmit } from '../hooks/useFormSubmit'
+import { validateSampleForm } from '../utils/validation'
 
 const US_STATES = ['AL','AK','AZ','AR','CA','CO','CT','DE','FL','GA','HI','ID','IL','IN','IA','KS','KY','LA','ME','MD','MA','MI','MN','MS','MO','MT','NE','NV','NH','NJ','NM','NY','NC','ND','OH','OK','OR','PA','RI','SC','SD','TN','TX','UT','VT','VA','WA','WV','WI','WY','DC']
 
@@ -28,10 +29,13 @@ export default function RequestSample() {
   })
   const [patchTypes, setPatchTypes] = useState([])
   const [sent, setSent] = useState(false)
+  const [errors, setErrors] = useState({})
   const { submit, loading, submitError } = useFormSubmit('request-sample')
 
   function handleChange(e) {
-    setForm(f => ({ ...f, [e.target.name]: e.target.value }))
+    const { name, value } = e.target
+    setForm(f => ({ ...f, [name]: value }))
+    if (errors[name]) setErrors(prev => ({ ...prev, [name]: undefined }))
   }
 
   function togglePatchType(type) {
@@ -42,6 +46,8 @@ export default function RequestSample() {
 
   async function handleSubmit(e) {
     e.preventDefault()
+    const errs = validateSampleForm(form)
+    if (Object.keys(errs).length) { setErrors(errs); return }
     const ok = await submit({
       name: form.name,
       email: form.email,
@@ -87,8 +93,16 @@ export default function RequestSample() {
               <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
                 <h2 style={{ fontFamily: 'var(--font-display)', color: 'var(--navy)', fontSize: '1.8rem', letterSpacing: '0.04em', marginBottom: '0.25rem' }}>Your Contact Info</h2>
                 <div className="fq-grid">
-                  <div><label style={labelStyle}>Name *</label><input name="name" value={form.name} onChange={handleChange} required placeholder="Full name" style={inputStyle} /></div>
-                  <div><label style={labelStyle}>Email *</label><input name="email" type="email" value={form.email} onChange={handleChange} required placeholder="your@email.com" style={inputStyle} /></div>
+                  <div>
+                    <label style={labelStyle}>Name *</label>
+                    <input name="name" value={form.name} onChange={handleChange} placeholder="Full name" style={{ ...inputStyle, borderColor: errors.name ? '#c0392b' : undefined }} />
+                    {errors.name && <span style={fieldErrorStyle}>{errors.name}</span>}
+                  </div>
+                  <div>
+                    <label style={labelStyle}>Email *</label>
+                    <input name="email" type="email" value={form.email} onChange={handleChange} placeholder="your@email.com" style={{ ...inputStyle, borderColor: errors.email ? '#c0392b' : undefined }} />
+                    {errors.email && <span style={fieldErrorStyle}>{errors.email}</span>}
+                  </div>
                   <div><label style={labelStyle}>Phone</label><input name="phone" value={form.phone} onChange={handleChange} placeholder="Optional" style={inputStyle} /></div>
                   <div><label style={labelStyle}>Company / Org</label><input name="company" value={form.company} onChange={handleChange} placeholder="Optional" style={inputStyle} /></div>
                 </div>
@@ -96,23 +110,27 @@ export default function RequestSample() {
                 <h2 style={{ fontFamily: 'var(--font-display)', color: 'var(--navy)', fontSize: '1.8rem', letterSpacing: '0.04em', marginBottom: '0.25rem', marginTop: '0.5rem' }}>Shipping Address *</h2>
                 <div>
                   <label style={labelStyle}>Street Address</label>
-                  <input name="address" value={form.address} onChange={handleChange} required placeholder="123 Main St" style={inputStyle} />
+                  <input name="address" value={form.address} onChange={handleChange} placeholder="123 Main St" style={{ ...inputStyle, borderColor: errors.address ? '#c0392b' : undefined }} />
+                  {errors.address && <span style={fieldErrorStyle}>{errors.address}</span>}
                 </div>
                 <div className="fq-grid">
                   <div>
                     <label style={labelStyle}>City</label>
-                    <input name="city" value={form.city} onChange={handleChange} required placeholder="City" style={inputStyle} />
+                    <input name="city" value={form.city} onChange={handleChange} placeholder="City" style={{ ...inputStyle, borderColor: errors.city ? '#c0392b' : undefined }} />
+                    {errors.city && <span style={fieldErrorStyle}>{errors.city}</span>}
                   </div>
                   <div>
                     <label style={labelStyle}>State</label>
-                    <select name="state" value={form.state} onChange={handleChange} required style={selectStyle}>
+                    <select name="state" value={form.state} onChange={handleChange} style={{ ...selectStyle, borderColor: errors.state ? '#c0392b' : undefined }}>
                       <option value="">Select state...</option>
                       {US_STATES.map(s => <option key={s} value={s}>{s}</option>)}
                     </select>
+                    {errors.state && <span style={fieldErrorStyle}>{errors.state}</span>}
                   </div>
                   <div>
                     <label style={labelStyle}>ZIP Code</label>
-                    <input name="zip" value={form.zip} onChange={handleChange} required placeholder="12345" style={inputStyle} />
+                    <input name="zip" value={form.zip} onChange={handleChange} placeholder="12345" style={{ ...inputStyle, borderColor: errors.zip ? '#c0392b' : undefined }} />
+                    {errors.zip && <span style={fieldErrorStyle}>{errors.zip}</span>}
                   </div>
                 </div>
 

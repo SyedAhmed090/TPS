@@ -3,7 +3,8 @@ import Breadcrumb from '../../components/Breadcrumb'
 import useReveal from '../../hooks/useReveal'
 import useSEO from '../../hooks/useSEO'
 import { useFormSubmit } from '../../hooks/useFormSubmit'
-import { inputStyle, labelStyle, textareaStyle } from '../../styles/formStyles'
+import { inputStyle, labelStyle, textareaStyle, fieldErrorStyle } from '../../styles/formStyles'
+import { validateContactForm } from '../../utils/validation'
 
 const CONTACT_INFO = [
   { label: 'Email', value: 'info@thepatchsolutions.com', icon: '✉' },
@@ -16,15 +17,20 @@ export default function Contact() {
   useSEO('Contact Us', 'Contact The Patch Solutions for a free custom patch quote, samples, or any questions about your order.')
   const [form, setForm] = useState({ name: '', email: '', phone: '', subject: '', quantity: '', message: '' })
   const [sent, setSent] = useState(false)
+  const [errors, setErrors] = useState({})
   const { submit, loading, submitError } = useFormSubmit('submit-contact')
   useReveal()
 
   function handleChange(e) {
-    setForm(f => ({ ...f, [e.target.name]: e.target.value }))
+    const { name, value } = e.target
+    setForm(f => ({ ...f, [name]: value }))
+    if (errors[name]) setErrors(prev => ({ ...prev, [name]: undefined }))
   }
 
   async function handleSubmit(e) {
     e.preventDefault()
+    const errs = validateContactForm(form)
+    if (Object.keys(errs).length) { setErrors(errs); return }
     const ok = await submit({ name: form.name, email: form.email, phone: form.phone, subject: form.subject, message: form.message })
     if (ok) setSent(true)
   }
@@ -60,11 +66,13 @@ export default function Contact() {
                 <div className="fq-grid">
                   <div>
                     <label style={labelStyle}>Name *</label>
-                    <input name="name" value={form.name} onChange={handleChange} required placeholder="Your name" style={inputStyle} />
+                    <input name="name" value={form.name} onChange={handleChange} placeholder="Your name" style={{ ...inputStyle, borderColor: errors.name ? '#c0392b' : undefined }} />
+                    {errors.name && <span style={fieldErrorStyle}>{errors.name}</span>}
                   </div>
                   <div>
                     <label style={labelStyle}>Email *</label>
-                    <input name="email" type="email" value={form.email} onChange={handleChange} required placeholder="your@email.com" style={inputStyle} />
+                    <input name="email" type="email" value={form.email} onChange={handleChange} placeholder="your@email.com" style={{ ...inputStyle, borderColor: errors.email ? '#c0392b' : undefined }} />
+                    {errors.email && <span style={fieldErrorStyle}>{errors.email}</span>}
                   </div>
                 </div>
                 <div className="fq-grid">
@@ -83,7 +91,8 @@ export default function Contact() {
                 </div>
                 <div>
                   <label style={labelStyle}>Message *</label>
-                  <textarea name="message" value={form.message} onChange={handleChange} required rows={5} placeholder="Describe your patch project — type, size, backing, and any artwork details..." style={textareaStyle} />
+                  <textarea name="message" value={form.message} onChange={handleChange} rows={5} placeholder="Describe your patch project — type, size, backing, and any artwork details..." style={{ ...textareaStyle, borderColor: errors.message ? '#c0392b' : undefined }} />
+                  {errors.message && <span style={fieldErrorStyle}>{errors.message}</span>}
                 </div>
                 <div>
                   <button type="submit" className="btn-primary" disabled={loading} style={{ alignSelf: 'flex-start', opacity: loading ? 0.7 : 1, cursor: loading ? 'not-allowed' : 'pointer' }}>
