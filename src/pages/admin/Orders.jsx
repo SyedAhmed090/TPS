@@ -30,6 +30,8 @@ export default function Orders() {
   const [total, setTotal] = useState(0)
   const [updatingId, setUpdatingId] = useState(null)
   const [trackingEdit, setTrackingEdit] = useState({})
+  const [carrierEdit, setCarrierEdit] = useState({})
+  const [emailSent, setEmailSent] = useState({})
 
   useEffect(() => { setPage(0) }, [search, statusFilter])
   useEffect(() => { fetchData() }, [search, statusFilter, page])
@@ -48,17 +50,36 @@ export default function Orders() {
 
   async function updateStatus(id, status) {
     setUpdatingId(id)
-    await supabase.from('orders').update({ status }).eq('id', id)
-    setRows(prev => prev.map(r => r.id === id ? { ...r, status } : r))
+    const { data, error } = await supabase.functions.invoke('update-order-status', {
+      body: { order_id: id, status },
+    })
+    if (!error && data?.success) {
+      setRows(prev => prev.map(r => r.id === id ? { ...r, status } : r))
+      if (['in_production', 'shipped', 'delivered'].includes(status)) {
+        setEmailSent(prev => ({ ...prev, [id]: status }))
+        setTimeout(() => setEmailSent(prev => { const n = { ...prev }; delete n[id]; return n }), 4000)
+      }
+    }
     setUpdatingId(null)
   }
 
   async function saveTracking(id) {
     const tracking = trackingEdit[id]
+    const carrier  = carrierEdit[id]
     if (tracking === undefined) return
-    await supabase.from('orders').update({ tracking_number: tracking }).eq('id', id)
-    setRows(prev => prev.map(r => r.id === id ? { ...r, tracking_number: tracking } : r))
-    setTrackingEdit(prev => { const n = { ...prev }; delete n[id]; return n })
+    const currentRow = rows.find(r => r.id === id)
+    const { data, error } = await supabase.functions.invoke('update-order-status', {
+      body: { order_id: id, status: currentRow?.status || 'shipped', tracking_number: tracking, carrier: carrier || currentRow?.carrier },
+    })
+    if (!error && data?.success) {
+      setRows(prev => prev.map(r => r.id === id ? { ...r, tracking_number: tracking, carrier: carrier || r.carrier } : r))
+      setTrackingEdit(prev => { const n = { ...prev }; delete n[id]; return n })
+      setCarrierEdit(prev => { const n = { ...prev }; delete n[id]; return n })
+      if (currentRow?.status === 'shipped') {
+        setEmailSent(prev => ({ ...prev, [id]: 'tracking_updated' }))
+        setTimeout(() => setEmailSent(prev => { const n = { ...prev }; delete n[id]; return n }), 4000)
+      }
+    }
   }
 
   const totalPages = Math.ceil(total / PAGE_SIZE)
@@ -124,31 +145,46 @@ export default function Orders() {
                   <td style={tdStyle}>{o.total ? `$${Number(o.total).toFixed(2)}` : '—'}</td>
                   <td style={tdStyle}><StatusBadge status={o.status} /></td>
                   <td style={tdStyle}>
-                    <div style={{ display: 'flex', gap: '0.35rem', alignItems: 'center' }}>
-                      <input
-                        type="text"
-                        value={trackingEdit[o.id] !== undefined ? trackingEdit[o.id] : (o.tracking_number || '')}
-                        onChange={e => setTrackingEdit(prev => ({ ...prev, [o.id]: e.target.value }))}
-                        placeholder="Tracking #"
-                        style={{ width: 110, background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(200,147,26,0.2)', color: '#fff', padding: '0.3rem 0.5rem', fontSize: '0.75rem', outline: 'none' }}
-                      />
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.3rem' }}>
+                      <div style={{ display: 'flex', gap: '0.35rem', alignItems: 'center' }}>
+                        <input
+                          type="text"
+                          value={trackingEdit[o.id] !== undefined ? trackingEdit[o.id] : (o.tracking_number || '')}
+                          onChange={e => setTrackingEdit(prev => ({ ...prev, [o.id]: e.target.value }))}
+                          placeholder="Tracking #"
+                          style={{ width: 100, background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(200,147,26,0.2)', color: '#fff', padding: '0.3rem 0.5rem', fontSize: '0.75rem', outline: 'none' }}
+                        />
+                        <select
+                          value={carrierEdit[o.id] !== undefined ? carrierEdit[o.id] : (o.carrier || '')}
+                          onChange={e => setCarrierEdit(prev => ({ ...prev, [o.id]: e.target.value }))}
+                          style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(200,147,26,0.2)', color: '#fff', padding: '0.3rem 0.4rem', fontSize: '0.7rem', outline: 'none', cursor: 'pointer' }}
+                        >
+                          <option value="">Carrier</option>
+                          {['UPS','FedEx','USPS','DHL'].map(c => <option key={c} value={c}>{c}</option>)}
+                        </select>
+                      </div>
                       {trackingEdit[o.id] !== undefined && (
                         <button onClick={() => saveTracking(o.id)}
-                          style={{ padding: '0.3rem 0.5rem', background: 'var(--gold)', border: 'none', color: 'var(--navy)', fontFamily: 'var(--font-heading)', fontSize: '0.6rem', cursor: 'pointer' }}>
-                          Save
+                          style={{ padding: '0.25rem 0.5rem', background: 'var(--gold)', border: 'none', color: 'var(--navy)', fontFamily: 'var(--font-heading)', fontSize: '0.6rem', cursor: 'pointer', alignSelf: 'flex-start' }}>
+                          Save &amp; Notify
                         </button>
                       )}
                     </div>
                   </td>
                   <td style={tdStyle}>
-                    <select
-                      value={o.status || ''}
-                      disabled={updatingId === o.id}
-                      onChange={e => updateStatus(o.id, e.target.value)}
-                      style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(200,147,26,0.2)', color: '#fff', padding: '0.3rem 0.5rem', fontSize: '0.75rem', fontFamily: 'var(--font-heading)', cursor: 'pointer', outline: 'none' }}
-                    >
-                      {STATUS_OPTIONS.map(s => <option key={s} value={s}>{s.replace(/_/g, ' ')}</option>)}
-                    </select>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.3rem', alignItems: 'flex-start' }}>
+                      <select
+                        value={o.status || ''}
+                        disabled={updatingId === o.id}
+                        onChange={e => updateStatus(o.id, e.target.value)}
+                        style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(200,147,26,0.2)', color: '#fff', padding: '0.3rem 0.5rem', fontSize: '0.75rem', fontFamily: 'var(--font-heading)', cursor: 'pointer', outline: 'none' }}
+                      >
+                        {STATUS_OPTIONS.map(s => <option key={s} value={s}>{s.replace(/_/g, ' ')}</option>)}
+                      </select>
+                      {emailSent[o.id] && (
+                        <span style={{ fontSize: '0.65rem', color: '#10b981', fontFamily: 'var(--font-heading)', letterSpacing: '0.05em' }}>✓ Email sent</span>
+                      )}
+                    </div>
                   </td>
                 </tr>
               ))}
