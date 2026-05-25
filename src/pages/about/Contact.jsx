@@ -3,6 +3,7 @@ import Breadcrumb from '../../components/Breadcrumb'
 import useReveal from '../../hooks/useReveal'
 import useSEO from '../../hooks/useSEO'
 import { supabase } from '../../lib/supabase'
+import { inputStyle, labelStyle, textareaStyle } from '../../styles/formStyles'
 
 const CONTACT_INFO = [
   { label: 'Email', value: 'info@thepatchsolutions.com', icon: '✉' },
@@ -73,37 +74,31 @@ export default function Contact() {
               <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
                 <div className="fq-grid">
                   <div>
-                    <label style={{ display: 'block', fontFamily: 'var(--font-heading)', fontSize: '0.75rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--navy)', marginBottom: '6px' }}>Name *</label>
-                    <input name="name" value={form.name} onChange={handleChange} required placeholder="Your name"
-                      style={{ width: '100%', padding: '10px 14px', border: '1px solid rgba(11,26,46,0.2)', background: 'var(--white)', fontFamily: 'var(--font-body)', fontSize: '0.9rem', outline: 'none' }} />
+                    <label style={labelStyle}>Name *</label>
+                    <input name="name" value={form.name} onChange={handleChange} required placeholder="Your name" style={inputStyle} />
                   </div>
                   <div>
-                    <label style={{ display: 'block', fontFamily: 'var(--font-heading)', fontSize: '0.75rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--navy)', marginBottom: '6px' }}>Email *</label>
-                    <input name="email" type="email" value={form.email} onChange={handleChange} required placeholder="your@email.com"
-                      style={{ width: '100%', padding: '10px 14px', border: '1px solid rgba(11,26,46,0.2)', background: 'var(--white)', fontFamily: 'var(--font-body)', fontSize: '0.9rem', outline: 'none' }} />
+                    <label style={labelStyle}>Email *</label>
+                    <input name="email" type="email" value={form.email} onChange={handleChange} required placeholder="your@email.com" style={inputStyle} />
                   </div>
                 </div>
                 <div className="fq-grid">
                   <div>
-                    <label style={{ display: 'block', fontFamily: 'var(--font-heading)', fontSize: '0.75rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--navy)', marginBottom: '6px' }}>Phone</label>
-                    <input name="phone" value={form.phone} onChange={handleChange} placeholder="(optional)"
-                      style={{ width: '100%', padding: '10px 14px', border: '1px solid rgba(11,26,46,0.2)', background: 'var(--white)', fontFamily: 'var(--font-body)', fontSize: '0.9rem', outline: 'none' }} />
+                    <label style={labelStyle}>Phone</label>
+                    <input name="phone" value={form.phone} onChange={handleChange} placeholder="(optional)" style={inputStyle} />
                   </div>
                   <div>
-                    <label style={{ display: 'block', fontFamily: 'var(--font-heading)', fontSize: '0.75rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--navy)', marginBottom: '6px' }}>Quantity</label>
-                    <input name="quantity" value={form.quantity} onChange={handleChange} placeholder="e.g. 100 patches"
-                      style={{ width: '100%', padding: '10px 14px', border: '1px solid rgba(11,26,46,0.2)', background: 'var(--white)', fontFamily: 'var(--font-body)', fontSize: '0.9rem', outline: 'none' }} />
+                    <label style={labelStyle}>Quantity</label>
+                    <input name="quantity" value={form.quantity} onChange={handleChange} placeholder="e.g. 100 patches" style={inputStyle} />
                   </div>
                 </div>
                 <div>
-                  <label style={{ display: 'block', fontFamily: 'var(--font-heading)', fontSize: '0.75rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--navy)', marginBottom: '6px' }}>Subject</label>
-                  <input name="subject" value={form.subject} onChange={handleChange} placeholder="e.g. Embroidered patches quote"
-                    style={{ width: '100%', padding: '10px 14px', border: '1px solid rgba(11,26,46,0.2)', background: 'var(--white)', fontFamily: 'var(--font-body)', fontSize: '0.9rem', outline: 'none' }} />
+                  <label style={labelStyle}>Subject</label>
+                  <input name="subject" value={form.subject} onChange={handleChange} placeholder="e.g. Embroidered patches quote" style={inputStyle} />
                 </div>
                 <div>
-                  <label style={{ display: 'block', fontFamily: 'var(--font-heading)', fontSize: '0.75rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--navy)', marginBottom: '6px' }}>Message *</label>
-                  <textarea name="message" value={form.message} onChange={handleChange} required rows={5} placeholder="Describe your patch project — type, size, backing, and any artwork details..."
-                    style={{ width: '100%', padding: '10px 14px', border: '1px solid rgba(11,26,46,0.2)', background: 'var(--white)', fontFamily: 'var(--font-body)', fontSize: '0.9rem', outline: 'none', resize: 'vertical' }} />
+                  <label style={labelStyle}>Message *</label>
+                  <textarea name="message" value={form.message} onChange={handleChange} required rows={5} placeholder="Describe your patch project — type, size, backing, and any artwork details..." style={textareaStyle} />
                 </div>
                 <div>
                   <button type="submit" className="btn-primary" disabled={loading} style={{ alignSelf: 'flex-start', opacity: loading ? 0.7 : 1, cursor: loading ? 'not-allowed' : 'pointer' }}>

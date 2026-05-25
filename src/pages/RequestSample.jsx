@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import Breadcrumb from '../components/Breadcrumb'
 import useReveal from '../hooks/useReveal'
 import useSEO from '../hooks/useSEO'
+import { inputStyle, labelStyle, selectStyle, textareaStyle } from '../styles/formStyles'
 import { supabase } from '../lib/supabase'
 
 const US_STATES = ['AL','AK','AZ','AR','CA','CO','CT','DE','FL','GA','HI','ID','IL','IN','IA','KS','KY','LA','ME','MD','MA','MI','MN','MS','MO','MT','NE','NV','NH','NJ','NM','NY','NC','ND','OH','OK','OR','PA','RI','SC','SD','TN','TX','UT','VT','VA','WA','WV','WI','WY','DC']
@@ -72,27 +73,6 @@ export default function RequestSample() {
     }
   }
 
-  const inputStyle = {
-    width: '100%', padding: '11px 14px',
-    border: '1px solid rgba(11,26,46,0.2)',
-    background: 'var(--white)',
-    fontFamily: 'var(--font-body)',
-    fontSize: '0.9rem',
-    outline: 'none',
-    color: 'var(--text-dark)',
-    boxSizing: 'border-box',
-  }
-
-  const labelStyle = {
-    display: 'block',
-    fontFamily: 'var(--font-heading)',
-    fontSize: '0.72rem',
-    letterSpacing: '0.15em',
-    textTransform: 'uppercase',
-    color: 'var(--navy)',
-    marginBottom: '6px',
-  }
-
   return (
     <>
       <Breadcrumb items={[
@@ -140,7 +120,7 @@ export default function RequestSample() {
                   </div>
                   <div>
                     <label style={labelStyle}>State</label>
-                    <select name="state" value={form.state} onChange={handleChange} required style={{ ...inputStyle, cursor: 'pointer' }}>
+                    <select name="state" value={form.state} onChange={handleChange} required style={selectStyle}>
                       <option value="">Select state...</option>
                       {US_STATES.map(s => <option key={s} value={s}>{s}</option>)}
                     </select>
@@ -184,7 +164,7 @@ export default function RequestSample() {
                   <label style={labelStyle}>Additional Notes <span style={{ fontWeight: 400, textTransform: 'none', letterSpacing: 0, color: 'var(--gray-mid)', fontSize: '0.8rem' }}>(optional)</span></label>
                   <textarea name="notes" value={form.notes} onChange={handleChange} rows={3}
                     placeholder="Tell us about your project — type, size, quantity, intended use..."
-                    style={{ ...inputStyle, resize: 'vertical' }} />
+                    style={textareaStyle} />
                 </div>
 
                 {submitError && <p style={{ color: '#c0392b', fontSize: '0.85rem', margin: 0 }}>{submitError}</p>}

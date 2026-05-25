@@ -5,6 +5,7 @@ import useReveal from '../hooks/useReveal'
 import useSEO from '../hooks/useSEO'
 import { supabase } from '../lib/supabase'
 import { useAuth } from '../contexts/AuthContext'
+import { inputStyle, labelStyle, selectStyle, textareaStyle } from '../styles/formStyles'
 
 const PATCH_TYPES = ['Embroidered', 'Woven', 'PVC', 'Dye Sublimation', 'Felt', 'Leather', 'Chenille', 'Blank', 'Bullion Crest', 'Combination', 'Not Sure']
 const BACKING_OPTIONS = ['Iron-On (Heat Seal)', 'Sew-On (Unbacked)', 'Hook & Loop (Velcro)', 'Pin Back', 'Magnetic', 'Self-Stick', 'Not Sure']
@@ -73,26 +74,6 @@ export default function FreeQuote() {
     }
   }
 
-  const inputStyle = {
-    width: '100%', padding: '11px 14px',
-    border: '1px solid rgba(11,26,46,0.2)',
-    background: 'var(--white)',
-    fontFamily: 'var(--font-body)',
-    fontSize: '0.9rem',
-    outline: 'none',
-    color: 'var(--text-dark)',
-  }
-
-  const labelStyle = {
-    display: 'block',
-    fontFamily: 'var(--font-heading)',
-    fontSize: '0.72rem',
-    letterSpacing: '0.15em',
-    textTransform: 'uppercase',
-    color: 'var(--navy)',
-    marginBottom: '6px',
-  }
-
   return (
     <>
       <Breadcrumb items={[
@@ -138,21 +119,21 @@ export default function FreeQuote() {
                 <div className="fq-grid">
                   <div>
                     <label style={labelStyle}>Patch Type *</label>
-                    <select name="patchType" value={form.patchType} onChange={handleChange} required style={{ ...inputStyle, cursor: 'pointer' }}>
+                    <select name="patchType" value={form.patchType} onChange={handleChange} required style={selectStyle}>
                       <option value="">Select type...</option>
                       {PATCH_TYPES.map(t => <option key={t} value={t}>{t}</option>)}
                     </select>
                   </div>
                   <div>
                     <label style={labelStyle}>Backing Type</label>
-                    <select name="backing" value={form.backing} onChange={handleChange} style={{ ...inputStyle, cursor: 'pointer' }}>
+                    <select name="backing" value={form.backing} onChange={handleChange} style={selectStyle}>
                       <option value="">Select backing...</option>
                       {BACKING_OPTIONS.map(b => <option key={b} value={b}>{b}</option>)}
                     </select>
                   </div>
                   <div>
                     <label style={labelStyle}>Quantity *</label>
-                    <select name="quantity" value={form.quantity} onChange={handleChange} required style={{ ...inputStyle, cursor: 'pointer' }}>
+                    <select name="quantity" value={form.quantity} onChange={handleChange} required style={selectStyle}>
                       <option value="">Select range...</option>
                       {QTY_RANGES.map(q => <option key={q} value={q}>{q} pieces</option>)}
                     </select>
@@ -171,7 +152,7 @@ export default function FreeQuote() {
                   <label style={labelStyle}>Design Description / Additional Notes</label>
                   <textarea name="message" value={form.message} onChange={handleChange} rows={5}
                     placeholder="Describe your design, colors, intended use, and any other details. You can email artwork separately to info@thepatchsolutions.com"
-                    style={{ ...inputStyle, resize: 'vertical' }} />
+                    style={textareaStyle} />
                 </div>
 
                 <div>
