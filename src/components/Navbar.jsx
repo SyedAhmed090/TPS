@@ -77,6 +77,7 @@ export default function Navbar() {
   const [open, setOpen] = useState(false)
   const [expanded, setExpanded] = useState(null)
   const [userMenuOpen, setUserMenuOpen] = useState(false)
+  const [dropdownRight, setDropdownRight] = useState(0)
   const userMenuRef = useRef(null)
   const location = useLocation()
   const { user, profile, signOut: authSignOut } = useAuth()
@@ -270,12 +271,22 @@ export default function Navbar() {
 
       {/* Desktop auth */}
       {user ? (
-        <div style={{ position: 'relative', alignSelf: 'stretch', display: 'flex', alignItems: 'center' }} ref={userMenuRef}>
-          <button className="navbar__user-btn" onClick={() => setUserMenuOpen(v => !v)} aria-label="Account menu">
+        <div style={{ position: 'relative' }} ref={userMenuRef}>
+          <button
+            className="navbar__user-btn"
+            onClick={() => {
+              if (userMenuRef.current) {
+                const rect = userMenuRef.current.getBoundingClientRect()
+                setDropdownRight(window.innerWidth - rect.right)
+              }
+              setUserMenuOpen(v => !v)
+            }}
+            aria-label="Account menu"
+          >
             {getInitials()}
           </button>
           {userMenuOpen && (
-            <div className="navbar__user-dropdown">
+            <div className="navbar__user-dropdown" style={{ position: 'fixed', top: 'var(--nav-height)', right: dropdownRight }}>
               <div className="navbar__user-dropdown__header">
                 <div className="navbar__user-dropdown__name">{profile?.full_name || 'My Account'}</div>
                 <div className="navbar__user-dropdown__email">{user.email}</div>

@@ -2306,7 +2306,7 @@ footer {
 /* ── Navbar Auth ────────────────────────────── */
 .navbar__user-btn { width: 34px; height: 34px; border-radius: 50%; background: var(--gold); color: var(--navy); font-family: var(--font-heading); font-size: 0.85rem; font-weight: 700; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s; flex-shrink: 0; }
 .navbar__user-btn:hover { background: var(--gold-light); }
-.navbar__user-dropdown { position: absolute; top: calc(100% + 8px); right: 0; background: var(--navy-mid); border: 1px solid rgba(200,147,26,0.2); min-width: 200px; z-index: 150; box-shadow: 0 8px 32px rgba(0,0,0,0.3); }
+.navbar__user-dropdown { background: var(--navy-mid); border: 1px solid rgba(200,147,26,0.2); min-width: 200px; z-index: 9999; box-shadow: 0 8px 32px rgba(0,0,0,0.3); }
 .navbar__user-dropdown__header { padding: 0.9rem 1rem; border-bottom: 1px solid rgba(200,147,26,0.15); }
 .navbar__user-dropdown__name { font-family: var(--font-heading); font-size: 0.9rem; font-weight: 700; color: var(--white); letter-spacing: 0.04em; }
 .navbar__user-dropdown__email { font-size: 0.75rem; color: rgba(255,255,255,0.4); margin-top: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
