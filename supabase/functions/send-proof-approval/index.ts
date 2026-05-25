@@ -18,10 +18,25 @@ Deno.serve(async (req: Request) => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: corsHeaders })
 
   try {
+    // Verify caller is an authenticated admin
     const authHeader = req.headers.get('authorization')
-    if (!authHeader) {
+    if (!authHeader?.startsWith('Bearer ')) {
       return new Response(JSON.stringify({ error: 'Unauthorized' }), {
         status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      })
+    }
+    const token = authHeader.substring(7)
+    const { data: { user }, error: authError } = await supabaseAdmin.auth.getUser(token)
+    if (authError || !user) {
+      return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+        status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      })
+    }
+    const { data: adminRow } = await supabaseAdmin
+      .from('admin_users').select('id').eq('auth_user_id', user.id).maybeSingle()
+    if (!adminRow) {
+      return new Response(JSON.stringify({ error: 'Forbidden' }), {
+        status: 403, headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       })
     }
 
@@ -33,9 +48,10 @@ Deno.serve(async (req: Request) => {
       })
     }
 
+    // Only set proof_url — proof_approved_at is set when the customer approves, not here
     const { error: updateError } = await supabaseAdmin
       .from('orders')
-      .update({ proof_url, proof_approved: false })
+      .update({ proof_url })
       .eq('id', order_id)
 
     if (updateError) {
@@ -51,12 +67,14 @@ Deno.serve(async (req: Request) => {
       siteUrl: SITE_URL,
     })
 
-    const result = await sendEmail(customer_email, 'Your Design Proof Is Ready — The Patch Solutions', tpl.html, tpl.text)
+    const subject = 'Your Design Proof Is Ready — The Patch Solutions'
+    const result = await sendEmail(customer_email, subject, tpl.html, tpl.text)
 
     await supabaseAdmin.from('email_logs').insert({
-      to_email: customer_email, subject: 'Your Design Proof Is Ready — The Patch Solutions',
+      to_email: customer_email, subject,
       template: 'proof_approval', status: result.ok ? 'sent' : 'failed',
-      resend_id: result.data?.id ?? null, error: result.ok ? null : JSON.stringify(result.data),
+      resend_id: result.data?.id ?? null,
+      error_message: result.ok ? null : JSON.stringify(result.data),
     })
 
     return new Response(JSON.stringify({ success: true }), {

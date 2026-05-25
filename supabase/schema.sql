@@ -523,3 +523,80 @@ $$ LANGUAGE plpgsql SECURITY DEFINER;
 CREATE OR REPLACE TRIGGER on_auth_user_created
   AFTER INSERT ON auth.users
   FOR EACH ROW EXECUTE FUNCTION handle_new_user();
+
+-- ============================================================
+-- MIGRATION 001 — Run this block if schema was already applied
+-- Fixes column mismatches found between edge functions & schema
+-- ============================================================
+
+-- 1. quotes: add auth_user_id so logged-in quotes appear in "My Quotes"
+ALTER TABLE quotes
+  ADD COLUMN IF NOT EXISTS auth_user_id uuid REFERENCES auth.users(id) ON DELETE SET NULL;
+
+-- 2. quotes: add quantity_range text (the form sends "25–49" not an integer)
+--    and make quantity nullable so range-only submissions don't fail
+ALTER TABLE quotes
+  ADD COLUMN IF NOT EXISTS quantity_range text;
+ALTER TABLE quotes
+  ALTER COLUMN quantity DROP NOT NULL;
+
+-- 3. quotes: allow customers to see their own quotes
+DROP POLICY IF EXISTS "quotes_select_admin" ON quotes;
+CREATE POLICY "quotes_select_own_or_admin"
+  ON quotes FOR SELECT TO authenticated
+  USING (auth_user_id = auth.uid() OR is_admin());
+
+-- 4. quotes: index for customer account queries
+CREATE INDEX IF NOT EXISTS idx_quotes_auth_user_id ON quotes(auth_user_id);
+
+-- 5. orders: add human-readable order_number column
+ALTER TABLE orders
+  ADD COLUMN IF NOT EXISTS order_number text;
+
+-- Auto-generate order_number on insert (e.g. TPS-2025-0001)
+CREATE SEQUENCE IF NOT EXISTS tps_order_seq START 1;
+
+CREATE OR REPLACE FUNCTION generate_order_number()
+RETURNS TRIGGER AS $$
+BEGIN
+  IF NEW.order_number IS NULL THEN
+    NEW.order_number := 'TPS-' || TO_CHAR(NOW(), 'YYYY') || '-' || LPAD(nextval('tps_order_seq')::text, 4, '0');
+  END IF;
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE TRIGGER set_order_number
+  BEFORE INSERT ON orders
+  FOR EACH ROW
+  EXECUTE FUNCTION generate_order_number();
+
+-- 6. orders: add auth_user_id for direct customer ownership queries
+ALTER TABLE orders
+  ADD COLUMN IF NOT EXISTS auth_user_id uuid REFERENCES auth.users(id) ON DELETE SET NULL;
+
+CREATE INDEX IF NOT EXISTS idx_orders_auth_user_id ON orders(auth_user_id);
+
+-- Update orders RLS: allow customers to see their own orders by auth_user_id too
+DROP POLICY IF EXISTS "orders_select_own" ON orders;
+CREATE POLICY "orders_select_own"
+  ON orders FOR SELECT TO authenticated
+  USING (
+    auth_user_id = auth.uid()
+    OR customer_id IN (SELECT id FROM customers WHERE auth_user_id = auth.uid())
+    OR is_admin()
+  );
+
+-- 7. orders: approve-proof should be customer-owned action
+CREATE POLICY "orders_approve_proof_own"
+  ON orders FOR UPDATE TO authenticated
+  USING (auth_user_id = auth.uid() OR customer_id IN (SELECT id FROM customers WHERE auth_user_id = auth.uid()))
+  WITH CHECK (true);
+
+-- 8. sample_requests: add country column (was in function insert but missing from schema)
+ALTER TABLE sample_requests
+  ADD COLUMN IF NOT EXISTS country text DEFAULT 'US';
+
+-- 9. sample_requests: add auth_user_id for logged-in customers
+ALTER TABLE sample_requests
+  ADD COLUMN IF NOT EXISTS auth_user_id uuid REFERENCES auth.users(id) ON DELETE SET NULL;
