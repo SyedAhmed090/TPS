@@ -433,6 +433,9 @@ section { padding: 5.5rem 0; }
 
   .navbar__cta { display: none; }
   .navbar__hamburger { display: flex; }
+  /* Hide desktop auth on mobile — hamburger menu handles auth */
+  .navbar__signin-link { display: none; }
+  .navbar__user-area { display: none; }
 }
 
 .navbar__cta-mobile { display: none; }
@@ -1438,6 +1441,45 @@ footer {
   .hero-trust   { gap: 1.2rem; }
   .gallery-grid { grid-template-columns: 1fr; }
   .footer-bottom { flex-direction: column; text-align: center; }
+
+  /* ── Topbar hidden on mobile: fix navbar/main offsets ──────── */
+  .navbar { top: 0; }
+  .navbar__links { top: var(--nav-height); }
+  main { padding-top: var(--nav-height); }
+
+  /* ── Hero improvements ─────────────────────────────────────── */
+  .hero-btns { flex-direction: column; align-items: stretch; gap: 0.75rem; }
+  .hero-btns .btn-primary,
+  .hero-btns .btn-outline { text-align: center; justify-content: center; }
+  .hero-trust { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .trust-item { border-left: none; padding-left: 0; border-top: 1px solid rgba(200,147,26,0.18); padding-top: 0.75rem; }
+  .trust-item:first-child,
+  .trust-item:nth-child(2) { border-top: none; padding-top: 0; }
+
+  /* ── Guarantee / CTA ───────────────────────────────────────── */
+  .guarantee-inner { gap: 1.5rem; }
+  .cta-perks { flex-direction: column; align-items: center; gap: 0.6rem; }
+
+  /* ── Pricing table: horizontal scroll ─────────────────────── */
+  .pricing-table { display: block; width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; white-space: nowrap; }
+  .pricing-factors { grid-template-columns: 1fr; }
+
+  /* ── Forms & cards ─────────────────────────────────────────── */
+  .quote-form { padding: 1.2rem; }
+  .modal-panel { padding: 1.2rem; }
+  .contact-layout { gap: 2rem; }
+
+  /* ── Account ───────────────────────────────────────────────── */
+  .account-header__inner { flex-direction: column; align-items: flex-start; gap: 1rem; }
+  .quote-row, .order-row { flex-direction: column; align-items: flex-start; }
+  .reorder-banner { flex-direction: column; }
+
+  /* ── Page hero ─────────────────────────────────────────────── */
+  .page-hero { padding: 56px 0 48px; }
+  .page-hero h1 { font-size: clamp(2rem, 10vw, 2.8rem); }
+
+  /* ── Detail layout ─────────────────────────────────────────── */
+  .detail-layout { gap: 2rem; }
 }
 
 @media (max-width: 400px) {
@@ -2344,3 +2386,103 @@ footer {
 .navbar__user-dropdown .signout-btn { color: rgba(255,100,100,0.7); border-top: 1px solid rgba(200,147,26,0.1); margin-top: 4px; }
 .navbar__signin-link { font-family: var(--font-heading); font-size: 0.78rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.55); text-decoration: none; padding: 0 0.8rem; transition: color 0.2s; white-space: nowrap; }
 .navbar__signin-link:hover { color: var(--gold); }
+
+/* ============================================================
+   PATCH CALCULATOR — RESPONSIVE
+   ============================================================ */
+.patch-calc-card { max-width: 860px; margin: 0 auto; }
+
+@media (max-width: 640px) {
+  .patch-calc-body { padding: 1.2rem 1rem !important; }
+  .patch-calc-header { padding: 1.1rem 1rem !important; }
+}
+
+/* ============================================================
+   ADMIN LAYOUT — MOBILE
+   ============================================================ */
+.admin-sidebar {
+  width: 220px;
+  min-width: 220px;
+  background: var(--navy);
+  border-right: 1px solid rgba(200,147,26,0.15);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  transition: left 0.25s ease;
+}
+
+.admin-topbar {
+  display: none;
+  align-items: center;
+  gap: 0.75rem;
+  background: var(--navy);
+  padding: 0.75rem 1.2rem;
+  border-bottom: 1px solid rgba(200,147,26,0.15);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.admin-topbar__hamburger {
+  background: none;
+  border: 1px solid rgba(200,147,26,0.3);
+  color: rgba(255,255,255,0.7);
+  padding: 0.4rem 0.6rem;
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.admin-topbar__hamburger:hover { border-color: var(--gold); color: var(--gold); }
+
+.admin-topbar__title {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  color: var(--gold);
+  letter-spacing: 0.05em;
+  flex: 1;
+}
+
+.admin-sidebar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  z-index: 199;
+}
+
+@media (max-width: 900px) {
+  .admin-topbar { display: flex; }
+
+  .admin-sidebar {
+    position: fixed !important;
+    top: 0 !important;
+    left: -240px !important;
+    bottom: 0 !important;
+    z-index: 200 !important;
+    overflow-y: auto;
+    box-shadow: 4px 0 24px rgba(0,0,0,0.5);
+  }
+
+  .admin-sidebar--open { left: 0 !important; }
+
+  .admin-sidebar-overlay { display: block; }
+
+  .admin-main { padding: 1rem !important; }
+}
+
+/* ============================================================
+   RESPONSIVE UTILITIES
+   ============================================================ */
+.table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+@media (max-width: 760px) {
+  .pricing-factors { grid-template-columns: 1fr; }
+  .about-story { grid-template-columns: 1fr; gap: 2rem; }
+}
+
+@media (max-width: 599px) {
+  nav.navbar { top: 0 !important; }
+}

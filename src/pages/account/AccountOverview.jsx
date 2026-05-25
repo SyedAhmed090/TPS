@@ -48,7 +48,7 @@ export default function AccountOverview() {
   return (
     <div>
       {/* Stat cards */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1rem', marginBottom: '2.5rem' }}>
+      <div className="stats-grid" style={{ marginBottom: '2.5rem' }}>
         {[
           { num: quotes.length, label: 'Total Quotes' },
           { num: activeOrders, label: 'Active Orders' },
@@ -109,7 +109,7 @@ export default function AccountOverview() {
       {/* Quick Actions */}
       <div className="account-section">
         <div className="account-section__title">Quick Actions</div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '0.75rem' }}>
+        <div className="included-grid" style={{ gap: '0.75rem', margin: 0 }}>
           {QUICK.map(q => (
             <Link key={q.to} to={q.to} style={{ background: 'var(--white)', border: '1px solid rgba(11,26,46,0.08)', padding: '1.1rem', textAlign: 'center', textDecoration: 'none', transition: 'box-shadow 0.2s' }}
               onMouseEnter={e => e.currentTarget.style.boxShadow = '0 4px 16px rgba(11,26,46,0.08)'}

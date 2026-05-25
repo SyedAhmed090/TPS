@@ -285,7 +285,7 @@ export default function Navbar() {
 
       {/* Desktop auth */}
       {user ? (
-        <div ref={userMenuRef}>
+        <div ref={userMenuRef} className="navbar__user-area">
           <button className="navbar__user-btn" onClick={openUserMenu} aria-label="Account menu">
             {getInitials()}
           </button>

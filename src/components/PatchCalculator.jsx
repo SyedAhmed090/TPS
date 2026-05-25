@@ -376,14 +376,14 @@ export default function PatchCalculator() {
   }
 
   return (
-    <div style={S.card}>
+    <div style={S.card} className="patch-calc-card">
       {/* Header */}
-      <div style={S.header}>
+      <div style={S.header} className="patch-calc-header">
         <div style={S.headerTitle}>Patch Price Calculator</div>
         <div style={S.headerSub}>The Patch Solutions · Instant Estimate</div>
       </div>
 
-      <div style={S.body}>
+      <div style={S.body} className="patch-calc-body">
         {/* Step 1 — Patch Type */}
         <div style={S.row}>
           <span style={S.sectionLabel}>Step 1</span>
