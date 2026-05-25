@@ -11,6 +11,10 @@ export default function Footer() {
               <img src={logo} alt="The Patch Solutions" />
             </Link>
             <p>Custom patches of every type — designed, produced, and delivered with pride since 2000. Trusted by military units, clubs, teams, and organizations across the United States.</p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem', margin: '1rem 0' }}>
+              <a href="tel:+18005555555" style={{ color: 'var(--gold)', fontFamily: 'var(--font-heading)', fontSize: '0.82rem', letterSpacing: '0.06em', textDecoration: 'none' }}>📞 1-800-555-5555</a>
+              <a href="mailto:info@thepatchsolutions.com" style={{ color: 'rgba(255,255,255,0.6)', fontFamily: 'var(--font-heading)', fontSize: '0.78rem', letterSpacing: '0.04em', textDecoration: 'none' }}>✉ info@thepatchsolutions.com</a>
+            </div>
             <p className="footer-since">© {new Date().getFullYear()} The Patch Solutions · USA</p>
           </div>
 
@@ -43,7 +47,7 @@ export default function Footer() {
               <li><Link to="/pricing">Pricing</Link></li>
               <li><Link to="/rush-order">Rush Order</Link></li>
               <li><Link to="/contact">Free Quote</Link></li>
-              <li><Link to="/contact">Free Samples</Link></li>
+              <li><Link to="/request-samples">Free Samples</Link></li>
               <li><Link to="/privacy-policy">Privacy Policy</Link></li>
               <li><Link to="/return-policy">Return Policy</Link></li>
               <li><Link to="/sitemap">Sitemap</Link></li>
