@@ -2,6 +2,7 @@ import { Routes, Route, useLocation } from 'react-router-dom'
 import { useEffect, lazy, Suspense } from 'react'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
+import TopBar from './components/TopBar'
 import PatchCalculator from './components/PatchCalculator'
 import PageLoader from './components/PageLoader'
 import ErrorBoundary from './components/ErrorBoundary'
@@ -141,6 +142,7 @@ export default function App() {
   return (
     <>
       <ScrollToTop />
+      <TopBar />
       <Navbar />
       <main>
         <ErrorBoundary>
@@ -224,7 +226,7 @@ export default function App() {
         </ErrorBoundary>
       </main>
       {(() => {
-        const noCalc = ['/privacy-policy', '/return-policy', '/sitemap', '/resources', '/contact', '/free-quote', '/request-samples', '/gallery', '/rush-order', '/about/blog', '/account', '/promotions', '/custom-military-patches', '/iron-on-patches-bulk', '/custom-pvc-patches', '/custom-embroidered-patches', '/motorcycle-club-patches', '/scout-patches', '/login', '/signup', '/auth']
+        const noCalc = ['/privacy-policy', '/return-policy', '/sitemap', '/resources', '/contact', '/free-quote', '/request-samples', '/gallery', '/rush-order', '/about/blog', '/about/testimonials', '/account', '/promotions', '/custom-military-patches', '/iron-on-patches-bulk', '/custom-pvc-patches', '/custom-embroidered-patches', '/motorcycle-club-patches', '/scout-patches', '/login', '/signup', '/auth']
         return pathname !== '/' && !noCalc.some(p => pathname === p || pathname.startsWith(p + '/')) && <CalcSection />
       })()}
       <Footer />

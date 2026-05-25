@@ -20,7 +20,8 @@
   --font-heading:  'Barlow Condensed', 'Arial Narrow', Arial, sans-serif;
   --font-body:     'Barlow', -apple-system, BlinkMacSystemFont, sans-serif;
 
-  --nav-height: 68px;
+  --nav-height:    68px;
+  --topbar-height: 32px;
   --max-width:  1200px;
   --transition: 0.22s ease;
   --shadow-sm:  0 2px 8px rgba(11,26,46,0.12);
@@ -45,7 +46,7 @@ a    { text-decoration: none; color: inherit; }
 ul   { list-style: none; }
 button { cursor: pointer; border: none; background: none; font: inherit; }
 
-main { padding-top: var(--nav-height); }
+main { padding-top: calc(var(--nav-height) + var(--topbar-height)); }
 
 /* ============================================================
    LAYOUT
@@ -172,9 +173,37 @@ section { padding: 5.5rem 0; }
 /* ============================================================
    NAVBAR
    ============================================================ */
-.navbar {
+.topbar {
   position: fixed;
   top: 0; left: 0; right: 0;
+  z-index: 101;
+  height: var(--topbar-height);
+  background: var(--navy);
+  border-bottom: 1px solid rgba(200,147,26,0.18);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 2.5rem;
+  gap: 1.5rem;
+}
+.topbar__link {
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  transition: color var(--transition);
+  white-space: nowrap;
+}
+.topbar__link--phone { color: var(--gold); }
+.topbar__link--phone:hover { color: var(--gold-light); }
+.topbar__link--email { color: rgba(255,255,255,0.5); }
+.topbar__link--email:hover { color: rgba(255,255,255,0.85); }
+@media (max-width: 600px) { .topbar { display: none; } }
+
+.navbar {
+  position: fixed;
+  top: var(--topbar-height); left: 0; right: 0;
   z-index: 100;
   background: rgba(11,26,46,0.97);
   border-bottom: 1px solid rgba(200,147,26,0.25);
@@ -283,7 +312,7 @@ section { padding: 5.5rem 0; }
 
   .navbar__links {
     position: fixed;
-    top: var(--nav-height);
+    top: calc(var(--nav-height) + var(--topbar-height));
     left: 0; right: 0; bottom: 0;
     z-index: 150;
     background: var(--navy-mid);
