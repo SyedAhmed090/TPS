@@ -1,10 +1,13 @@
 import { useState } from 'react'
+import { Turnstile } from '@marsidev/react-turnstile'
 import Breadcrumb from '../../components/Breadcrumb'
 import useReveal from '../../hooks/useReveal'
 import useSEO from '../../hooks/useSEO'
 import { useFormSubmit } from '../../hooks/useFormSubmit'
 import { inputStyle, labelStyle, textareaStyle, fieldErrorStyle } from '../../styles/formStyles'
 import { validateContactForm } from '../../utils/validation'
+
+const TURNSTILE_SITE_KEY = import.meta.env.VITE_TURNSTILE_SITE_KEY
 
 const CONTACT_INFO = [
   { label: 'Email', value: 'info@thepatchsolutions.com', icon: '✉' },
@@ -18,6 +21,7 @@ export default function Contact() {
   const [form, setForm] = useState({ name: '', email: '', phone: '', subject: '', quantity: '', message: '' })
   const [sent, setSent] = useState(false)
   const [errors, setErrors] = useState({})
+  const [turnstileToken, setTurnstileToken] = useState('')
   const { submit, loading, submitError } = useFormSubmit('submit-contact')
   useReveal()
 
@@ -31,7 +35,7 @@ export default function Contact() {
     e.preventDefault()
     const errs = validateContactForm(form)
     if (Object.keys(errs).length) { setErrors(errs); return }
-    const ok = await submit({ name: form.name, email: form.email, phone: form.phone, subject: form.subject, message: form.message })
+    const ok = await submit({ name: form.name, email: form.email, phone: form.phone, subject: form.subject, message: form.message, turnstile_token: turnstileToken || undefined })
     if (ok) setSent(true)
   }
 
@@ -94,8 +98,18 @@ export default function Contact() {
                   <textarea name="message" value={form.message} onChange={handleChange} rows={5} placeholder="Describe your patch project — type, size, backing, and any artwork details..." style={{ ...textareaStyle, borderColor: errors.message ? '#c0392b' : undefined }} />
                   {errors.message && <span style={fieldErrorStyle}>{errors.message}</span>}
                 </div>
+                {TURNSTILE_SITE_KEY && (
+                  <Turnstile
+                    siteKey={TURNSTILE_SITE_KEY}
+                    onSuccess={token => setTurnstileToken(token)}
+                    onError={() => setTurnstileToken('')}
+                    onExpire={() => setTurnstileToken('')}
+                  />
+                )}
                 <div>
-                  <button type="submit" className="btn-primary" disabled={loading} style={{ alignSelf: 'flex-start', opacity: loading ? 0.7 : 1, cursor: loading ? 'not-allowed' : 'pointer' }}>
+                  <button type="submit" className="btn-primary"
+                    disabled={loading || (!!TURNSTILE_SITE_KEY && !turnstileToken)}
+                    style={{ alignSelf: 'flex-start', opacity: (loading || (!!TURNSTILE_SITE_KEY && !turnstileToken)) ? 0.7 : 1, cursor: (loading || (!!TURNSTILE_SITE_KEY && !turnstileToken)) ? 'not-allowed' : 'pointer' }}>
                     {loading ? 'Sending…' : 'Send Message'}
                   </button>
                   {submitError && <p style={{ color: '#c0392b', fontSize: '0.85rem', marginTop: '0.75rem' }}>{submitError}</p>}

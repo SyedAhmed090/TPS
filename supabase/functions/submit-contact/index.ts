@@ -14,7 +14,27 @@ Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: corsHeaders })
 
   try {
-    const { name, email, phone, subject, message } = await req.json()
+    const { name, email, phone, subject, message, turnstile_token } = await req.json()
+
+    // Verify Turnstile CAPTCHA token if secret is configured
+    const turnstileSecret = Deno.env.get('TURNSTILE_SECRET_KEY')
+    if (turnstileSecret && turnstile_token) {
+      const verifyRes = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: `secret=${turnstileSecret}&response=${turnstile_token}`,
+      })
+      const verifyData = await verifyRes.json()
+      if (!verifyData.success) {
+        return new Response(JSON.stringify({ success: false, message: 'CAPTCHA verification failed. Please try again.' }), {
+          status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        })
+      }
+    } else if (turnstileSecret && !turnstile_token) {
+      return new Response(JSON.stringify({ success: false, message: 'CAPTCHA token missing. Please complete the verification.' }), {
+        status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      })
+    }
 
     const errors: Record<string, string> = {}
     if (!name?.trim())    errors.name    = 'Name is required'

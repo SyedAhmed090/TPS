@@ -20,7 +20,27 @@ Deno.serve(async (req: Request) => {
 
   try {
     const body = await req.json()
-    const { name, email, phone, company, address, city, state, zip, country = 'US', patch_types, notes } = body
+    const { name, email, phone, company, address, city, state, zip, country = 'US', patch_types, notes, turnstile_token } = body
+
+    // Verify Turnstile CAPTCHA token if secret is configured
+    const turnstileSecret = Deno.env.get('TURNSTILE_SECRET_KEY')
+    if (turnstileSecret && turnstile_token) {
+      const verifyRes = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: `secret=${turnstileSecret}&response=${turnstile_token}`,
+      })
+      const verifyData = await verifyRes.json()
+      if (!verifyData.success) {
+        return new Response(JSON.stringify({ error: 'CAPTCHA verification failed. Please try again.' }), {
+          status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        })
+      }
+    } else if (turnstileSecret && !turnstile_token) {
+      return new Response(JSON.stringify({ error: 'CAPTCHA token missing. Please complete the verification.' }), {
+        status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      })
+    }
 
     if (!name || !email || !address || !city || !state || !zip) {
       return new Response(JSON.stringify({ error: 'Missing required fields' }), {

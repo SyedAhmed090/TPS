@@ -1,11 +1,14 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { Turnstile } from '@marsidev/react-turnstile'
 import Breadcrumb from '../components/Breadcrumb'
 import useReveal from '../hooks/useReveal'
 import useSEO from '../hooks/useSEO'
 import { inputStyle, labelStyle, selectStyle, textareaStyle, fieldErrorStyle } from '../styles/formStyles'
 import { useFormSubmit } from '../hooks/useFormSubmit'
 import { validateSampleForm } from '../utils/validation'
+
+const TURNSTILE_SITE_KEY = import.meta.env.VITE_TURNSTILE_SITE_KEY
 
 const US_STATES = ['AL','AK','AZ','AR','CA','CO','CT','DE','FL','GA','HI','ID','IL','IN','IA','KS','KY','LA','ME','MD','MA','MI','MN','MS','MO','MT','NE','NV','NH','NJ','NM','NY','NC','ND','OH','OK','OR','PA','RI','SC','SD','TN','TX','UT','VT','VA','WA','WV','WI','WY','DC']
 
@@ -30,6 +33,7 @@ export default function RequestSample() {
   const [patchTypes, setPatchTypes] = useState([])
   const [sent, setSent] = useState(false)
   const [errors, setErrors] = useState({})
+  const [turnstileToken, setTurnstileToken] = useState('')
   const { submit, loading, submitError } = useFormSubmit('request-sample')
 
   function handleChange(e) {
@@ -60,6 +64,7 @@ export default function RequestSample() {
       country: form.country,
       patch_types: patchTypes,
       notes: form.notes || undefined,
+      turnstile_token: turnstileToken || undefined,
     })
     if (ok) setSent(true)
   }
@@ -171,7 +176,18 @@ export default function RequestSample() {
                 </div>
 
                 {submitError && <p style={{ color: '#c0392b', fontSize: '0.85rem', margin: 0 }}>{submitError}</p>}
-                <button type="submit" disabled={loading} className="btn-primary" style={{ alignSelf: 'flex-start', fontSize: '1rem', padding: '14px 36px', opacity: loading ? 0.7 : 1, cursor: loading ? 'not-allowed' : 'pointer' }}>
+                {TURNSTILE_SITE_KEY && (
+                  <Turnstile
+                    siteKey={TURNSTILE_SITE_KEY}
+                    onSuccess={token => setTurnstileToken(token)}
+                    onError={() => setTurnstileToken('')}
+                    onExpire={() => setTurnstileToken('')}
+                  />
+                )}
+                <button type="submit"
+                  disabled={loading || (!!TURNSTILE_SITE_KEY && !turnstileToken)}
+                  className="btn-primary"
+                  style={{ alignSelf: 'flex-start', fontSize: '1rem', padding: '14px 36px', opacity: (loading || (!!TURNSTILE_SITE_KEY && !turnstileToken)) ? 0.7 : 1, cursor: (loading || (!!TURNSTILE_SITE_KEY && !turnstileToken)) ? 'not-allowed' : 'pointer' }}>
                   {loading ? 'Sending...' : 'Request Free Samples'}
                 </button>
               </form>

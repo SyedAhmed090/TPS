@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
+import { Turnstile } from '@marsidev/react-turnstile'
 import Breadcrumb from '../components/Breadcrumb'
 import useReveal from '../hooks/useReveal'
 import useSEO from '../hooks/useSEO'
@@ -8,6 +9,8 @@ import { useAuth } from '../contexts/AuthContext'
 import { inputStyle, labelStyle, selectStyle, textareaStyle, fieldErrorStyle } from '../styles/formStyles'
 import { useFormSubmit } from '../hooks/useFormSubmit'
 import { validateQuoteForm } from '../utils/validation'
+
+const TURNSTILE_SITE_KEY = import.meta.env.VITE_TURNSTILE_SITE_KEY
 
 const PATCH_TYPES = ['Embroidered', 'Woven', 'PVC', 'Dye Sublimation', 'Felt', 'Leather', 'Chenille', 'Blank', 'Bullion Crest', 'Combination', 'Not Sure']
 const BACKING_OPTIONS = ['Iron-On (Heat Seal)', 'Sew-On (Unbacked)', 'Hook & Loop (Velcro)', 'Pin Back', 'Magnetic', 'Self-Stick', 'Not Sure']
@@ -39,6 +42,7 @@ export default function FreeQuote() {
   const [appliedDiscount, setAppliedDiscount] = useState(null)
   const [discountLoading, setDiscountLoading] = useState(false)
   const [discountError, setDiscountError] = useState('')
+  const [turnstileToken, setTurnstileToken] = useState('')
   const { submit, loading, submitError } = useFormSubmit('submit-quote')
   useReveal()
 
@@ -74,6 +78,7 @@ export default function FreeQuote() {
     formData.append('special_notes', notes)
     if (designFile) formData.append('artwork', designFile)
     if (appliedDiscount) formData.append('discount_code', appliedDiscount.code)
+    if (turnstileToken) formData.append('turnstile_token', turnstileToken)
     const ok = await submit(formData)
     if (ok) {
       if (user) {
@@ -230,8 +235,19 @@ export default function FreeQuote() {
                   {discountError && <span style={fieldErrorStyle}>{discountError}</span>}
                 </div>
 
+                {TURNSTILE_SITE_KEY && (
+                  <Turnstile
+                    siteKey={TURNSTILE_SITE_KEY}
+                    onSuccess={token => setTurnstileToken(token)}
+                    onError={() => setTurnstileToken('')}
+                    onExpire={() => setTurnstileToken('')}
+                  />
+                )}
+
                 <div>
-                  <button type="submit" className="btn-primary" disabled={loading} style={{ alignSelf: 'flex-start', fontSize: '1rem', padding: '14px 36px', opacity: loading ? 0.7 : 1, cursor: loading ? 'not-allowed' : 'pointer' }}>
+                  <button type="submit" className="btn-primary"
+                    disabled={loading || (!!TURNSTILE_SITE_KEY && !turnstileToken)}
+                    style={{ alignSelf: 'flex-start', fontSize: '1rem', padding: '14px 36px', opacity: (loading || (!!TURNSTILE_SITE_KEY && !turnstileToken)) ? 0.7 : 1, cursor: (loading || (!!TURNSTILE_SITE_KEY && !turnstileToken)) ? 'not-allowed' : 'pointer' }}>
                     {loading ? 'Sending…' : 'Submit Quote Request'}
                   </button>
                   {submitError && <p style={{ color: '#c0392b', fontSize: '0.85rem', marginTop: '0.75rem' }}>{submitError}</p>}

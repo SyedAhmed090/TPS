@@ -42,6 +42,27 @@ Deno.serve(async (req) => {
       })
     }
 
+    // Verify Turnstile CAPTCHA token if secret is configured
+    const turnstileToken  = formData.get('turnstile_token')?.toString()
+    const turnstileSecret = Deno.env.get('TURNSTILE_SECRET_KEY')
+    if (turnstileSecret && turnstileToken) {
+      const verifyRes = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: `secret=${turnstileSecret}&response=${turnstileToken}`,
+      })
+      const verifyData = await verifyRes.json()
+      if (!verifyData.success) {
+        return new Response(JSON.stringify({ success: false, message: 'CAPTCHA verification failed. Please try again.' }), {
+          status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        })
+      }
+    } else if (turnstileSecret && !turnstileToken) {
+      return new Response(JSON.stringify({ success: false, message: 'CAPTCHA token missing. Please complete the verification.' }), {
+        status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      })
+    }
+
     const phone          = formData.get('phone')?.toString().trim().slice(0, 50) ?? null
     const organization   = formData.get('organization')?.toString().trim().slice(0, 200) ?? null
     const coverage       = formData.get('coverage')?.toString().trim() ?? null
