@@ -270,7 +270,7 @@ export default function Navbar() {
 
       {/* Desktop auth */}
       {user ? (
-        <div style={{ position: 'relative' }} ref={userMenuRef}>
+        <div style={{ position: 'relative', alignSelf: 'stretch', display: 'flex', alignItems: 'center' }} ref={userMenuRef}>
           <button className="navbar__user-btn" onClick={() => setUserMenuOpen(v => !v)} aria-label="Account menu">
             {getInitials()}
           </button>
