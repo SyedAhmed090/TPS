@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
+import { useAuth } from '../contexts/AuthContext'
 import logo from '/logo.jpg'
 
 const ABOUT_LINKS = [
@@ -75,7 +76,28 @@ function ToggleArrow({ open }) {
 export default function Navbar() {
   const [open, setOpen] = useState(false)
   const [expanded, setExpanded] = useState(null)
+  const [userMenuOpen, setUserMenuOpen] = useState(false)
+  const userMenuRef = useRef(null)
   const location = useLocation()
+  const { user, profile, signOut: authSignOut } = useAuth()
+
+  useEffect(() => {
+    function handler(e) {
+      if (userMenuRef.current && !userMenuRef.current.contains(e.target)) setUserMenuOpen(false)
+    }
+    document.addEventListener('mousedown', handler)
+    return () => document.removeEventListener('mousedown', handler)
+  }, [])
+
+  function getInitials() {
+    const name = profile?.full_name
+    if (name) {
+      const parts = name.trim().split(' ').filter(Boolean)
+      if (parts.length >= 2) return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase()
+      return parts[0][0].toUpperCase()
+    }
+    return (user?.email?.[0] || '?').toUpperCase()
+  }
 
   useEffect(() => {
     setOpen(false)
@@ -227,10 +249,47 @@ export default function Navbar() {
           <NavLink to="/rush-order" className={({ isActive }) => `navbar__link${isActive ? ' navbar__link--active' : ''}`} style={{ color: 'var(--red)' }}>Rush Order</NavLink>
         </li>
 
+        {/* Mobile auth */}
+        <li style={{ borderTop: '1px solid rgba(255,255,255,0.08)', marginTop: '0.5rem', paddingTop: '0.5rem' }}>
+          {user ? (
+            <>
+              <div style={{ fontFamily: 'var(--font-heading)', fontSize: '0.7rem', color: 'rgba(255,255,255,0.4)', letterSpacing: '0.1em', padding: '0.4rem 1.5rem', textTransform: 'uppercase' }}>{profile?.full_name || user.email}</div>
+              <Link to="/account" onClick={() => setOpen(false)} className="navbar__mobile-sub-link" style={{ display: 'block' }}>My Account</Link>
+              <Link to="/account/orders" onClick={() => setOpen(false)} className="navbar__mobile-sub-link" style={{ display: 'block' }}>My Orders</Link>
+              <button onClick={async () => { setOpen(false); await authSignOut() }} style={{ display: 'block', background: 'none', border: 'none', color: 'rgba(255,100,100,0.8)', fontFamily: 'var(--font-heading)', fontSize: '0.82rem', letterSpacing: '0.1em', textTransform: 'uppercase', padding: '0.55rem 1.5rem', cursor: 'pointer', textAlign: 'left', width: '100%' }}>Sign Out</button>
+            </>
+          ) : (
+            <Link to="/login" onClick={() => setOpen(false)} className="navbar__mobile-sub-link" style={{ display: 'block', color: 'rgba(255,255,255,0.7)' }}>Sign In</Link>
+          )}
+        </li>
+
         <li className="navbar__cta-mobile">
           <Link to="/free-quote" className="btn-primary">Free Quote</Link>
         </li>
       </ul>
+
+      {/* Desktop auth */}
+      {user ? (
+        <div style={{ position: 'relative' }} ref={userMenuRef}>
+          <button className="navbar__user-btn" onClick={() => setUserMenuOpen(v => !v)} aria-label="Account menu">
+            {getInitials()}
+          </button>
+          {userMenuOpen && (
+            <div className="navbar__user-dropdown">
+              <div className="navbar__user-dropdown__header">
+                <div className="navbar__user-dropdown__name">{profile?.full_name || 'My Account'}</div>
+                <div className="navbar__user-dropdown__email">{user.email}</div>
+              </div>
+              <Link to="/account" onClick={() => setUserMenuOpen(false)}>My Account</Link>
+              <Link to="/account/orders" onClick={() => setUserMenuOpen(false)}>My Orders</Link>
+              <Link to="/account/quotes" onClick={() => setUserMenuOpen(false)}>My Quotes</Link>
+              <button className="signout-btn" onClick={async () => { setUserMenuOpen(false); await authSignOut() }}>Sign Out</button>
+            </div>
+          )}
+        </div>
+      ) : (
+        <Link to="/login" className="navbar__signin-link">Sign In</Link>
+      )}
 
       <Link to="/free-quote" className="navbar__cta">Free Quote</Link>
 

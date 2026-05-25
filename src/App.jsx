@@ -5,8 +5,8 @@ import Footer from './components/Footer'
 import PatchCalculator from './components/PatchCalculator'
 import PageLoader from './components/PageLoader'
 import ErrorBoundary from './components/ErrorBoundary'
-import { AuthProvider } from './contexts/AuthContext'
 import AdminRoute from './components/admin/AdminRoute'
+import ProtectedRoute from './components/ProtectedRoute'
 
 // Admin pages
 const AdminLogin  = lazy(() => import('./pages/admin/AdminLogin'))
@@ -21,11 +21,18 @@ const DiscountCodes  = lazy(() => import('./pages/admin/DiscountCodes'))
 const SampleRequests = lazy(() => import('./pages/admin/SampleRequests'))
 const AdminSettings  = lazy(() => import('./pages/admin/Settings'))
 
+// Auth pages
+const Login          = lazy(() => import('./pages/auth/Login'))
+const SignUp         = lazy(() => import('./pages/auth/SignUp'))
+const ResetPassword  = lazy(() => import('./pages/auth/ResetPassword'))
+const UpdatePassword = lazy(() => import('./pages/auth/UpdatePassword'))
+
 // Account pages
-const AccountLogin    = lazy(() => import('./pages/account/Login'))
-const AccountSignUp   = lazy(() => import('./pages/account/SignUp'))
-const ResetPassword   = lazy(() => import('./pages/account/ResetPassword'))
 const Account         = lazy(() => import('./pages/account/Account'))
+const AccountOverview = lazy(() => import('./pages/account/AccountOverview'))
+const AccountQuotes   = lazy(() => import('./pages/account/AccountQuotes'))
+const AccountOrders   = lazy(() => import('./pages/account/AccountOrders'))
+const AccountProfile  = lazy(() => import('./pages/account/AccountProfile'))
 
 const Home = lazy(() => import('./pages/Home'))
 const Gallery = lazy(() => import('./pages/Gallery'))
@@ -107,24 +114,22 @@ function CalcSection() {
 
 function AdminApp() {
   return (
-    <AuthProvider>
-      <Suspense fallback={<PageLoader />}>
-        <Routes>
-          <Route path="/admin/login" element={<AdminLogin />} />
-          <Route path="/admin" element={<AdminRoute><AdminLayout /></AdminRoute>}>
-            <Route index element={<Dashboard />} />
-            <Route path="quotes"    element={<AdminQuotes />} />
-            <Route path="orders"    element={<AdminOrders />} />
-            <Route path="contacts"  element={<AdminContacts />} />
-            <Route path="customers" element={<AdminCustomers />} />
-            <Route path="blog"      element={<BlogManager />} />
-            <Route path="discounts" element={<DiscountCodes />} />
-            <Route path="samples"   element={<SampleRequests />} />
-            <Route path="settings"  element={<AdminSettings />} />
-          </Route>
-        </Routes>
-      </Suspense>
-    </AuthProvider>
+    <Suspense fallback={<PageLoader />}>
+      <Routes>
+        <Route path="/admin/login" element={<AdminLogin />} />
+        <Route path="/admin" element={<AdminRoute><AdminLayout /></AdminRoute>}>
+          <Route index element={<Dashboard />} />
+          <Route path="quotes"    element={<AdminQuotes />} />
+          <Route path="orders"    element={<AdminOrders />} />
+          <Route path="contacts"  element={<AdminContacts />} />
+          <Route path="customers" element={<AdminCustomers />} />
+          <Route path="blog"      element={<BlogManager />} />
+          <Route path="discounts" element={<DiscountCodes />} />
+          <Route path="samples"   element={<SampleRequests />} />
+          <Route path="settings"  element={<AdminSettings />} />
+        </Route>
+      </Routes>
+    </Suspense>
   )
 }
 
@@ -134,7 +139,7 @@ export default function App() {
   if (pathname.startsWith('/admin')) return <AdminApp />
 
   return (
-    <AuthProvider>
+    <>
       <ScrollToTop />
       <Navbar />
       <main>
@@ -149,11 +154,21 @@ export default function App() {
               <Route path="/request-samples" element={<RequestSample />} />
               <Route path="/rush-order" element={<RushOrder />} />
 
-              {/* Account */}
-              <Route path="/account/login"          element={<AccountLogin />} />
-              <Route path="/account/signup"         element={<AccountSignUp />} />
-              <Route path="/account/reset-password" element={<ResetPassword />} />
-              <Route path="/account"                element={<Account />} />
+              {/* Auth */}
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<SignUp />} />
+              <Route path="/auth/reset-password" element={<ResetPassword />} />
+              <Route path="/auth/update-password" element={<UpdatePassword />} />
+
+              {/* Account (protected) */}
+              <Route element={<ProtectedRoute />}>
+                <Route path="/account" element={<Account />}>
+                  <Route index element={<AccountOverview />} />
+                  <Route path="quotes" element={<AccountQuotes />} />
+                  <Route path="orders" element={<AccountOrders />} />
+                  <Route path="profile" element={<AccountProfile />} />
+                </Route>
+              </Route>
 
               {/* About */}
               <Route path="/about" element={<About />} />
@@ -209,10 +224,10 @@ export default function App() {
         </ErrorBoundary>
       </main>
       {(() => {
-        const noCalc = ['/privacy-policy', '/return-policy', '/sitemap', '/resources', '/contact', '/free-quote', '/request-samples', '/gallery', '/rush-order', '/about/blog', '/account', '/promotions', '/custom-military-patches', '/iron-on-patches-bulk', '/custom-pvc-patches', '/custom-embroidered-patches', '/motorcycle-club-patches', '/scout-patches']
+        const noCalc = ['/privacy-policy', '/return-policy', '/sitemap', '/resources', '/contact', '/free-quote', '/request-samples', '/gallery', '/rush-order', '/about/blog', '/account', '/promotions', '/custom-military-patches', '/iron-on-patches-bulk', '/custom-pvc-patches', '/custom-embroidered-patches', '/motorcycle-club-patches', '/scout-patches', '/login', '/signup', '/auth']
         return pathname !== '/' && !noCalc.some(p => pathname === p || pathname.startsWith(p + '/')) && <CalcSection />
       })()}
       <Footer />
-    </AuthProvider>
+    </>
   )
 }

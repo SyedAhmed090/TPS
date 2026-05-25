@@ -500,3 +500,26 @@ VALUES (
   'Never ordered a custom patch before? Step-by-step guide covering patch type, size, shape, coverage, artwork, and backing selection.'
 )
 ON CONFLICT (slug) DO NOTHING;
+
+-- ============================================================
+-- AUTO-CREATE CUSTOMER PROFILE ON SIGNUP
+-- Run this in Supabase SQL Editor after the schema above
+-- ============================================================
+
+CREATE OR REPLACE FUNCTION handle_new_user()
+RETURNS trigger AS $$
+BEGIN
+  INSERT INTO customers (auth_user_id, email, full_name)
+  VALUES (
+    NEW.id,
+    NEW.email,
+    NEW.raw_user_meta_data->>'full_name'
+  )
+  ON CONFLICT (email) DO NOTHING;
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+CREATE OR REPLACE TRIGGER on_auth_user_created
+  AFTER INSERT ON auth.users
+  FOR EACH ROW EXECUTE FUNCTION handle_new_user();

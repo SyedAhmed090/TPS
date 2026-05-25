@@ -1,9 +1,10 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import Breadcrumb from '../components/Breadcrumb'
 import useReveal from '../hooks/useReveal'
 import useSEO from '../hooks/useSEO'
 import { supabase } from '../lib/supabase'
+import { useAuth } from '../contexts/AuthContext'
 
 const PATCH_TYPES = ['Embroidered', 'Woven', 'PVC', 'Dye Sublimation', 'Felt', 'Leather', 'Chenille', 'Blank', 'Bullion Crest', 'Combination', 'Not Sure']
 const BACKING_OPTIONS = ['Iron-On (Heat Seal)', 'Sew-On (Unbacked)', 'Hook & Loop (Velcro)', 'Pin Back', 'Magnetic', 'Self-Stick', 'Not Sure']
@@ -11,10 +12,21 @@ const QTY_RANGES = ['25–49', '50–99', '100–249', '250–499', '500–999',
 
 export default function FreeQuote() {
   useSEO('Free Quote', 'Get a free custom patch quote in minutes. No obligation. Free design proof and samples included.')
+  const location = useLocation()
+  const { user, profile } = useAuth()
+  const prefill = location.state?.prefill || {}
+  const [hasPrefill, setHasPrefill] = useState(!!location.state?.prefill)
   const [form, setForm] = useState({
-    name: '', email: '', phone: '', company: '',
-    patchType: '', backing: '', quantity: '', size: '',
-    deadline: '', message: '',
+    name: profile?.full_name || '',
+    email: user?.email || '',
+    phone: '',
+    company: profile?.organization || '',
+    patchType: prefill.patch_type || '',
+    backing: prefill.backing || '',
+    quantity: prefill.quantity ? String(prefill.quantity) : '',
+    size: prefill.size || '',
+    deadline: '',
+    message: prefill.notes || '',
   })
   const [sent, setSent] = useState(false)
   const [designFile, setDesignFile] = useState(null)
@@ -47,6 +59,11 @@ export default function FreeQuote() {
       if (error) {
         setSubmitError('Failed to send. Please try again or email us directly at info@thepatchsolutions.com')
       } else {
+        if (user) {
+          await supabase.from('customers')
+            .update({ email: form.email, full_name: form.name, organization: form.company })
+            .eq('auth_user_id', user.id)
+        }
         setSent(true)
       }
     } catch {
@@ -103,6 +120,12 @@ export default function FreeQuote() {
               </div>
             ) : (
               <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                {hasPrefill && (
+                  <div className="reorder-banner">
+                    <span>♻️ Reordering from a previous order — details pre-filled below. Make any changes and submit.</span>
+                    <button type="button" onClick={() => { setHasPrefill(false); setForm(f => ({ ...f, patchType: '', backing: '', quantity: '', size: '', message: '' })) }} style={{ background: 'none', border: 'none', color: 'var(--gold)', fontFamily: 'var(--font-heading)', fontSize: '0.72rem', letterSpacing: '0.1em', cursor: 'pointer', textDecoration: 'underline', whiteSpace: 'nowrap' }}>Start fresh instead</button>
+                  </div>
+                )}
                 <h2 style={{ fontFamily: 'var(--font-display)', color: 'var(--navy)', fontSize: '1.8rem', letterSpacing: '0.04em', marginBottom: '0.25rem' }}>Your Contact Info</h2>
                 <div className="fq-grid">
                   <div><label style={labelStyle}>Name *</label><input name="name" value={form.name} onChange={handleChange} required placeholder="Full name" style={inputStyle} /></div>
