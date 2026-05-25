@@ -39,7 +39,7 @@ export default function Quotes() {
     setLoading(true)
     let query = supabase.from('quotes').select('*', { count: 'exact' }).order('created_at', { ascending: false })
     if (statusFilter !== 'all') query = query.eq('status', statusFilter)
-    if (search) query = query.or(`first_name.ilike.%${search}%,last_name.ilike.%${search}%,email.ilike.%${search}%`)
+    if (search) query = query.or(`name.ilike.%${search}%,email.ilike.%${search}%`)
     query = query.range(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE - 1)
     const { data, count } = await query
     setRows(data || [])
@@ -108,7 +108,7 @@ export default function Quotes() {
                 <>
                   <tr key={q.id} style={{ background: i % 2 === 1 ? 'rgba(255,255,255,0.02)' : 'transparent', cursor: 'pointer' }} onClick={() => setExpandedId(expandedId === q.id ? null : q.id)}>
                     <td style={tdStyle}>{new Date(q.created_at).toLocaleDateString()}</td>
-                    <td style={tdStyle}>{q.first_name} {q.last_name}</td>
+                    <td style={tdStyle}>{q.name}</td>
                     <td style={{ ...tdStyle, color: 'rgba(255,255,255,0.5)' }}>{q.email}</td>
                     <td style={tdStyle}>{q.patch_type}</td>
                     <td style={tdStyle}>{q.quantity}</td>
