@@ -2,7 +2,7 @@ import { useState } from 'react'
 import Breadcrumb from '../../components/Breadcrumb'
 import useReveal from '../../hooks/useReveal'
 import useSEO from '../../hooks/useSEO'
-import { supabase } from '../../lib/supabase'
+import { useFormSubmit } from '../../hooks/useFormSubmit'
 import { inputStyle, labelStyle, textareaStyle } from '../../styles/formStyles'
 
 const CONTACT_INFO = [
@@ -16,8 +16,7 @@ export default function Contact() {
   useSEO('Contact Us', 'Contact The Patch Solutions for a free custom patch quote, samples, or any questions about your order.')
   const [form, setForm] = useState({ name: '', email: '', phone: '', subject: '', quantity: '', message: '' })
   const [sent, setSent] = useState(false)
-  const [loading, setLoading] = useState(false)
-  const [submitError, setSubmitError] = useState('')
+  const { submit, loading, submitError } = useFormSubmit('submit-contact')
   useReveal()
 
   function handleChange(e) {
@@ -26,22 +25,8 @@ export default function Contact() {
 
   async function handleSubmit(e) {
     e.preventDefault()
-    setLoading(true)
-    setSubmitError('')
-    try {
-      const { error } = await supabase.functions.invoke('submit-contact', {
-        body: { name: form.name, email: form.email, phone: form.phone, subject: form.subject, message: form.message }
-      })
-      if (error) {
-        setSubmitError('Failed to send. Please try again or email us at info@thepatchsolutions.com')
-      } else {
-        setSent(true)
-      }
-    } catch {
-      setSubmitError('Failed to send. Please try again or email us at info@thepatchsolutions.com')
-    } finally {
-      setLoading(false)
-    }
+    const ok = await submit({ name: form.name, email: form.email, phone: form.phone, subject: form.subject, message: form.message })
+    if (ok) setSent(true)
   }
 
   return (

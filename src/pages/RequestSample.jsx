@@ -4,7 +4,7 @@ import Breadcrumb from '../components/Breadcrumb'
 import useReveal from '../hooks/useReveal'
 import useSEO from '../hooks/useSEO'
 import { inputStyle, labelStyle, selectStyle, textareaStyle } from '../styles/formStyles'
-import { supabase } from '../lib/supabase'
+import { useFormSubmit } from '../hooks/useFormSubmit'
 
 const US_STATES = ['AL','AK','AZ','AR','CA','CO','CT','DE','FL','GA','HI','ID','IL','IN','IA','KS','KY','LA','ME','MD','MA','MI','MN','MS','MO','MT','NE','NV','NH','NJ','NM','NY','NC','ND','OH','OK','OR','PA','RI','SC','SD','TN','TX','UT','VT','VA','WA','WV','WI','WY','DC']
 
@@ -28,8 +28,7 @@ export default function RequestSample() {
   })
   const [patchTypes, setPatchTypes] = useState([])
   const [sent, setSent] = useState(false)
-  const [loading, setLoading] = useState(false)
-  const [submitError, setSubmitError] = useState('')
+  const { submit, loading, submitError } = useFormSubmit('request-sample')
 
   function handleChange(e) {
     setForm(f => ({ ...f, [e.target.name]: e.target.value }))
@@ -43,34 +42,20 @@ export default function RequestSample() {
 
   async function handleSubmit(e) {
     e.preventDefault()
-    setLoading(true)
-    setSubmitError('')
-    try {
-      const { error } = await supabase.functions.invoke('request-sample', {
-        body: {
-          name: form.name,
-          email: form.email,
-          phone: form.phone || undefined,
-          company: form.company || undefined,
-          address: form.address,
-          city: form.city,
-          state: form.state,
-          zip: form.zip,
-          country: form.country,
-          patch_types: patchTypes,
-          notes: form.notes || undefined,
-        },
-      })
-      if (error) {
-        setSubmitError('Failed to send. Please try again or email us at info@thepatchsolutions.com')
-      } else {
-        setSent(true)
-      }
-    } catch {
-      setSubmitError('Failed to send. Please try again or email us at info@thepatchsolutions.com')
-    } finally {
-      setLoading(false)
-    }
+    const ok = await submit({
+      name: form.name,
+      email: form.email,
+      phone: form.phone || undefined,
+      company: form.company || undefined,
+      address: form.address,
+      city: form.city,
+      state: form.state,
+      zip: form.zip,
+      country: form.country,
+      patch_types: patchTypes,
+      notes: form.notes || undefined,
+    })
+    if (ok) setSent(true)
   }
 
   return (

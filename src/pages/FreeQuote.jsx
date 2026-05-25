@@ -6,6 +6,7 @@ import useSEO from '../hooks/useSEO'
 import { supabase } from '../lib/supabase'
 import { useAuth } from '../contexts/AuthContext'
 import { inputStyle, labelStyle, selectStyle, textareaStyle } from '../styles/formStyles'
+import { useFormSubmit } from '../hooks/useFormSubmit'
 
 const PATCH_TYPES = ['Embroidered', 'Woven', 'PVC', 'Dye Sublimation', 'Felt', 'Leather', 'Chenille', 'Blank', 'Bullion Crest', 'Combination', 'Not Sure']
 const BACKING_OPTIONS = ['Iron-On (Heat Seal)', 'Sew-On (Unbacked)', 'Hook & Loop (Velcro)', 'Pin Back', 'Magnetic', 'Self-Stick', 'Not Sure']
@@ -32,8 +33,7 @@ export default function FreeQuote() {
   const [sent, setSent] = useState(false)
   const [designFile, setDesignFile] = useState(null)
   const [dragOver, setDragOver] = useState(false)
-  const [loading, setLoading] = useState(false)
-  const [submitError, setSubmitError] = useState('')
+  const { submit, loading, submitError } = useFormSubmit('submit-quote')
   useReveal()
 
   function handleChange(e) {
@@ -42,35 +42,25 @@ export default function FreeQuote() {
 
   async function handleSubmit(e) {
     e.preventDefault()
-    setLoading(true)
-    setSubmitError('')
-    try {
-      const formData = new FormData()
-      formData.append('name', form.name)
-      formData.append('email', form.email)
-      formData.append('phone', form.phone)
-      formData.append('company', form.company)
-      formData.append('patch_type', form.patchType)
-      formData.append('backing', form.backing)
-      formData.append('quantity', form.quantity)
-      const notes = [form.message, form.size ? `Size: ${form.size}` : '', form.deadline ? `Needed by: ${form.deadline}` : ''].filter(Boolean).join(' | ')
-      formData.append('special_notes', notes)
-      if (designFile) formData.append('artwork', designFile)
-      const { error } = await supabase.functions.invoke('submit-quote', { body: formData })
-      if (error) {
-        setSubmitError('Failed to send. Please try again or email us directly at info@thepatchsolutions.com')
-      } else {
-        if (user) {
-          await supabase.from('customers')
-            .update({ email: form.email, full_name: form.name, organization: form.company })
-            .eq('auth_user_id', user.id)
-        }
-        setSent(true)
+    const formData = new FormData()
+    formData.append('name', form.name)
+    formData.append('email', form.email)
+    formData.append('phone', form.phone)
+    formData.append('company', form.company)
+    formData.append('patch_type', form.patchType)
+    formData.append('backing', form.backing)
+    formData.append('quantity', form.quantity)
+    const notes = [form.message, form.size ? `Size: ${form.size}` : '', form.deadline ? `Needed by: ${form.deadline}` : ''].filter(Boolean).join(' | ')
+    formData.append('special_notes', notes)
+    if (designFile) formData.append('artwork', designFile)
+    const ok = await submit(formData)
+    if (ok) {
+      if (user) {
+        await supabase.from('customers')
+          .update({ email: form.email, full_name: form.name, organization: form.company })
+          .eq('auth_user_id', user.id)
       }
-    } catch {
-      setSubmitError('Failed to send. Please try again or email us directly at info@thepatchsolutions.com')
-    } finally {
-      setLoading(false)
+      setSent(true)
     }
   }
 
