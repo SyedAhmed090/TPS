@@ -11,11 +11,16 @@ export default function useReveal() {
       }),
       { threshold: 0.05, rootMargin: '0px 0px -40px 0px' }
     )
-    const id = requestAnimationFrame(() => {
-      document.querySelectorAll('.reveal:not(.visible)').forEach(el => observer.observe(el))
+    // Double-rAF ensures React has committed all DOM mutations before querying
+    let id2
+    const id1 = requestAnimationFrame(() => {
+      id2 = requestAnimationFrame(() => {
+        document.querySelectorAll('.reveal:not(.visible)').forEach(el => observer.observe(el))
+      })
     })
     return () => {
-      cancelAnimationFrame(id)
+      cancelAnimationFrame(id1)
+      cancelAnimationFrame(id2)
       observer.disconnect()
     }
   }, [])

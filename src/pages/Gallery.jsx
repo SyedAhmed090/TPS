@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import Breadcrumb from '../components/Breadcrumb'
+import useReveal from '../hooks/useReveal'
 import useSEO from '../hooks/useSEO'
 
 const FILTERS = ['All', 'Military', 'Sports', 'Organizations', 'Motorcycle', 'Schools', 'Corporate']
@@ -27,6 +28,7 @@ const ITEMS = [
 ]
 
 export default function Gallery() {
+  useReveal()
   useSEO('Gallery', 'Browse our gallery of custom embroidered, woven, PVC, and specialty patches made for military, sports, clubs, and organizations.')
   const [activeFilter, setActiveFilter] = useState('All')
   const visible = activeFilter === 'All' ? ITEMS : ITEMS.filter(i => i.category === activeFilter)
@@ -50,7 +52,7 @@ export default function Gallery() {
               <button key={f} className={`filter-btn${activeFilter === f ? ' filter-btn--active' : ''}`} onClick={() => setActiveFilter(f)}>{f}</button>
             ))}
           </div>
-          <div className="gallery-grid">
+          <div className="gallery-grid reveal">
             {visible.map(item => (
               <div key={item.id} className="gallery-item">
                 <img src={item.img} alt={item.title} className="gallery-item__visual" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />

@@ -235,6 +235,7 @@ export default function Pricing() {
             <h2 className="heading-2">More Patches, More Savings</h2>
           </div>
 
+          <div className="table-scroll">
           <table className="pricing-table">
             <thead>
               <tr>
@@ -261,6 +262,7 @@ export default function Pricing() {
               ))}
             </tbody>
           </table>
+          </div>
 
           <p className="pricing-note">
             * Prices are estimates for standard 3" embroidered patches with up to 8 thread colors.

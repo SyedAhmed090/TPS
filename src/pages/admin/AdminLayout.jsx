@@ -16,13 +16,13 @@ const NAV = [
 ]
 
 const sidebarStyle = {
-  width: 220,
-  minWidth: 220,
   background: 'var(--navy)',
   borderRight: '1px solid rgba(200,147,26,0.15)',
   display: 'flex',
   flexDirection: 'column',
   minHeight: '100vh',
+  width: 220,
+  minWidth: 220,
 }
 
 const navLinkBase = {
@@ -46,6 +46,7 @@ export default function AdminLayout() {
   const [newQuotes, setNewQuotes]       = useState(0)
   const [newContacts, setNewContacts]   = useState(0)
   const [toast, setToast]               = useState(null)
+  const [sidebarOpen, setSidebarOpen]   = useState(false)
 
   useEffect(() => {
     fetchCounts()
@@ -77,6 +78,7 @@ export default function AdminLayout() {
   useEffect(() => {
     if (pathname === '/admin/quotes')   setNewQuotes(0)
     if (pathname === '/admin/contacts') setNewContacts(0)
+    setSidebarOpen(false)
   }, [pathname])
 
   async function fetchCounts() {
@@ -100,7 +102,8 @@ export default function AdminLayout() {
           <span style={{ color: 'var(--gold)', marginRight: 6 }}>◆</span>{toast}
         </div>
       )}
-      <aside style={sidebarStyle}>
+      {sidebarOpen && <div className="admin-sidebar-overlay" onClick={() => setSidebarOpen(false)} />}
+      <aside className={`admin-sidebar${sidebarOpen ? ' admin-sidebar--open' : ''}`} style={sidebarStyle}>
         <div style={{ padding: '1.5rem 1.2rem 1rem', borderBottom: '1px solid rgba(200,147,26,0.12)' }}>
           <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.1rem', color: 'var(--gold)', letterSpacing: '0.05em', lineHeight: 1.2 }}>TPS</div>
           <div style={{ fontFamily: 'var(--font-heading)', fontSize: '0.55rem', letterSpacing: '0.2em', color: 'rgba(255,255,255,0.35)', marginTop: 3 }}>ADMIN PANEL</div>
@@ -139,7 +142,16 @@ export default function AdminLayout() {
           </button>
         </div>
       </aside>
-      <main style={{ flex: 1, overflow: 'auto', padding: '2rem', minWidth: 0 }}>
+      <main className="admin-main" style={{ flex: 1, overflow: 'auto', padding: '2rem', minWidth: 0 }}>
+        <div className="admin-topbar">
+          <button className="admin-topbar__hamburger" onClick={() => setSidebarOpen(v => !v)} aria-label="Toggle sidebar">☰</button>
+          <span className="admin-topbar__title">TPS Admin</span>
+          {(newQuotes > 0 || newContacts > 0) && (
+            <span style={{ background: 'var(--gold)', color: 'var(--navy)', borderRadius: 10, fontSize: '0.6rem', fontWeight: 700, padding: '2px 8px' }}>
+              {newQuotes + newContacts} new
+            </span>
+          )}
+        </div>
         <Outlet />
       </main>
     </div>

@@ -44,7 +44,7 @@ export default function Dashboard() {
       supabase.from('contacts').select('id', { count: 'exact', head: true }).eq('status', 'unread'),
       supabase.from('orders').select('id', { count: 'exact', head: true }).in('status', ['in_production', 'pending']),
       supabase.from('sample_requests').select('id', { count: 'exact', head: true }).eq('status', 'pending'),
-      supabase.from('quotes').select('id, created_at, first_name, last_name, email, patch_type, quantity, status').order('created_at', { ascending: false }).limit(10),
+      supabase.from('quotes').select('id, created_at, name, email, patch_type, quantity, status').order('created_at', { ascending: false }).limit(10),
     ])
     setStats({
       newQuotes: quotesNew.count || 0,
@@ -97,7 +97,7 @@ export default function Dashboard() {
               ) : recentQuotes.map((q, i) => (
                 <tr key={q.id} style={{ background: i % 2 === 1 ? 'rgba(255,255,255,0.02)' : 'transparent' }}>
                   <td style={tdStyle}>{new Date(q.created_at).toLocaleDateString()}</td>
-                  <td style={tdStyle}>{q.first_name} {q.last_name}</td>
+                  <td style={tdStyle}>{q.name}</td>
                   <td style={{ ...tdStyle, color: 'rgba(255,255,255,0.5)' }}>{q.email}</td>
                   <td style={tdStyle}>{q.patch_type}</td>
                   <td style={tdStyle}>{q.quantity}</td>

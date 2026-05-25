@@ -376,14 +376,14 @@ export default function PatchCalculator() {
   }
 
   return (
-    <div style={S.card}>
+    <div style={S.card} className="patch-calc-card">
       {/* Header */}
-      <div style={S.header}>
+      <div style={S.header} className="patch-calc-header">
         <div style={S.headerTitle}>Patch Price Calculator</div>
         <div style={S.headerSub}>The Patch Solutions · Instant Estimate</div>
       </div>
 
-      <div style={S.body}>
+      <div style={S.body} className="patch-calc-body">
         {/* Step 1 — Patch Type */}
         <div style={S.row}>
           <span style={S.sectionLabel}>Step 1</span>
@@ -456,11 +456,10 @@ export default function PatchCalculator() {
             {patchType === "Embroidered" ? "Step 4" : "Step 3"}
           </span>
           <span style={S.label}>Quantity</span>
-          <input type="number" min="1" value={qtyInput} onChange={handleQtyChange}
+          <input type="number" min="25" value={qtyInput} onChange={handleQtyChange}
             style={S.input} placeholder="e.g. 100" />
-          {patchType === "Embroidered"   && <div style={S.addonNote}>Min: 25 · Best value at 100+</div>}
-          {patchType === "Blank"         && <div style={S.addonNote}>Min: 100</div>}
-          {patchType === "Bullion Crest" && <div style={S.addonNote}>Min: 10</div>}
+          {patchType === "Embroidered"   ? <div style={S.addonNote}>Min: 25 · Best value at 100+</div>
+            : <div style={S.addonNote}>Min: 25 patches</div>}
           {error && <div style={S.errorMsg}>⚠ {error}</div>}
         </div>
 

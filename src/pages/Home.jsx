@@ -5,14 +5,14 @@ import PatchCalculator from '../components/PatchCalculator'
 import HeroCalculator from '../components/HeroCalculator'
 
 const PRODUCTS = [
-  { name: 'Embroidered Patches', desc: 'Classic, durable, and detailed — the most popular style for uniforms and jackets.', img: 'https://placehold.co/600x400/142340/C8931A?text=Custom+Patches' },
-  { name: 'Woven Patches', desc: 'Ultra-fine detail for complex logos and small text with a flat finish.', img: 'https://placehold.co/600x400/142340/C8931A?text=Custom+Patches' },
-  { name: 'PVC Patches', desc: '3D rubber feel, fully waterproof, and built for tough gear and tactical use.', img: 'https://placehold.co/600x400/142340/C8931A?text=Custom+Patches' },
-  { name: 'Dye Sublimation', desc: 'Photographic color reproduction and sharp gradients — no design limits.', img: 'https://placehold.co/600x400/142340/C8931A?text=Custom+Patches' },
-  { name: 'Chenille Patches', desc: 'Varsity-style raised texture with a classic athletic look and feel.', img: 'https://placehold.co/600x400/142340/C8931A?text=Custom+Patches' },
-  { name: 'Leather Patches', desc: 'Premium genuine leather for jackets, bags, hats, and accessories.', img: 'https://placehold.co/600x400/142340/C8931A?text=Custom+Patches' },
-  { name: 'Patch Keychains', desc: 'PVC and custom patch keychains — perfect merch, gifts, or giveaways.', img: 'https://placehold.co/600x400/142340/C8931A?text=Custom+Patches' },
-  { name: 'Brand Merchandise', desc: 'Custom branded goods beyond patches — for businesses and organizations.', img: 'https://placehold.co/600x400/142340/C8931A?text=Custom+Patches' },
+  { name: 'Embroidered Patches', slug: 'embroidered-patches', desc: 'Classic, durable, and detailed — the most popular style for uniforms and jackets.', img: 'https://placehold.co/600x400/142340/C8931A?text=Custom+Patches' },
+  { name: 'Woven Patches', slug: 'woven-patches', desc: 'Ultra-fine detail for complex logos and small text with a flat finish.', img: 'https://placehold.co/600x400/142340/C8931A?text=Custom+Patches' },
+  { name: 'PVC Patches', slug: 'pvc-patches', desc: '3D rubber feel, fully waterproof, and built for tough gear and tactical use.', img: 'https://placehold.co/600x400/142340/C8931A?text=Custom+Patches' },
+  { name: 'Dye Sublimation', slug: 'dye-sublimation-patches', desc: 'Photographic color reproduction and sharp gradients — no design limits.', img: 'https://placehold.co/600x400/142340/C8931A?text=Custom+Patches' },
+  { name: 'Chenille Patches', slug: 'chenille-patches', desc: 'Varsity-style raised texture with a classic athletic look and feel.', img: 'https://placehold.co/600x400/142340/C8931A?text=Custom+Patches' },
+  { name: 'Leather Patches', slug: 'leather-patches', desc: 'Premium genuine leather for jackets, bags, hats, and accessories.', img: 'https://placehold.co/600x400/142340/C8931A?text=Custom+Patches' },
+  { name: 'Patch Keychains', slug: 'pvc-patch-keychains', desc: 'PVC and custom patch keychains — perfect merch, gifts, or giveaways.', img: 'https://placehold.co/600x400/142340/C8931A?text=Custom+Patches' },
+  { name: 'Brand Merchandise', slug: 'brand-merchandise', desc: 'Custom branded goods beyond patches — for businesses and organizations.', img: 'https://placehold.co/600x400/142340/C8931A?text=Custom+Patches' },
 ]
 
 const SERVE = [
@@ -56,7 +56,7 @@ export default function Home() {
               From military units to motorcycle clubs, we deliver custom embroidered, woven, PVC, and specialty patches in any shape, any size — backed by 25 years of American craftsmanship.
             </p>
             <div className="hero-btns">
-              <Link to="/contact" className="btn-primary">Get a Free Quote</Link>
+              <Link to="/free-quote" className="btn-primary">Get a Free Quote</Link>
               <Link to="/products" className="btn-outline">View Products</Link>
             </div>
             <div className="hero-trust">
@@ -119,8 +119,8 @@ export default function Home() {
             <Link to="/products" className="btn-outline reveal">View All Products</Link>
           </div>
           <div className="products-grid reveal">
-            {PRODUCTS.map(({ name, desc, img }) => (
-              <Link to="/products" className="product-card" key={name}>
+            {PRODUCTS.map(({ name, slug, desc, img }) => (
+              <Link to={`/products/${slug}`} className="product-card" key={name}>
                 <div className="product-photo">
                   <img src={img} alt={name} loading="lazy" />
                   <div className="product-photo-overlay" />
@@ -214,8 +214,8 @@ export default function Home() {
           <h2 className="section-title reveal">Get Your Custom Patches Today</h2>
           <p className="section-subtitle reveal">Request a free quote and receive a design proof — no commitment required. Patches for every mission, every team, every story.</p>
           <div className="cta-btns reveal">
-            <Link to="/contact" className="btn-gold">Get a Free Quote</Link>
-            <Link to="/contact" className="btn-primary-dark">Request Free Samples</Link>
+            <Link to="/free-quote" className="btn-gold">Get a Free Quote</Link>
+            <Link to="/request-samples" className="btn-primary-dark">Request Free Samples</Link>
           </div>
           <div className="cta-perks reveal">
             {['25-piece minimum','Free design proof','Free samples','Flat-rate shipping','100% satisfaction guarantee'].map(p => (

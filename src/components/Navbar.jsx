@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
+import { createPortal } from 'react-dom'
 import { Link, NavLink, useLocation } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import logo from '/logo.jpg'
@@ -77,13 +78,18 @@ export default function Navbar() {
   const [open, setOpen] = useState(false)
   const [expanded, setExpanded] = useState(null)
   const [userMenuOpen, setUserMenuOpen] = useState(false)
+  const [dropdownPos, setDropdownPos] = useState({ top: 0, right: 0 })
+  const navbarRef   = useRef(null)
   const userMenuRef = useRef(null)
+  const dropdownRef = useRef(null)
   const location = useLocation()
   const { user, profile, signOut: authSignOut } = useAuth()
 
   useEffect(() => {
     function handler(e) {
-      if (userMenuRef.current && !userMenuRef.current.contains(e.target)) setUserMenuOpen(false)
+      const inBtn      = userMenuRef.current?.contains(e.target)
+      const inDropdown = dropdownRef.current?.contains(e.target)
+      if (!inBtn && !inDropdown) setUserMenuOpen(false)
     }
     document.addEventListener('mousedown', handler)
     return () => document.removeEventListener('mousedown', handler)
@@ -120,8 +126,17 @@ export default function Navbar() {
     setExpanded(v => v === name ? null : name)
   }
 
+  function openUserMenu() {
+    if (navbarRef.current && userMenuRef.current) {
+      const navBottom  = navbarRef.current.getBoundingClientRect().bottom
+      const btnRect    = userMenuRef.current.getBoundingClientRect()
+      setDropdownPos({ top: navBottom, right: window.innerWidth - btnRect.right })
+    }
+    setUserMenuOpen(v => !v)
+  }
+
   return (
-    <nav className="navbar">
+    <nav className="navbar" ref={navbarRef}>
       <Link to="/" className="navbar__logo" aria-label="The Patch Solutions">
         <img src={logo} alt="The Patch Solutions" />
       </Link>
@@ -250,7 +265,7 @@ export default function Navbar() {
         </li>
 
         {/* Mobile auth */}
-        <li style={{ borderTop: '1px solid rgba(255,255,255,0.08)', marginTop: '0.5rem', paddingTop: '0.5rem' }}>
+        <li className="navbar__mobile-only" style={{ borderTop: '1px solid rgba(255,255,255,0.08)', marginTop: '0.5rem', paddingTop: '0.5rem' }}>
           {user ? (
             <>
               <div style={{ fontFamily: 'var(--font-heading)', fontSize: '0.7rem', color: 'rgba(255,255,255,0.4)', letterSpacing: '0.1em', padding: '0.4rem 1.5rem', textTransform: 'uppercase' }}>{profile?.full_name || user.email}</div>
@@ -270,12 +285,16 @@ export default function Navbar() {
 
       {/* Desktop auth */}
       {user ? (
-        <div style={{ position: 'relative', alignSelf: 'stretch', display: 'flex', alignItems: 'center' }} ref={userMenuRef}>
-          <button className="navbar__user-btn" onClick={() => setUserMenuOpen(v => !v)} aria-label="Account menu">
+        <div ref={userMenuRef} className="navbar__user-area">
+          <button className="navbar__user-btn" onClick={openUserMenu} aria-label="Account menu">
             {getInitials()}
           </button>
-          {userMenuOpen && (
-            <div className="navbar__user-dropdown">
+          {userMenuOpen && createPortal(
+            <div
+              ref={dropdownRef}
+              className="navbar__user-dropdown"
+              style={{ position: 'fixed', top: dropdownPos.top, right: dropdownPos.right }}
+            >
               <div className="navbar__user-dropdown__header">
                 <div className="navbar__user-dropdown__name">{profile?.full_name || 'My Account'}</div>
                 <div className="navbar__user-dropdown__email">{user.email}</div>
@@ -284,7 +303,8 @@ export default function Navbar() {
               <Link to="/account/orders" onClick={() => setUserMenuOpen(false)}>My Orders</Link>
               <Link to="/account/quotes" onClick={() => setUserMenuOpen(false)}>My Quotes</Link>
               <button className="signout-btn" onClick={async () => { setUserMenuOpen(false); await authSignOut() }}>Sign Out</button>
-            </div>
+            </div>,
+            document.body
           )}
         </div>
       ) : (

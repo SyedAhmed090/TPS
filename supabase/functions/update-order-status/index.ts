@@ -5,6 +5,11 @@ import { orderInProduction, orderShipped, orderDelivered } from '../_shared/emai
 const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY') ?? ''
 const SITE_URL       = Deno.env.get('SITE_URL') ?? 'https://thepatchsolutions.com'
 
+// Human-readable display ID derived from UUID (e.g. "TPS-A1B2C3D4")
+function displayOrderId(id: string): string {
+  return 'TPS-' + id.replace(/-/g, '').substring(0, 8).toUpperCase()
+}
+
 async function sendEmail(to: string, subject: string, html: string, text: string) {
   const res = await fetch('https://api.resend.com/emails', {
     method: 'POST',
@@ -20,10 +25,25 @@ Deno.serve(async (req: Request) => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: corsHeaders })
 
   try {
+    // Verify caller is an authenticated admin
     const authHeader = req.headers.get('authorization')
-    if (!authHeader) {
+    if (!authHeader?.startsWith('Bearer ')) {
       return new Response(JSON.stringify({ error: 'Unauthorized' }), {
         status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      })
+    }
+    const token = authHeader.substring(7)
+    const { data: { user }, error: authError } = await supabaseAdmin.auth.getUser(token)
+    if (authError || !user) {
+      return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+        status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      })
+    }
+    const { data: adminRow } = await supabaseAdmin
+      .from('admin_users').select('id').eq('auth_user_id', user.id).maybeSingle()
+    if (!adminRow) {
+      return new Response(JSON.stringify({ error: 'Forbidden' }), {
+        status: 403, headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       })
     }
 
@@ -37,9 +57,10 @@ Deno.serve(async (req: Request) => {
       })
     }
 
+    // Use full_name (schema column), not name
     const { data: order, error: fetchError } = await supabaseAdmin
       .from('orders')
-      .select('*, customers(email, name)')
+      .select('*, customers(email, full_name)')
       .eq('id', order_id)
       .single()
 
@@ -72,24 +93,26 @@ Deno.serve(async (req: Request) => {
     }
 
     const customerEmail = order.customers?.email
-    const customerName  = order.customers?.name || 'Customer'
+    // Use order_number from DB if present, otherwise derive from UUID
+    const orderRef      = order.order_number ?? displayOrderId(order.id)
+    const customerName  = order.customers?.full_name || 'Customer'
 
     if (customerEmail && ['in_production', 'shipped', 'delivered'].includes(status)) {
       let tpl: { html: string; text: string } | null = null
       let subject = ''
 
       if (status === 'in_production') {
-        tpl = orderInProduction({ name: customerName, orderNumber: order.order_number, siteUrl: SITE_URL })
-        subject = `Your Order Is In Production — ${order.order_number}`
+        tpl = orderInProduction({ name: customerName, orderNumber: orderRef, siteUrl: SITE_URL })
+        subject = `Your Order Is In Production — ${orderRef}`
       } else if (status === 'shipped') {
         tpl = orderShipped({
-          name: customerName, orderNumber: order.order_number,
+          name: customerName, orderNumber: orderRef,
           trackingNumber: tracking_number, carrier, siteUrl: SITE_URL,
         })
-        subject = `Your Order Has Shipped — ${order.order_number}`
+        subject = `Your Order Has Shipped — ${orderRef}`
       } else if (status === 'delivered') {
-        tpl = orderDelivered({ name: customerName, orderNumber: order.order_number, siteUrl: SITE_URL })
-        subject = `Your Order Has Been Delivered — ${order.order_number}`
+        tpl = orderDelivered({ name: customerName, orderNumber: orderRef, siteUrl: SITE_URL })
+        subject = `Your Order Has Been Delivered — ${orderRef}`
       }
 
       if (tpl && subject) {
@@ -97,7 +120,8 @@ Deno.serve(async (req: Request) => {
         await supabaseAdmin.from('email_logs').insert({
           to_email: customerEmail, subject, template: `order_${status}`,
           status: result.ok ? 'sent' : 'failed',
-          resend_id: result.data?.id ?? null, error: result.ok ? null : JSON.stringify(result.data),
+          resend_id: result.data?.id ?? null,
+          error_message: result.ok ? null : JSON.stringify(result.data),
         })
       }
     }

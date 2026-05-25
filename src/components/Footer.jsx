@@ -12,7 +12,7 @@ export default function Footer() {
             </Link>
             <p>Custom patches of every type — designed, produced, and delivered with pride since 2000. Trusted by military units, clubs, teams, and organizations across the United States.</p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem', margin: '1rem 0' }}>
-              <a href="tel:+18005555555" style={{ color: 'var(--gold)', fontFamily: 'var(--font-heading)', fontSize: '0.82rem', letterSpacing: '0.06em', textDecoration: 'none' }}>📞 1-800-555-5555</a>
+              <a href="tel:+18007282437" style={{ color: 'var(--gold)', fontFamily: 'var(--font-heading)', fontSize: '0.82rem', letterSpacing: '0.06em', textDecoration: 'none' }}>📞 1-800-PATCHES (1-800-728-2437)</a>
               <a href="mailto:info@thepatchsolutions.com" style={{ color: 'rgba(255,255,255,0.6)', fontFamily: 'var(--font-heading)', fontSize: '0.78rem', letterSpacing: '0.04em', textDecoration: 'none' }}>✉ info@thepatchsolutions.com</a>
             </div>
             <p className="footer-since">© {new Date().getFullYear()} The Patch Solutions · USA</p>
@@ -21,8 +21,17 @@ export default function Footer() {
           <div className="footer-col">
             <h4>Products</h4>
             <ul>
-              {['Embroidered Patches','Woven Patches','PVC Patches','Chenille Patches','Leather Patches','Dye Sublimation','Felt Patches','Brand Merchandise'].map(p => (
-                <li key={p}><Link to="/products">{p}</Link></li>
+              {[
+                { name: 'Embroidered Patches', slug: 'embroidered-patches' },
+                { name: 'Woven Patches', slug: 'woven-patches' },
+                { name: 'PVC Patches', slug: 'pvc-patches' },
+                { name: 'Chenille Patches', slug: 'chenille-patches' },
+                { name: 'Leather Patches', slug: 'leather-patches' },
+                { name: 'Dye Sublimation', slug: 'dye-sublimation-patches' },
+                { name: 'Felt Patches', slug: 'felt-patches' },
+                { name: 'Brand Merchandise', slug: 'brand-merchandise' },
+              ].map(({ name, slug }) => (
+                <li key={name}><Link to={`/products/${slug}`}>{name}</Link></li>
               ))}
             </ul>
           </div>
@@ -46,7 +55,7 @@ export default function Footer() {
             <ul>
               <li><Link to="/pricing">Pricing</Link></li>
               <li><Link to="/rush-order">Rush Order</Link></li>
-              <li><Link to="/contact">Free Quote</Link></li>
+              <li><Link to="/free-quote">Free Quote</Link></li>
               <li><Link to="/request-samples">Free Samples</Link></li>
               <li><Link to="/privacy-policy">Privacy Policy</Link></li>
               <li><Link to="/return-policy">Return Policy</Link></li>
