@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../contexts/AuthContext'
 import useSEO from '../../hooks/useSEO'
 import Breadcrumb from '../../components/Breadcrumb'
+import { inputStyle, labelStyle } from '../../styles/formStyles'
 
 export default function Login() {
   useSEO('Sign In', 'Sign in to your The Patch Solutions account to track orders and manage your profile.')
@@ -20,9 +21,6 @@ export default function Login() {
     if (err) { setError(err.message); setLoading(false) }
     else navigate('/account')
   }
-
-  const inputStyle = { width: '100%', padding: '11px 14px', border: '1px solid rgba(11,26,46,0.2)', background: 'var(--white)', fontFamily: 'var(--font-body)', fontSize: '0.9rem', outline: 'none', boxSizing: 'border-box' }
-  const labelStyle = { display: 'block', fontFamily: 'var(--font-heading)', fontSize: '0.72rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--navy)', marginBottom: '6px' }
 
   return (
     <>

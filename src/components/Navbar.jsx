@@ -8,6 +8,7 @@ const ABOUT_LINKS = [
   { to: '/about/custom-patch-company', label: 'Custom Patch Company' },
   { to: '/about/low-minimum-embroidered-patches', label: 'Low Minimum Patches' },
   { to: '/about/blog', label: 'Blog' },
+  { to: '/design-templates', label: 'Design Templates' },
   { to: '/about/do-it-yourself', label: 'Do It Yourself' },
   { to: '/about/faqs', label: 'FAQs' },
   { to: '/about/how-to-order', label: 'How to Order' },

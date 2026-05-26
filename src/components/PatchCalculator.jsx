@@ -244,18 +244,24 @@ const S = {
 };
 
 // ─── COMPONENT ──────────────────────────────────────────────────
+const CALC_KEY = 'tps_calc_state'
+function loadCalc(key, fallback) {
+  try { const s = JSON.parse(localStorage.getItem(CALC_KEY) || '{}'); return key in s ? s[key] : fallback }
+  catch { return fallback }
+}
+
 export default function PatchCalculator() {
-  const [patchType, setPatchType] = useState("Embroidered");
-  const [coverage, setCoverage] = useState("50%");
-  const [size, setSize] = useState(3);
-  const [customSize, setCustomSize] = useState("");
-  const [useCustomSize, setUseCustomSize] = useState(false);
-  const [bullionVariant, setBullionVariant] = useState('HBC3 3"x3"');
-  const [qty, setQty] = useState(100);
-  const [qtyInput, setQtyInput] = useState("100");
-  const [backing, setBacking] = useState("None");
-  const [extraColors, setExtraColors] = useState(0);
-  const [metallic, setMetallic] = useState(false);
+  const [patchType, setPatchType] = useState(() => loadCalc('patchType', 'Embroidered'));
+  const [coverage, setCoverage] = useState(() => loadCalc('coverage', '50%'));
+  const [size, setSize] = useState(() => loadCalc('size', 3));
+  const [customSize, setCustomSize] = useState(() => loadCalc('customSize', ''));
+  const [useCustomSize, setUseCustomSize] = useState(() => loadCalc('useCustomSize', false));
+  const [bullionVariant, setBullionVariant] = useState(() => loadCalc('bullionVariant', 'HBC3 3"x3"'));
+  const [qty, setQty] = useState(() => loadCalc('qty', 100));
+  const [qtyInput, setQtyInput] = useState(() => String(loadCalc('qty', 100)));
+  const [backing, setBacking] = useState(() => loadCalc('backing', 'None'));
+  const [extraColors, setExtraColors] = useState(() => loadCalc('extraColors', 0));
+  const [metallic, setMetallic] = useState(() => loadCalc('metallic', false));
   const [result, setResult] = useState(null);
   const [error, setError] = useState("");
   const [discountCode, setDiscountCode] = useState("");
@@ -264,6 +270,11 @@ export default function PatchCalculator() {
   const [discountLoading, setDiscountLoading] = useState(false);
   const [customNote, setCustomNote] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
+
+  useEffect(() => {
+    try { localStorage.setItem(CALC_KEY, JSON.stringify({ patchType, coverage, size, customSize, useCustomSize, bullionVariant, qty, backing, extraColors, metallic })) }
+    catch {}
+  }, [patchType, coverage, size, customSize, useCustomSize, bullionVariant, qty, backing, extraColors, metallic]);
 
   const PATCH_TYPES = ["Embroidered", "Blank", "Bullion Crest"];
   const COVERAGE_OPTIONS = ["50%", "75%", "100%"];

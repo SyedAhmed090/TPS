@@ -1,4 +1,4 @@
-import { useParams, Link } from 'react-router-dom'
+import { useParams, Link, useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import useSEO from '../../hooks/useSEO'
 import Breadcrumb from '../../components/Breadcrumb'
@@ -40,6 +40,7 @@ function ContentSection({ section }) {
 
 export default function BlogPost() {
   const { slug } = useParams()
+  const navigate = useNavigate()
   const [post, setPost] = useState(null)
   const [loading, setLoading] = useState(true)
   const [related, setRelated] = useState([])
@@ -67,15 +68,21 @@ export default function BlogPost() {
 
   useEffect(() => {
     if (!post) return
-    supabase
+    // Prefer posts in the same category for related content
+    const query = supabase
       .from('blog_posts')
       .select('slug, title, category, cover_image')
       .eq('published', true)
       .neq('slug', slug)
-      .limit(3)
-      .then(({ data }) => {
-        if (data) setRelated(data)
-      })
+    const fetch = post.category
+      ? query.eq('category', post.category).limit(3)
+      : query.limit(3)
+    fetch.then(({ data }) => {
+      if (data && data.length >= 3) { setRelated(data); return }
+      // Fallback: fill with any posts if same-category doesn't have enough
+      supabase.from('blog_posts').select('slug, title, category, cover_image').eq('published', true).neq('slug', slug).limit(3)
+        .then(({ data: fallback }) => { if (fallback) setRelated(fallback) })
+    })
   }, [post, slug])
 
   useEffect(() => {
@@ -146,7 +153,19 @@ export default function BlogPost() {
       <section style={{ padding: '4rem 0' }}>
         <div className="container" style={{ maxWidth: 760 }}>
           {/* Excerpt lead */}
-          <p style={{ fontSize: '1.18rem', color: 'var(--navy)', lineHeight: 1.75, marginBottom: '2.5rem', fontWeight: 500, borderBottom: '1px solid rgba(11,26,46,0.1)', paddingBottom: '2rem' }}>{post.excerpt}</p>
+          <p style={{ fontSize: '1.18rem', color: 'var(--navy)', lineHeight: 1.75, marginBottom: post.tags?.length ? '1.25rem' : '2.5rem', fontWeight: 500 }}>{post.excerpt}</p>
+
+          {/* Tags */}
+          {post.tags && post.tags.length > 0 && (
+            <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginBottom: '2.5rem', paddingBottom: '2rem', borderBottom: '1px solid rgba(11,26,46,0.1)' }}>
+              {post.tags.map(tag => (
+                <button key={tag} onClick={() => navigate(`/about/blog?tag=${encodeURIComponent(tag)}`)}
+                  style={{ padding: '0.25rem 0.75rem', background: 'rgba(200,147,26,0.1)', border: '1px solid rgba(200,147,26,0.3)', color: 'var(--gold)', fontFamily: 'var(--font-heading)', fontSize: '0.68rem', letterSpacing: '0.08em', cursor: 'pointer', textTransform: 'uppercase' }}>
+                  #{tag}
+                </button>
+              ))}
+            </div>
+          )}
 
           {Array.isArray(post.content) && post.content.map((section, i) => (
             <ContentSection key={i} section={section} />

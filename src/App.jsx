@@ -41,6 +41,7 @@ const Promotions = lazy(() => import('./pages/Promotions'))
 const FreeQuote = lazy(() => import('./pages/FreeQuote'))
 const RequestSample = lazy(() => import('./pages/RequestSample'))
 const RushOrder = lazy(() => import('./pages/RushOrder'))
+const DesignTemplates = lazy(() => import('./pages/DesignTemplates'))
 const NotFound = lazy(() => import('./pages/NotFound'))
 
 // About
@@ -155,6 +156,7 @@ export default function App() {
               <Route path="/free-quote" element={<FreeQuote />} />
               <Route path="/request-samples" element={<RequestSample />} />
               <Route path="/rush-order" element={<RushOrder />} />
+              <Route path="/design-templates" element={<DesignTemplates />} />
 
               {/* Auth */}
               <Route path="/login" element={<Login />} />

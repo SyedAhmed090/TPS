@@ -1,9 +1,14 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { Turnstile } from '@marsidev/react-turnstile'
 import Breadcrumb from '../components/Breadcrumb'
 import useReveal from '../hooks/useReveal'
 import useSEO from '../hooks/useSEO'
-import { supabase } from '../lib/supabase'
+import { inputStyle, labelStyle, selectStyle, textareaStyle, fieldErrorStyle } from '../styles/formStyles'
+import { useFormSubmit } from '../hooks/useFormSubmit'
+import { validateSampleForm } from '../utils/validation'
+
+const TURNSTILE_SITE_KEY = import.meta.env.VITE_TURNSTILE_SITE_KEY
 
 const US_STATES = ['AL','AK','AZ','AR','CA','CO','CT','DE','FL','GA','HI','ID','IL','IN','IA','KS','KY','LA','ME','MD','MA','MI','MN','MS','MO','MT','NE','NV','NH','NJ','NM','NY','NC','ND','OH','OK','OR','PA','RI','SC','SD','TN','TX','UT','VT','VA','WA','WV','WI','WY','DC']
 
@@ -27,11 +32,14 @@ export default function RequestSample() {
   })
   const [patchTypes, setPatchTypes] = useState([])
   const [sent, setSent] = useState(false)
-  const [loading, setLoading] = useState(false)
-  const [submitError, setSubmitError] = useState('')
+  const [errors, setErrors] = useState({})
+  const [turnstileToken, setTurnstileToken] = useState('')
+  const { submit, loading, submitError } = useFormSubmit('request-sample')
 
   function handleChange(e) {
-    setForm(f => ({ ...f, [e.target.name]: e.target.value }))
+    const { name, value } = e.target
+    setForm(f => ({ ...f, [name]: value }))
+    if (errors[name]) setErrors(prev => ({ ...prev, [name]: undefined }))
   }
 
   function togglePatchType(type) {
@@ -42,55 +50,23 @@ export default function RequestSample() {
 
   async function handleSubmit(e) {
     e.preventDefault()
-    setLoading(true)
-    setSubmitError('')
-    try {
-      const { error } = await supabase.functions.invoke('request-sample', {
-        body: {
-          name: form.name,
-          email: form.email,
-          phone: form.phone || undefined,
-          company: form.company || undefined,
-          address: form.address,
-          city: form.city,
-          state: form.state,
-          zip: form.zip,
-          country: form.country,
-          patch_types: patchTypes,
-          notes: form.notes || undefined,
-        },
-      })
-      if (error) {
-        setSubmitError('Failed to send. Please try again or email us at info@thepatchsolutions.com')
-      } else {
-        setSent(true)
-      }
-    } catch {
-      setSubmitError('Failed to send. Please try again or email us at info@thepatchsolutions.com')
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  const inputStyle = {
-    width: '100%', padding: '11px 14px',
-    border: '1px solid rgba(11,26,46,0.2)',
-    background: 'var(--white)',
-    fontFamily: 'var(--font-body)',
-    fontSize: '0.9rem',
-    outline: 'none',
-    color: 'var(--text-dark)',
-    boxSizing: 'border-box',
-  }
-
-  const labelStyle = {
-    display: 'block',
-    fontFamily: 'var(--font-heading)',
-    fontSize: '0.72rem',
-    letterSpacing: '0.15em',
-    textTransform: 'uppercase',
-    color: 'var(--navy)',
-    marginBottom: '6px',
+    const errs = validateSampleForm(form)
+    if (Object.keys(errs).length) { setErrors(errs); return }
+    const ok = await submit({
+      name: form.name,
+      email: form.email,
+      phone: form.phone || undefined,
+      company: form.company || undefined,
+      address: form.address,
+      city: form.city,
+      state: form.state,
+      zip: form.zip,
+      country: form.country,
+      patch_types: patchTypes,
+      notes: form.notes || undefined,
+      turnstile_token: turnstileToken || undefined,
+    })
+    if (ok) setSent(true)
   }
 
   return (
@@ -122,8 +98,16 @@ export default function RequestSample() {
               <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
                 <h2 style={{ fontFamily: 'var(--font-display)', color: 'var(--navy)', fontSize: '1.8rem', letterSpacing: '0.04em', marginBottom: '0.25rem' }}>Your Contact Info</h2>
                 <div className="fq-grid">
-                  <div><label style={labelStyle}>Name *</label><input name="name" value={form.name} onChange={handleChange} required placeholder="Full name" style={inputStyle} /></div>
-                  <div><label style={labelStyle}>Email *</label><input name="email" type="email" value={form.email} onChange={handleChange} required placeholder="your@email.com" style={inputStyle} /></div>
+                  <div>
+                    <label style={labelStyle}>Name *</label>
+                    <input name="name" value={form.name} onChange={handleChange} placeholder="Full name" style={{ ...inputStyle, borderColor: errors.name ? '#c0392b' : undefined }} />
+                    {errors.name && <span style={fieldErrorStyle}>{errors.name}</span>}
+                  </div>
+                  <div>
+                    <label style={labelStyle}>Email *</label>
+                    <input name="email" type="email" value={form.email} onChange={handleChange} placeholder="your@email.com" style={{ ...inputStyle, borderColor: errors.email ? '#c0392b' : undefined }} />
+                    {errors.email && <span style={fieldErrorStyle}>{errors.email}</span>}
+                  </div>
                   <div><label style={labelStyle}>Phone</label><input name="phone" value={form.phone} onChange={handleChange} placeholder="Optional" style={inputStyle} /></div>
                   <div><label style={labelStyle}>Company / Org</label><input name="company" value={form.company} onChange={handleChange} placeholder="Optional" style={inputStyle} /></div>
                 </div>
@@ -131,23 +115,27 @@ export default function RequestSample() {
                 <h2 style={{ fontFamily: 'var(--font-display)', color: 'var(--navy)', fontSize: '1.8rem', letterSpacing: '0.04em', marginBottom: '0.25rem', marginTop: '0.5rem' }}>Shipping Address *</h2>
                 <div>
                   <label style={labelStyle}>Street Address</label>
-                  <input name="address" value={form.address} onChange={handleChange} required placeholder="123 Main St" style={inputStyle} />
+                  <input name="address" value={form.address} onChange={handleChange} placeholder="123 Main St" style={{ ...inputStyle, borderColor: errors.address ? '#c0392b' : undefined }} />
+                  {errors.address && <span style={fieldErrorStyle}>{errors.address}</span>}
                 </div>
                 <div className="fq-grid">
                   <div>
                     <label style={labelStyle}>City</label>
-                    <input name="city" value={form.city} onChange={handleChange} required placeholder="City" style={inputStyle} />
+                    <input name="city" value={form.city} onChange={handleChange} placeholder="City" style={{ ...inputStyle, borderColor: errors.city ? '#c0392b' : undefined }} />
+                    {errors.city && <span style={fieldErrorStyle}>{errors.city}</span>}
                   </div>
                   <div>
                     <label style={labelStyle}>State</label>
-                    <select name="state" value={form.state} onChange={handleChange} required style={{ ...inputStyle, cursor: 'pointer' }}>
+                    <select name="state" value={form.state} onChange={handleChange} style={{ ...selectStyle, borderColor: errors.state ? '#c0392b' : undefined }}>
                       <option value="">Select state...</option>
                       {US_STATES.map(s => <option key={s} value={s}>{s}</option>)}
                     </select>
+                    {errors.state && <span style={fieldErrorStyle}>{errors.state}</span>}
                   </div>
                   <div>
                     <label style={labelStyle}>ZIP Code</label>
-                    <input name="zip" value={form.zip} onChange={handleChange} required placeholder="12345" style={inputStyle} />
+                    <input name="zip" value={form.zip} onChange={handleChange} placeholder="12345" style={{ ...inputStyle, borderColor: errors.zip ? '#c0392b' : undefined }} />
+                    {errors.zip && <span style={fieldErrorStyle}>{errors.zip}</span>}
                   </div>
                 </div>
 
@@ -184,11 +172,22 @@ export default function RequestSample() {
                   <label style={labelStyle}>Additional Notes <span style={{ fontWeight: 400, textTransform: 'none', letterSpacing: 0, color: 'var(--gray-mid)', fontSize: '0.8rem' }}>(optional)</span></label>
                   <textarea name="notes" value={form.notes} onChange={handleChange} rows={3}
                     placeholder="Tell us about your project — type, size, quantity, intended use..."
-                    style={{ ...inputStyle, resize: 'vertical' }} />
+                    style={textareaStyle} />
                 </div>
 
                 {submitError && <p style={{ color: '#c0392b', fontSize: '0.85rem', margin: 0 }}>{submitError}</p>}
-                <button type="submit" disabled={loading} className="btn-primary" style={{ alignSelf: 'flex-start', fontSize: '1rem', padding: '14px 36px', opacity: loading ? 0.7 : 1, cursor: loading ? 'not-allowed' : 'pointer' }}>
+                {TURNSTILE_SITE_KEY && (
+                  <Turnstile
+                    siteKey={TURNSTILE_SITE_KEY}
+                    onSuccess={token => setTurnstileToken(token)}
+                    onError={() => setTurnstileToken('')}
+                    onExpire={() => setTurnstileToken('')}
+                  />
+                )}
+                <button type="submit"
+                  disabled={loading || (!!TURNSTILE_SITE_KEY && !turnstileToken)}
+                  className="btn-primary"
+                  style={{ alignSelf: 'flex-start', fontSize: '1rem', padding: '14px 36px', opacity: (loading || (!!TURNSTILE_SITE_KEY && !turnstileToken)) ? 0.7 : 1, cursor: (loading || (!!TURNSTILE_SITE_KEY && !turnstileToken)) ? 'not-allowed' : 'pointer' }}>
                   {loading ? 'Sending...' : 'Request Free Samples'}
                 </button>
               </form>

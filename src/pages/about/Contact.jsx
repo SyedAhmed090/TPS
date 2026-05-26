@@ -1,8 +1,13 @@
 import { useState } from 'react'
+import { Turnstile } from '@marsidev/react-turnstile'
 import Breadcrumb from '../../components/Breadcrumb'
 import useReveal from '../../hooks/useReveal'
 import useSEO from '../../hooks/useSEO'
-import { supabase } from '../../lib/supabase'
+import { useFormSubmit } from '../../hooks/useFormSubmit'
+import { inputStyle, labelStyle, textareaStyle, fieldErrorStyle } from '../../styles/formStyles'
+import { validateContactForm } from '../../utils/validation'
+
+const TURNSTILE_SITE_KEY = import.meta.env.VITE_TURNSTILE_SITE_KEY
 
 const CONTACT_INFO = [
   { label: 'Email', value: 'info@thepatchsolutions.com', icon: '✉' },
@@ -15,32 +20,23 @@ export default function Contact() {
   useSEO('Contact Us', 'Contact The Patch Solutions for a free custom patch quote, samples, or any questions about your order.')
   const [form, setForm] = useState({ name: '', email: '', phone: '', subject: '', quantity: '', message: '' })
   const [sent, setSent] = useState(false)
-  const [loading, setLoading] = useState(false)
-  const [submitError, setSubmitError] = useState('')
+  const [errors, setErrors] = useState({})
+  const [turnstileToken, setTurnstileToken] = useState('')
+  const { submit, loading, submitError } = useFormSubmit('submit-contact')
   useReveal()
 
   function handleChange(e) {
-    setForm(f => ({ ...f, [e.target.name]: e.target.value }))
+    const { name, value } = e.target
+    setForm(f => ({ ...f, [name]: value }))
+    if (errors[name]) setErrors(prev => ({ ...prev, [name]: undefined }))
   }
 
   async function handleSubmit(e) {
     e.preventDefault()
-    setLoading(true)
-    setSubmitError('')
-    try {
-      const { error } = await supabase.functions.invoke('submit-contact', {
-        body: { name: form.name, email: form.email, phone: form.phone, subject: form.subject, message: form.message }
-      })
-      if (error) {
-        setSubmitError('Failed to send. Please try again or email us at info@thepatchsolutions.com')
-      } else {
-        setSent(true)
-      }
-    } catch {
-      setSubmitError('Failed to send. Please try again or email us at info@thepatchsolutions.com')
-    } finally {
-      setLoading(false)
-    }
+    const errs = validateContactForm(form)
+    if (Object.keys(errs).length) { setErrors(errs); return }
+    const ok = await submit({ name: form.name, email: form.email, phone: form.phone, subject: form.subject, message: form.message, turnstile_token: turnstileToken || undefined })
+    if (ok) setSent(true)
   }
 
   return (
@@ -73,40 +69,47 @@ export default function Contact() {
               <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
                 <div className="fq-grid">
                   <div>
-                    <label style={{ display: 'block', fontFamily: 'var(--font-heading)', fontSize: '0.75rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--navy)', marginBottom: '6px' }}>Name *</label>
-                    <input name="name" value={form.name} onChange={handleChange} required placeholder="Your name"
-                      style={{ width: '100%', padding: '10px 14px', border: '1px solid rgba(11,26,46,0.2)', background: 'var(--white)', fontFamily: 'var(--font-body)', fontSize: '0.9rem', outline: 'none' }} />
+                    <label style={labelStyle}>Name *</label>
+                    <input name="name" value={form.name} onChange={handleChange} placeholder="Your name" style={{ ...inputStyle, borderColor: errors.name ? '#c0392b' : undefined }} />
+                    {errors.name && <span style={fieldErrorStyle}>{errors.name}</span>}
                   </div>
                   <div>
-                    <label style={{ display: 'block', fontFamily: 'var(--font-heading)', fontSize: '0.75rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--navy)', marginBottom: '6px' }}>Email *</label>
-                    <input name="email" type="email" value={form.email} onChange={handleChange} required placeholder="your@email.com"
-                      style={{ width: '100%', padding: '10px 14px', border: '1px solid rgba(11,26,46,0.2)', background: 'var(--white)', fontFamily: 'var(--font-body)', fontSize: '0.9rem', outline: 'none' }} />
+                    <label style={labelStyle}>Email *</label>
+                    <input name="email" type="email" value={form.email} onChange={handleChange} placeholder="your@email.com" style={{ ...inputStyle, borderColor: errors.email ? '#c0392b' : undefined }} />
+                    {errors.email && <span style={fieldErrorStyle}>{errors.email}</span>}
                   </div>
                 </div>
                 <div className="fq-grid">
                   <div>
-                    <label style={{ display: 'block', fontFamily: 'var(--font-heading)', fontSize: '0.75rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--navy)', marginBottom: '6px' }}>Phone</label>
-                    <input name="phone" value={form.phone} onChange={handleChange} placeholder="(optional)"
-                      style={{ width: '100%', padding: '10px 14px', border: '1px solid rgba(11,26,46,0.2)', background: 'var(--white)', fontFamily: 'var(--font-body)', fontSize: '0.9rem', outline: 'none' }} />
+                    <label style={labelStyle}>Phone</label>
+                    <input name="phone" value={form.phone} onChange={handleChange} placeholder="(optional)" style={inputStyle} />
                   </div>
                   <div>
-                    <label style={{ display: 'block', fontFamily: 'var(--font-heading)', fontSize: '0.75rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--navy)', marginBottom: '6px' }}>Quantity</label>
-                    <input name="quantity" value={form.quantity} onChange={handleChange} placeholder="e.g. 100 patches"
-                      style={{ width: '100%', padding: '10px 14px', border: '1px solid rgba(11,26,46,0.2)', background: 'var(--white)', fontFamily: 'var(--font-body)', fontSize: '0.9rem', outline: 'none' }} />
+                    <label style={labelStyle}>Quantity</label>
+                    <input name="quantity" value={form.quantity} onChange={handleChange} placeholder="e.g. 100 patches" style={inputStyle} />
                   </div>
                 </div>
                 <div>
-                  <label style={{ display: 'block', fontFamily: 'var(--font-heading)', fontSize: '0.75rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--navy)', marginBottom: '6px' }}>Subject</label>
-                  <input name="subject" value={form.subject} onChange={handleChange} placeholder="e.g. Embroidered patches quote"
-                    style={{ width: '100%', padding: '10px 14px', border: '1px solid rgba(11,26,46,0.2)', background: 'var(--white)', fontFamily: 'var(--font-body)', fontSize: '0.9rem', outline: 'none' }} />
+                  <label style={labelStyle}>Subject</label>
+                  <input name="subject" value={form.subject} onChange={handleChange} placeholder="e.g. Embroidered patches quote" style={inputStyle} />
                 </div>
                 <div>
-                  <label style={{ display: 'block', fontFamily: 'var(--font-heading)', fontSize: '0.75rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--navy)', marginBottom: '6px' }}>Message *</label>
-                  <textarea name="message" value={form.message} onChange={handleChange} required rows={5} placeholder="Describe your patch project — type, size, backing, and any artwork details..."
-                    style={{ width: '100%', padding: '10px 14px', border: '1px solid rgba(11,26,46,0.2)', background: 'var(--white)', fontFamily: 'var(--font-body)', fontSize: '0.9rem', outline: 'none', resize: 'vertical' }} />
+                  <label style={labelStyle}>Message *</label>
+                  <textarea name="message" value={form.message} onChange={handleChange} rows={5} placeholder="Describe your patch project — type, size, backing, and any artwork details..." style={{ ...textareaStyle, borderColor: errors.message ? '#c0392b' : undefined }} />
+                  {errors.message && <span style={fieldErrorStyle}>{errors.message}</span>}
                 </div>
+                {TURNSTILE_SITE_KEY && (
+                  <Turnstile
+                    siteKey={TURNSTILE_SITE_KEY}
+                    onSuccess={token => setTurnstileToken(token)}
+                    onError={() => setTurnstileToken('')}
+                    onExpire={() => setTurnstileToken('')}
+                  />
+                )}
                 <div>
-                  <button type="submit" className="btn-primary" disabled={loading} style={{ alignSelf: 'flex-start', opacity: loading ? 0.7 : 1, cursor: loading ? 'not-allowed' : 'pointer' }}>
+                  <button type="submit" className="btn-primary"
+                    disabled={loading || (!!TURNSTILE_SITE_KEY && !turnstileToken)}
+                    style={{ alignSelf: 'flex-start', opacity: (loading || (!!TURNSTILE_SITE_KEY && !turnstileToken)) ? 0.7 : 1, cursor: (loading || (!!TURNSTILE_SITE_KEY && !turnstileToken)) ? 'not-allowed' : 'pointer' }}>
                     {loading ? 'Sending…' : 'Send Message'}
                   </button>
                   {submitError && <p style={{ color: '#c0392b', fontSize: '0.85rem', marginTop: '0.75rem' }}>{submitError}</p>}

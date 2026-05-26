@@ -17,7 +17,7 @@ export default function BlogManager() {
   async function fetchData() {
     const { data } = await supabase
       .from('blog_posts')
-      .select('id, slug, title, excerpt, category, published, published_at, view_count, read_time')
+      .select('id, slug, title, excerpt, category, tags, published, published_at, view_count, read_time')
       .order('published_at', { ascending: false })
     setPosts(data || [])
     setLoading(false)
@@ -31,13 +31,20 @@ export default function BlogManager() {
 
   function startEdit(post) {
     setEditId(post.id)
-    setEditForm({ title: post.title, excerpt: post.excerpt || '', category: post.category || '', read_time: post.read_time || '' })
+    setEditForm({ title: post.title, excerpt: post.excerpt || '', category: post.category || '', read_time: post.read_time || '', tags: (post.tags || []).join(', ') })
   }
 
   async function saveEdit() {
     setSaving(true)
-    await supabase.from('blog_posts').update({ title: editForm.title, excerpt: editForm.excerpt, category: editForm.category, read_time: parseInt(editForm.read_time) || null }).eq('id', editId)
-    setPosts(prev => prev.map(p => p.id === editId ? { ...p, ...editForm } : p))
+    const tags = editForm.tags.split(',').map(t => t.trim().toLowerCase()).filter(Boolean)
+    await supabase.from('blog_posts').update({
+      title: editForm.title,
+      excerpt: editForm.excerpt,
+      category: editForm.category,
+      read_time: parseInt(editForm.read_time) || null,
+      tags,
+    }).eq('id', editId)
+    setPosts(prev => prev.map(p => p.id === editId ? { ...p, ...editForm, tags } : p))
     setEditId(null)
     setSaving(false)
   }
@@ -57,6 +64,12 @@ export default function BlogManager() {
                   style={{ width: '100%', padding: '8px 12px', border: '1px solid rgba(11,26,46,0.2)', background: 'var(--white)', fontFamily: 'var(--font-body)', fontSize: '0.9rem', outline: 'none' }} />
               </div>
             ))}
+            <div>
+              <label style={{ display: 'block', fontFamily: 'var(--font-heading)', fontSize: '0.68rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--navy)', marginBottom: 4 }}>Tags <span style={{ fontWeight: 400, textTransform: 'none', letterSpacing: 0, fontSize: '0.72rem', color: 'var(--gray-mid)' }}>(comma-separated)</span></label>
+              <input value={editForm.tags || ''} onChange={e => setEditForm(f => ({ ...f, tags: e.target.value }))}
+                placeholder="e.g. embroidery, iron-on, tutorial"
+                style={{ width: '100%', padding: '8px 12px', border: '1px solid rgba(11,26,46,0.2)', background: 'var(--white)', fontFamily: 'var(--font-body)', fontSize: '0.9rem', outline: 'none' }} />
+            </div>
           </div>
           <div style={{ marginBottom: '1rem' }}>
             <label style={{ display: 'block', fontFamily: 'var(--font-heading)', fontSize: '0.68rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--navy)', marginBottom: 4 }}>Excerpt</label>

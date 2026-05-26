@@ -1,10 +1,16 @@
 import { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
+import { Turnstile } from '@marsidev/react-turnstile'
 import Breadcrumb from '../components/Breadcrumb'
 import useReveal from '../hooks/useReveal'
 import useSEO from '../hooks/useSEO'
 import { supabase } from '../lib/supabase'
 import { useAuth } from '../contexts/AuthContext'
+import { inputStyle, labelStyle, selectStyle, textareaStyle, fieldErrorStyle } from '../styles/formStyles'
+import { useFormSubmit } from '../hooks/useFormSubmit'
+import { validateQuoteForm } from '../utils/validation'
+
+const TURNSTILE_SITE_KEY = import.meta.env.VITE_TURNSTILE_SITE_KEY
 
 const PATCH_TYPES = ['Embroidered', 'Woven', 'PVC', 'Dye Sublimation', 'Felt', 'Leather', 'Chenille', 'Blank', 'Bullion Crest', 'Combination', 'Not Sure']
 const BACKING_OPTIONS = ['Iron-On (Heat Seal)', 'Sew-On (Unbacked)', 'Hook & Loop (Velcro)', 'Pin Back', 'Magnetic', 'Self-Stick', 'Not Sure']
@@ -31,66 +37,57 @@ export default function FreeQuote() {
   const [sent, setSent] = useState(false)
   const [designFile, setDesignFile] = useState(null)
   const [dragOver, setDragOver] = useState(false)
-  const [loading, setLoading] = useState(false)
-  const [submitError, setSubmitError] = useState('')
+  const [errors, setErrors] = useState({})
+  const [discountCode, setDiscountCode] = useState('')
+  const [appliedDiscount, setAppliedDiscount] = useState(null)
+  const [discountLoading, setDiscountLoading] = useState(false)
+  const [discountError, setDiscountError] = useState('')
+  const [turnstileToken, setTurnstileToken] = useState('')
+  const { submit, loading, submitError } = useFormSubmit('submit-quote')
   useReveal()
 
   function handleChange(e) {
-    setForm(f => ({ ...f, [e.target.name]: e.target.value }))
+    const { name, value } = e.target
+    setForm(f => ({ ...f, [name]: value }))
+    if (errors[name]) setErrors(prev => ({ ...prev, [name]: undefined }))
+  }
+
+  async function applyDiscount() {
+    if (!discountCode.trim()) return
+    setDiscountLoading(true)
+    setDiscountError('')
+    const { data, error } = await supabase.functions.invoke('validate-discount', { body: { code: discountCode.trim().toUpperCase() } })
+    setDiscountLoading(false)
+    if (error || !data?.valid) { setDiscountError(data?.message || 'Invalid or expired discount code'); return }
+    setAppliedDiscount({ code: discountCode.trim().toUpperCase(), type: data.type, value: data.value })
   }
 
   async function handleSubmit(e) {
     e.preventDefault()
-    setLoading(true)
-    setSubmitError('')
-    try {
-      const formData = new FormData()
-      formData.append('name', form.name)
-      formData.append('email', form.email)
-      formData.append('phone', form.phone)
-      formData.append('company', form.company)
-      formData.append('patch_type', form.patchType)
-      formData.append('backing', form.backing)
-      formData.append('quantity', form.quantity)
-      const notes = [form.message, form.size ? `Size: ${form.size}` : '', form.deadline ? `Needed by: ${form.deadline}` : ''].filter(Boolean).join(' | ')
-      formData.append('special_notes', notes)
-      if (designFile) formData.append('artwork', designFile)
-      const { error } = await supabase.functions.invoke('submit-quote', { body: formData })
-      if (error) {
-        setSubmitError('Failed to send. Please try again or email us directly at info@thepatchsolutions.com')
-      } else {
-        if (user) {
-          await supabase.from('customers')
-            .update({ email: form.email, full_name: form.name, organization: form.company })
-            .eq('auth_user_id', user.id)
-        }
-        setSent(true)
+    const errs = validateQuoteForm({ name: form.name, email: form.email, patch_type: form.patchType, quantity: form.quantity ? 25 : 0 })
+    if (Object.keys(errs).length) { setErrors(errs); return }
+    const formData = new FormData()
+    formData.append('name', form.name)
+    formData.append('email', form.email)
+    formData.append('phone', form.phone)
+    formData.append('company', form.company)
+    formData.append('patch_type', form.patchType)
+    formData.append('backing', form.backing)
+    formData.append('quantity', form.quantity)
+    const notes = [form.message, form.size ? `Size: ${form.size}` : '', form.deadline ? `Needed by: ${form.deadline}` : ''].filter(Boolean).join(' | ')
+    formData.append('special_notes', notes)
+    if (designFile) formData.append('artwork', designFile)
+    if (appliedDiscount) formData.append('discount_code', appliedDiscount.code)
+    if (turnstileToken) formData.append('turnstile_token', turnstileToken)
+    const ok = await submit(formData)
+    if (ok) {
+      if (user) {
+        await supabase.from('customers')
+          .update({ email: form.email, full_name: form.name, organization: form.company })
+          .eq('auth_user_id', user.id)
       }
-    } catch {
-      setSubmitError('Failed to send. Please try again or email us directly at info@thepatchsolutions.com')
-    } finally {
-      setLoading(false)
+      setSent(true)
     }
-  }
-
-  const inputStyle = {
-    width: '100%', padding: '11px 14px',
-    border: '1px solid rgba(11,26,46,0.2)',
-    background: 'var(--white)',
-    fontFamily: 'var(--font-body)',
-    fontSize: '0.9rem',
-    outline: 'none',
-    color: 'var(--text-dark)',
-  }
-
-  const labelStyle = {
-    display: 'block',
-    fontFamily: 'var(--font-heading)',
-    fontSize: '0.72rem',
-    letterSpacing: '0.15em',
-    textTransform: 'uppercase',
-    color: 'var(--navy)',
-    marginBottom: '6px',
   }
 
   return (
@@ -128,8 +125,16 @@ export default function FreeQuote() {
                 )}
                 <h2 style={{ fontFamily: 'var(--font-display)', color: 'var(--navy)', fontSize: '1.8rem', letterSpacing: '0.04em', marginBottom: '0.25rem' }}>Your Contact Info</h2>
                 <div className="fq-grid">
-                  <div><label style={labelStyle}>Name *</label><input name="name" value={form.name} onChange={handleChange} required placeholder="Full name" style={inputStyle} /></div>
-                  <div><label style={labelStyle}>Email *</label><input name="email" type="email" value={form.email} onChange={handleChange} required placeholder="your@email.com" style={inputStyle} /></div>
+                  <div>
+                    <label style={labelStyle}>Name *</label>
+                    <input name="name" value={form.name} onChange={handleChange} placeholder="Full name" style={{ ...inputStyle, borderColor: errors.name ? '#c0392b' : undefined }} />
+                    {errors.name && <span style={fieldErrorStyle}>{errors.name}</span>}
+                  </div>
+                  <div>
+                    <label style={labelStyle}>Email *</label>
+                    <input name="email" type="email" value={form.email} onChange={handleChange} placeholder="your@email.com" style={{ ...inputStyle, borderColor: errors.email ? '#c0392b' : undefined }} />
+                    {errors.email && <span style={fieldErrorStyle}>{errors.email}</span>}
+                  </div>
                   <div><label style={labelStyle}>Phone</label><input name="phone" value={form.phone} onChange={handleChange} placeholder="Optional" style={inputStyle} /></div>
                   <div><label style={labelStyle}>Company / Org</label><input name="company" value={form.company} onChange={handleChange} placeholder="Optional" style={inputStyle} /></div>
                 </div>
@@ -138,24 +143,26 @@ export default function FreeQuote() {
                 <div className="fq-grid">
                   <div>
                     <label style={labelStyle}>Patch Type *</label>
-                    <select name="patchType" value={form.patchType} onChange={handleChange} required style={{ ...inputStyle, cursor: 'pointer' }}>
+                    <select name="patchType" value={form.patchType} onChange={handleChange} style={{ ...selectStyle, borderColor: errors.patch_type ? '#c0392b' : undefined }}>
                       <option value="">Select type...</option>
                       {PATCH_TYPES.map(t => <option key={t} value={t}>{t}</option>)}
                     </select>
+                    {errors.patch_type && <span style={fieldErrorStyle}>{errors.patch_type}</span>}
                   </div>
                   <div>
                     <label style={labelStyle}>Backing Type</label>
-                    <select name="backing" value={form.backing} onChange={handleChange} style={{ ...inputStyle, cursor: 'pointer' }}>
+                    <select name="backing" value={form.backing} onChange={handleChange} style={selectStyle}>
                       <option value="">Select backing...</option>
                       {BACKING_OPTIONS.map(b => <option key={b} value={b}>{b}</option>)}
                     </select>
                   </div>
                   <div>
                     <label style={labelStyle}>Quantity *</label>
-                    <select name="quantity" value={form.quantity} onChange={handleChange} required style={{ ...inputStyle, cursor: 'pointer' }}>
+                    <select name="quantity" value={form.quantity} onChange={handleChange} style={{ ...selectStyle, borderColor: errors.quantity ? '#c0392b' : undefined }}>
                       <option value="">Select range...</option>
                       {QTY_RANGES.map(q => <option key={q} value={q}>{q} pieces</option>)}
                     </select>
+                    {errors.quantity && <span style={fieldErrorStyle}>{errors.quantity}</span>}
                   </div>
                   <div>
                     <label style={labelStyle}>Approximate Size</label>
@@ -171,7 +178,7 @@ export default function FreeQuote() {
                   <label style={labelStyle}>Design Description / Additional Notes</label>
                   <textarea name="message" value={form.message} onChange={handleChange} rows={5}
                     placeholder="Describe your design, colors, intended use, and any other details. You can email artwork separately to info@thepatchsolutions.com"
-                    style={{ ...inputStyle, resize: 'vertical' }} />
+                    style={textareaStyle} />
                 </div>
 
                 <div>
@@ -207,8 +214,40 @@ export default function FreeQuote() {
                   <p style={{ fontSize: '0.72rem', color: 'var(--gray-mid)', marginTop: 6 }}>Can't attach now? Email artwork to info@thepatchsolutions.com after submitting.</p>
                 </div>
 
+                {/* Discount code */}
                 <div>
-                  <button type="submit" className="btn-primary" disabled={loading} style={{ alignSelf: 'flex-start', fontSize: '1rem', padding: '14px 36px', opacity: loading ? 0.7 : 1, cursor: loading ? 'not-allowed' : 'pointer' }}>
+                  <label style={labelStyle}>Discount Code <span style={{ fontWeight: 400, textTransform: 'none', letterSpacing: 0, color: 'var(--gray-mid)', fontSize: '0.8rem' }}>(optional)</span></label>
+                  {appliedDiscount ? (
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', background: 'rgba(16,185,129,0.08)', border: '1px solid rgba(16,185,129,0.4)', padding: '0.6rem 1rem' }}>
+                      <span style={{ color: '#10b981', fontSize: '0.85rem', fontWeight: 600, flex: 1 }}>
+                        ✓ {appliedDiscount.code} — {appliedDiscount.type === 'percent' ? `${appliedDiscount.value}% off` : `$${appliedDiscount.value} off`}
+                      </span>
+                      <button type="button" onClick={() => { setAppliedDiscount(null); setDiscountCode('') }} style={{ background: 'none', border: 'none', color: 'var(--gray-mid)', fontSize: '0.75rem', cursor: 'pointer', textDecoration: 'underline' }}>Remove</button>
+                    </div>
+                  ) : (
+                    <div style={{ display: 'flex', gap: '0.5rem' }}>
+                      <input value={discountCode} onChange={e => { setDiscountCode(e.target.value.toUpperCase()); setDiscountError('') }} placeholder="Enter code" style={{ ...inputStyle, width: 'auto', flex: 1, letterSpacing: '0.1em', fontWeight: 600 }} />
+                      <button type="button" onClick={applyDiscount} disabled={discountLoading || !discountCode.trim()} style={{ background: 'var(--navy)', color: '#fff', border: 'none', fontFamily: 'var(--font-heading)', fontSize: '0.78rem', letterSpacing: '0.1em', textTransform: 'uppercase', padding: '0 1.2rem', cursor: discountLoading ? 'not-allowed' : 'pointer', opacity: discountLoading ? 0.7 : 1, whiteSpace: 'nowrap' }}>
+                        {discountLoading ? '…' : 'Apply'}
+                      </button>
+                    </div>
+                  )}
+                  {discountError && <span style={fieldErrorStyle}>{discountError}</span>}
+                </div>
+
+                {TURNSTILE_SITE_KEY && (
+                  <Turnstile
+                    siteKey={TURNSTILE_SITE_KEY}
+                    onSuccess={token => setTurnstileToken(token)}
+                    onError={() => setTurnstileToken('')}
+                    onExpire={() => setTurnstileToken('')}
+                  />
+                )}
+
+                <div>
+                  <button type="submit" className="btn-primary"
+                    disabled={loading || (!!TURNSTILE_SITE_KEY && !turnstileToken)}
+                    style={{ alignSelf: 'flex-start', fontSize: '1rem', padding: '14px 36px', opacity: (loading || (!!TURNSTILE_SITE_KEY && !turnstileToken)) ? 0.7 : 1, cursor: (loading || (!!TURNSTILE_SITE_KEY && !turnstileToken)) ? 'not-allowed' : 'pointer' }}>
                     {loading ? 'Sending…' : 'Submit Quote Request'}
                   </button>
                   {submitError && <p style={{ color: '#c0392b', fontSize: '0.85rem', marginTop: '0.75rem' }}>{submitError}</p>}
