@@ -165,13 +165,12 @@ Create and manage promotional discount codes that customers can enter on the **F
 
 ### Sample Requests (`/admin/samples`)
 
-Every time someone fills in the **Request Free Samples** form, it appears here with their:
+Every time someone fills in the **Request Free Sample** form, it appears here with their:
 - Full name and contact info
-- Shipping address
-- Which patch types they requested
+- Which patch types they're interested in
 - Any notes they left
 
-Use this list to fulfil sample kit shipments. The customer already received an email confirming their request.
+**How it works:** We create a sample patch and send the customer **high-resolution photos and a video** via email — no physical shipment. Once you've sent the photos/video, click **Mark Sent** to update the record.
 
 ---
 
@@ -207,7 +206,7 @@ When you change an order status in the admin panel, the system sends the custome
 |---------|----------------|
 | New quote submitted | Customer + Admin |
 | New contact message | Customer + Admin |
-| New sample request | Customer + Admin |
+| New sample request | Customer (confirmation) + Admin (notification with email to send photos to) |
 | Order moved to In Production | Customer only |
 | Order marked as Shipped | Customer only (with tracking info) |
 | Order marked as Delivered | Customer only |

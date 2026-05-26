@@ -20,7 +20,7 @@ Deno.serve(async (req: Request) => {
 
   try {
     const body = await req.json()
-    const { name, email, phone, company, address, city, state, zip, country = 'US', patch_types, notes, turnstile_token } = body
+    const { name, email, phone, company, patch_types, notes, turnstile_token } = body
 
     // Verify Turnstile CAPTCHA token if secret is configured
     const turnstileSecret = Deno.env.get('TURNSTILE_SECRET_KEY')
@@ -42,14 +42,12 @@ Deno.serve(async (req: Request) => {
       })
     }
 
-    if (!name || !email || !address || !city || !state || !zip) {
+    if (!name || !email) {
       return new Response(JSON.stringify({ error: 'Missing required fields' }), {
         status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       })
     }
 
-    // Match schema column names exactly:
-    //   organization (not company), address_line1 (not address), patch_interest (not patch_types)
     const { data: sample, error } = await supabaseAdmin
       .from('sample_requests')
       .insert({
@@ -57,11 +55,6 @@ Deno.serve(async (req: Request) => {
         email,
         phone: phone || null,
         organization: company || null,
-        address_line1: address,
-        city,
-        state,
-        zip,
-        country,
         patch_interest: patch_types || [],
         notes: notes || null,
       })
@@ -75,8 +68,8 @@ Deno.serve(async (req: Request) => {
       })
     }
 
-    const confirmTpl = sampleConfirmation({ name, siteUrl: SITE_URL })
-    const notifyTpl  = sampleNotification({ name, email, phone, company, address, city, state, zip, country, patchTypes: patch_types, notes, requestId: sample.id })
+    const confirmTpl = sampleConfirmation({ name })
+    const notifyTpl  = sampleNotification({ name, email, phone, company, patchTypes: patch_types, notes, requestId: sample.id })
 
     const confirmResult = await sendEmail(email, 'Free Sample Request Received — The Patch Solutions', confirmTpl.html, confirmTpl.text)
     await sendEmail(ADMIN_EMAIL, `New Sample Request: ${name}`, notifyTpl.html, notifyTpl.text)

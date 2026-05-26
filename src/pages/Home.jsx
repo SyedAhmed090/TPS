@@ -94,7 +94,7 @@ export default function Home() {
                 { icon: '📦', title: 'Flat-Rate Shipping', desc: 'No surprises at checkout. One simple rate, every order.' },
                 { icon: '⚡', title: 'Fast Turnaround', desc: 'Rush and standard options to meet any deadline.' },
                 { icon: '🎨', title: 'Free Design Proof', desc: 'Approve every detail before we go into production.' },
-                { icon: '✉️', title: 'Free Samples', desc: 'See and feel the quality before committing to your order.' },
+                { icon: '✉️', title: 'Free Samples', desc: 'We create a sample patch and send you high-res photos and a video before you commit.' },
                 { icon: '📐', title: 'Any Shape & Size', desc: 'Custom die-cut to match your exact artwork or logo.' },
                 { icon: '💬', title: 'Free Quote', desc: 'Quick turnaround on quotes — no obligation required.' },
               ].map(({ icon, title, desc }, i) => (

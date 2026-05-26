@@ -84,7 +84,7 @@ const FAQS = [
   },
   {
     q: 'Can I get a sample before the full order?',
-    a: 'Yes — we offer free samples. Contact us to request a sample of our work. For custom design approval, we send a digital proof before any production begins.',
+    a: 'Yes — we offer free samples. We create a sample patch and send you high-resolution photos and a video so you can see the quality before placing your full order. Request yours at no cost.',
   },
 ]
 

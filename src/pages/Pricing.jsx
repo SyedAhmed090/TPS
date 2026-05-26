@@ -162,7 +162,7 @@ const INCLUDED_FREE = [
   {
     id: 2,
     title: 'Free Sample',
-    description: 'We send a physical sample patch for approval before full production begins.',
+    description: 'We create a sample patch and send you high-res photos and a video before you commit to a full order.',
     Icon: IconGift,
   },
   {
