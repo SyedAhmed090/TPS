@@ -536,13 +536,13 @@ section { padding: 5.5rem 0; }
 }
 
 .hero-calc-wrap {
-  padding: 6rem 0 4rem;
+  padding: 3rem 0 3rem;
 }
 
 .hero-inner {
   position: relative;
   z-index: 2;
-  padding: 8rem 1rem 6rem 3rem;
+  padding: 4rem 1rem 4rem 3rem;
   max-width: none;
 }
 
