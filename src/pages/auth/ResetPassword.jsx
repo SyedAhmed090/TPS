@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
 import useSEO from '../../hooks/useSEO'
-import logo from '/logo.jpg'
+import logo from '/logo-tps.png'
 
 const SITE_URL = import.meta.env.VITE_SITE_URL || window.location.origin
 

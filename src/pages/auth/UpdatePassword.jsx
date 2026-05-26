@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
 import useSEO from '../../hooks/useSEO'
-import logo from '/logo.jpg'
+import logo from '/logo-tps.png'
 
 export default function UpdatePassword() {
   useSEO('Update Password', 'Set a new password for your account.')

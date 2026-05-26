@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
 import { Link, NavLink, useLocation } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
-import logo from '/logo.jpg'
+import logo from '/logo-tps.png'
 
 const ABOUT_LINKS = [
   { to: '/about/custom-patch-company', label: 'Custom Patch Company' },

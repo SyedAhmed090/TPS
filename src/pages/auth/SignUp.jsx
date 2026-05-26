@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../../contexts/AuthContext'
 import useSEO from '../../hooks/useSEO'
-import logo from '/logo.jpg'
+import logo from '/logo-tps.png'
 
 function getStrength(pw) {
   let score = 0
