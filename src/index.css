@@ -447,7 +447,7 @@ section { padding: 5.5rem 0; }
    HERO
    ============================================================ */
 .hero {
-  min-height: 100vh;
+  min-height: calc(100vh - var(--nav-height) - var(--topbar-height));
   background: var(--navy);
   position: relative;
   display: flex;
