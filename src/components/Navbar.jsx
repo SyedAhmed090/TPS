@@ -255,6 +255,26 @@ export default function Navbar() {
           </div>
         </li>
 
+        {/* Services */}
+        <li className="navbar__item">
+          <div className="navbar__item-row">
+            <span className="navbar__link" style={{ cursor: 'default' }}>
+              Services <span className="navbar__link-arrow">▾</span>
+            </span>
+            <button className="navbar__toggle-sub" onClick={e => toggleSub('services', e)} aria-label="Toggle Services menu">
+              <ToggleArrow open={expanded === 'services'} />
+            </button>
+          </div>
+          <div className="navbar__dropdown" style={{ minWidth: 220 }}>
+            <Link to="/digitizing">Embroidery Digitizing</Link>
+            <Link to="/vector-conversion">Vector Conversion</Link>
+          </div>
+          <div className={`navbar__mobile-sub${expanded === 'services' ? ' navbar__mobile-sub--open' : ''}`}>
+            <Link to="/digitizing" className="navbar__mobile-sub-link">Embroidery Digitizing</Link>
+            <Link to="/vector-conversion" className="navbar__mobile-sub-link">Vector Conversion</Link>
+          </div>
+        </li>
+
         {/* Promotions */}
         <li className="navbar__item">
           <NavLink to="/promotions" className={({ isActive }) => `navbar__link${isActive ? ' navbar__link--active' : ''}`}>Promotions</NavLink>

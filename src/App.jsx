@@ -82,6 +82,10 @@ const CamoTwill = lazy(() => import('./pages/patches/CamoTwill'))
 const Products = lazy(() => import('./pages/products/Products'))
 const ProductDetail = lazy(() => import('./pages/products/ProductDetail'))
 
+// Services
+const Digitizing = lazy(() => import('./pages/services/Digitizing'))
+const VectorConversion = lazy(() => import('./pages/services/VectorConversion'))
+
 // Pricing
 const Pricing = lazy(() => import('./pages/pricing/Pricing'))
 const EmbroideredPricing = lazy(() => import('./pages/pricing/EmbroideredPricing'))
@@ -212,6 +216,10 @@ export default function App() {
               <Route path="/products" element={<Products />} />
               <Route path="/products/:slug" element={<ProductDetail />} />
 
+              {/* Services */}
+              <Route path="/digitizing" element={<Digitizing />} />
+              <Route path="/vector-conversion" element={<VectorConversion />} />
+
               {/* Pricing */}
               <Route path="/pricing" element={<Pricing />} />
               <Route path="/pricing/embroidered-patches" element={<EmbroideredPricing />} />
@@ -228,7 +236,7 @@ export default function App() {
         </ErrorBoundary>
       </main>
       {(() => {
-        const noCalc = ['/privacy-policy', '/return-policy', '/sitemap', '/resources', '/contact', '/free-quote', '/request-samples', '/gallery', '/rush-order', '/about/blog', '/about/testimonials', '/account', '/promotions', '/custom-military-patches', '/iron-on-patches-bulk', '/custom-pvc-patches', '/custom-embroidered-patches', '/motorcycle-club-patches', '/scout-patches', '/login', '/signup', '/auth']
+        const noCalc = ['/privacy-policy', '/return-policy', '/sitemap', '/resources', '/contact', '/free-quote', '/request-samples', '/gallery', '/rush-order', '/about/blog', '/about/testimonials', '/account', '/promotions', '/custom-military-patches', '/iron-on-patches-bulk', '/custom-pvc-patches', '/custom-embroidered-patches', '/motorcycle-club-patches', '/scout-patches', '/login', '/signup', '/auth', '/digitizing', '/vector-conversion']
         return pathname !== '/' && !noCalc.some(p => pathname === p || pathname.startsWith(p + '/')) && <CalcSection />
       })()}
       <Footer />
