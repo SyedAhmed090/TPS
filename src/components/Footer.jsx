@@ -51,20 +51,12 @@ export default function Footer() {
           </div>
 
           <div className="footer-col">
-            <h4>Design Services</h4>
-            <ul>
-              <li><Link to="/digitizing">Embroidery Digitizing</Link></li>
-              <li><Link to="/vector-conversion">Vector Conversion</Link></li>
-              <li><Link to="/design-templates">Design Templates</Link></li>
-              <li><Link to="/about/artwork-guidelines">Artwork Guidelines</Link></li>
-            </ul>
-          </div>
-
-          <div className="footer-col">
             <h4>Support</h4>
             <ul>
               <li><Link to="/pricing">Pricing</Link></li>
               <li><Link to="/rush-order">Rush Order</Link></li>
+              <li><Link to="/digitizing">Embroidery Digitizing</Link></li>
+              <li><Link to="/vector-conversion">Vector Conversion</Link></li>
               <li><Link to="/free-quote">Free Quote</Link></li>
               <li><Link to="/request-samples">Free Sample Preview</Link></li>
               <li><Link to="/privacy-policy">Privacy Policy</Link></li>
