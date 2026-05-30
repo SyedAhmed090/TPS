@@ -70,6 +70,15 @@ const SITEMAP = [
     ],
   },
   {
+    section: 'Design Services',
+    links: [
+      { label: 'Embroidery Digitizing', href: '/digitizing' },
+      { label: 'Vector Conversion', href: '/vector-conversion' },
+      { label: 'Design Templates', href: '/design-templates' },
+      { label: 'Artwork Guidelines', href: '/about/artwork-guidelines' },
+    ],
+  },
+  {
     section: 'Pricing',
     links: [
       { label: 'Pricing Overview', href: '/pricing' },

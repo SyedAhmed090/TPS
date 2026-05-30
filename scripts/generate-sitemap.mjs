@@ -61,6 +61,8 @@ const STATIC_PAGES = [
   { loc: '/products/pvc-patch-keychains',                  priority: '0.7', changefreq: 'weekly' },
   { loc: '/products/custom-patch-keychains',               priority: '0.7', changefreq: 'weekly' },
   { loc: '/products/brand-merchandise',                    priority: '0.7', changefreq: 'weekly' },
+  { loc: '/digitizing',                                    priority: '0.8', changefreq: 'monthly' },
+  { loc: '/vector-conversion',                             priority: '0.8', changefreq: 'monthly' },
   { loc: '/pricing',                                       priority: '0.8', changefreq: 'weekly' },
   { loc: '/pricing/embroidered-patches',                   priority: '0.7', changefreq: 'weekly' },
   { loc: '/custom-military-patches',                       priority: '0.8', changefreq: 'weekly' },
