@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Turnstile } from '@marsidev/react-turnstile'
 import Breadcrumb from '../components/Breadcrumb'
@@ -7,6 +7,7 @@ import useSEO from '../hooks/useSEO'
 import { inputStyle, labelStyle, textareaStyle, fieldErrorStyle } from '../styles/formStyles'
 import { useFormSubmit } from '../hooks/useFormSubmit'
 import { validateSampleForm } from '../utils/validation'
+import { useAuth } from '../contexts/AuthContext'
 
 const TURNSTILE_SITE_KEY = import.meta.env.VITE_TURNSTILE_SITE_KEY
 
@@ -23,12 +24,25 @@ export default function RequestSample() {
   useSEO('Free Patch Sample Preview', 'Request a free sample from The Patch Solutions. We create your sample patch and send you high-resolution photos and a video — no shipping wait, no commitment required.')
   useReveal()
 
+  const { user, profile } = useAuth()
   const [form, setForm] = useState({ name: '', email: '', phone: '', company: '', notes: '' })
   const [patchTypes, setPatchTypes] = useState([])
   const [sent, setSent] = useState(false)
   const [errors, setErrors] = useState({})
   const [turnstileToken, setTurnstileToken] = useState('')
   const { submit, loading, submitError } = useFormSubmit('request-sample')
+
+  useEffect(() => {
+    if (profile || user) {
+      setForm(f => ({
+        ...f,
+        name: f.name || profile?.full_name || '',
+        email: f.email || user?.email || '',
+        phone: f.phone || profile?.phone || '',
+        company: f.company || profile?.organization || '',
+      }))
+    }
+  }, [profile, user])
 
   function handleChange(e) {
     const { name, value } = e.target

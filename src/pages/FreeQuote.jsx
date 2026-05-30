@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { Turnstile } from '@marsidev/react-turnstile'
 import Breadcrumb from '../components/Breadcrumb'
@@ -45,6 +45,19 @@ export default function FreeQuote() {
   const [turnstileToken, setTurnstileToken] = useState('')
   const { submit, loading, submitError } = useFormSubmit('submit-quote')
   useReveal()
+
+  // Fill in contact fields once the auth profile is available
+  useEffect(() => {
+    if (profile || user) {
+      setForm(f => ({
+        ...f,
+        name: f.name || profile?.full_name || '',
+        email: f.email || user?.email || '',
+        phone: f.phone || profile?.phone || '',
+        company: f.company || profile?.organization || '',
+      }))
+    }
+  }, [profile, user])
 
   function handleChange(e) {
     const { name, value } = e.target
