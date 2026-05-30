@@ -56,7 +56,7 @@ export default function Footer() {
               <li><Link to="/pricing">Pricing</Link></li>
               <li><Link to="/rush-order">Rush Order</Link></li>
               <li><Link to="/free-quote">Free Quote</Link></li>
-              <li><Link to="/request-samples">Free Samples</Link></li>
+              <li><Link to="/request-samples">Free Sample Preview</Link></li>
               <li><Link to="/privacy-policy">Privacy Policy</Link></li>
               <li><Link to="/return-policy">Return Policy</Link></li>
               <li><Link to="/sitemap">Sitemap</Link></li>

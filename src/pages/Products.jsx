@@ -360,7 +360,7 @@ export default function Products() {
           <p className="lead">
             We produce 8+ types of custom patches — each crafted to the highest standard.
           </p>
-          <Link to="/contact" className="btn btn--gold btn--lg">
+          <Link to="/free-quote" className="btn btn--gold btn--lg">
             Get a Free Quote
           </Link>
         </div>
@@ -385,7 +385,7 @@ export default function Products() {
                         <li key={feature}>{feature}</li>
                       ))}
                     </ul>
-                    <Link to="/contact" className="btn btn--outline-gold">
+                    <Link to="/free-quote" className="btn btn--outline-gold">
                       Get a Quote
                     </Link>
                   </div>
@@ -433,7 +433,7 @@ export default function Products() {
             Our patch experts will guide you to the perfect solution for your project.
           </p>
           <div className="cta-banner__actions">
-            <Link to="/contact" className="btn btn--gold btn--lg">
+            <Link to="/free-quote" className="btn btn--gold btn--lg">
               Get a Free Quote
             </Link>
             <Link to="/gallery" className="btn btn--outline">
