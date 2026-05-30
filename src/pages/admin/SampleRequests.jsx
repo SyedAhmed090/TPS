@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react'
 import { supabase } from '../../lib/supabase'
 import { formatDate } from '../../utils/validation'
 
-const th = { padding: '10px 12px', background: 'var(--navy)', color: 'var(--gold)', fontFamily: 'var(--font-heading)', fontSize: '0.68rem', letterSpacing: '0.15em', textTransform: 'uppercase', textAlign: 'left', whiteSpace: 'nowrap' }
-const td = { padding: '10px 12px', fontSize: '0.88rem', color: 'var(--text-dark)', borderBottom: '1px solid rgba(11,26,46,0.07)', verticalAlign: 'middle' }
+const th = { padding: '10px 12px', background: 'var(--navy)', color: 'var(--gold)', fontFamily: 'var(--font-heading)', fontSize: '0.68rem', letterSpacing: '0.15em', textTransform: 'uppercase', textAlign: 'left', whiteSpace: 'nowrap', borderBottom: '2px solid rgba(200,147,26,0.2)' }
+const td = { padding: '10px 12px', fontSize: '0.88rem', color: 'rgba(255,255,255,0.8)', borderBottom: '1px solid rgba(255,255,255,0.05)', verticalAlign: 'middle' }
 
 const STATUS_COLORS = { pending: '#f59e0b', sent: '#22c55e' }
 
@@ -30,10 +30,10 @@ export default function SampleRequests() {
   return (
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', flexWrap: 'wrap', gap: '1rem' }}>
-        <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '2rem', color: 'var(--navy)', letterSpacing: '0.04em', margin: 0 }}>Sample Requests</h1>
+        <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '2rem', color: '#fff', letterSpacing: '0.04em', margin: 0 }}>Sample Requests</h1>
         <div style={{ display: 'flex', gap: '0.5rem' }}>
           {['all','pending','sent'].map(s => (
-            <button key={s} onClick={() => setFilter(s)} style={{ padding: '6px 14px', background: filter === s ? 'var(--navy)' : 'transparent', color: filter === s ? '#fff' : 'var(--navy)', border: '1px solid rgba(11,26,46,0.3)', fontFamily: 'var(--font-heading)', fontSize: '0.72rem', letterSpacing: '0.08em', textTransform: 'capitalize', cursor: 'pointer' }}>
+            <button key={s} onClick={() => setFilter(s)} style={{ padding: '6px 14px', background: filter === s ? 'var(--gold)' : 'transparent', color: filter === s ? 'var(--navy)' : 'rgba(255,255,255,0.6)', border: '1px solid rgba(200,147,26,0.3)', fontFamily: 'var(--font-heading)', fontSize: '0.72rem', letterSpacing: '0.08em', textTransform: 'capitalize', cursor: 'pointer' }}>
               {s}
             </button>
           ))}
@@ -41,23 +41,26 @@ export default function SampleRequests() {
       </div>
 
       {loading ? (
-        <p style={{ color: 'var(--gray-mid)', padding: '2rem 0' }}>Loading...</p>
+        <p style={{ color: 'rgba(255,255,255,0.3)', padding: '2rem 0' }}>Loading...</p>
       ) : (
-        <div style={{ background: 'var(--white)', border: '1px solid rgba(11,26,46,0.1)', overflowX: 'auto' }}>
+        <div style={{ border: '1px solid rgba(200,147,26,0.15)', overflowX: 'auto' }}>
           <table style={{ width: '100%', borderCollapse: 'collapse' }}>
             <thead>
               <tr>{['Date','Name','Email','Patch Types','Notes','Status','Actions'].map(h => <th key={h} style={th}>{h}</th>)}</tr>
             </thead>
             <tbody>
               {filtered.length === 0 ? (
-                <tr><td colSpan={7} style={{ ...td, textAlign: 'center', color: 'var(--gray-mid)', padding: '2rem' }}>No requests found.</td></tr>
+                <tr><td colSpan={7} style={{ ...td, textAlign: 'center', color: 'rgba(255,255,255,0.3)', padding: '2rem' }}>No requests found.</td></tr>
               ) : filtered.map((r, i) => (
-                <tr key={r.id} style={{ background: i % 2 === 1 ? 'var(--cream)' : 'var(--white)' }}>
-                  <td style={{ ...td, fontSize: '0.8rem', color: 'var(--gray-mid)', whiteSpace: 'nowrap' }}>{formatDate(r.created_at)}</td>
-                  <td style={td}><strong>{r.name}</strong>{r.organization && <div style={{ fontSize: '0.75rem', color: 'var(--gray-mid)' }}>{r.organization}</div>}</td>
-                  <td style={td}>{r.email}</td>
+                <tr key={r.id} style={{ background: i % 2 === 1 ? 'rgba(255,255,255,0.02)' : 'transparent' }}>
+                  <td style={{ ...td, fontSize: '0.8rem', color: 'rgba(255,255,255,0.4)', whiteSpace: 'nowrap' }}>{formatDate(r.created_at)}</td>
+                  <td style={td}>
+                    <strong style={{ color: '#fff' }}>{r.name}</strong>
+                    {r.organization && <div style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.4)' }}>{r.organization}</div>}
+                  </td>
+                  <td style={{ ...td, color: 'rgba(255,255,255,0.6)' }}>{r.email}</td>
                   <td style={{ ...td, fontSize: '0.8rem' }}>{(r.patch_interest || r.patch_types || []).join(', ') || '—'}</td>
-                  <td style={{ ...td, fontSize: '0.8rem', maxWidth: 200, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{r.notes || '—'}</td>
+                  <td style={{ ...td, fontSize: '0.8rem', maxWidth: 200, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', color: 'rgba(255,255,255,0.5)' }}>{r.notes || '—'}</td>
                   <td style={td}>
                     <span style={{ padding: '3px 10px', background: STATUS_COLORS[r.status] || '#94a3b8', color: '#fff', borderRadius: 10, fontSize: '0.72rem', fontFamily: 'var(--font-heading)', letterSpacing: '0.05em', textTransform: 'capitalize' }}>
                       {r.status}
@@ -65,7 +68,7 @@ export default function SampleRequests() {
                   </td>
                   <td style={td}>
                     {r.status === 'pending' && (
-                      <button onClick={() => markSent(r.id)} style={{ padding: '4px 10px', background: 'transparent', color: 'var(--navy)', border: '1px solid rgba(11,26,46,0.3)', fontSize: '0.72rem', fontFamily: 'var(--font-heading)', letterSpacing: '0.05em', cursor: 'pointer' }}>
+                      <button onClick={() => markSent(r.id)} style={{ padding: '4px 10px', background: 'transparent', color: 'rgba(255,255,255,0.7)', border: '1px solid rgba(255,255,255,0.15)', fontSize: '0.72rem', fontFamily: 'var(--font-heading)', letterSpacing: '0.05em', cursor: 'pointer' }}>
                         Mark Sent
                       </button>
                     )}
@@ -76,7 +79,7 @@ export default function SampleRequests() {
           </table>
         </div>
       )}
-      <p style={{ fontSize: '0.8rem', color: 'var(--gray-mid)', marginTop: '0.75rem' }}>{filtered.length} request{filtered.length !== 1 ? 's' : ''}</p>
+      <p style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.35)', marginTop: '0.75rem' }}>{filtered.length} request{filtered.length !== 1 ? 's' : ''}</p>
     </div>
   )
 }
