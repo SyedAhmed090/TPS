@@ -2,6 +2,7 @@ import { NavLink, Outlet, useNavigate, useLocation } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { useAuth } from '../../contexts/AuthContext'
 import { supabase } from '../../lib/supabase'
+import logo from '/logo-tps.png'
 
 const NAV = [
   { to: '/admin', label: 'Dashboard', icon: '◆', end: true },
@@ -104,9 +105,11 @@ export default function AdminLayout() {
       )}
       {sidebarOpen && <div className="admin-sidebar-overlay" onClick={() => setSidebarOpen(false)} />}
       <aside className={`admin-sidebar${sidebarOpen ? ' admin-sidebar--open' : ''}`} style={sidebarStyle}>
-        <div style={{ padding: '1.5rem 1.2rem 1rem', borderBottom: '1px solid rgba(200,147,26,0.12)' }}>
-          <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.1rem', color: 'var(--gold)', letterSpacing: '0.05em', lineHeight: 1.2 }}>TPS</div>
-          <div style={{ fontFamily: 'var(--font-heading)', fontSize: '0.55rem', letterSpacing: '0.2em', color: 'rgba(255,255,255,0.35)', marginTop: 3 }}>ADMIN PANEL</div>
+        <div style={{ padding: '1.25rem 1.2rem 1rem', borderBottom: '1px solid rgba(200,147,26,0.12)' }}>
+          <div style={{ background: '#fff', padding: '6px 10px', display: 'inline-block', marginBottom: 6 }}>
+            <img src={logo} alt="The Patch Solutions" style={{ height: 28, display: 'block', objectFit: 'contain' }} />
+          </div>
+          <div style={{ fontFamily: 'var(--font-heading)', fontSize: '0.55rem', letterSpacing: '0.2em', color: 'rgba(255,255,255,0.35)' }}>ADMIN PANEL</div>
         </div>
         <nav style={{ flex: 1, paddingTop: '0.75rem' }}>
           {NAV.map(item => {
