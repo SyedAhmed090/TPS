@@ -209,9 +209,9 @@ export default function Pricing() {
       {/* ── 1. PAGE HERO ────────────────────────────────────────── */}
       <section className="page-hero">
         <div className="container">
-          <span className="overline">Transparent Pricing</span>
-          <h1 className="heading-1">Fair Prices. Premium Quality.</h1>
-          <p className="lead">
+          <span className="section-label">Transparent Pricing</span>
+          <h1>Fair Prices. Premium Quality.</h1>
+          <p>
             No hidden fees, no surprises. Our pricing is based on a few simple factors — and we
             always offer free quotes.
           </p>
@@ -219,11 +219,11 @@ export default function Pricing() {
       </section>
 
       {/* ── 2. HOW PRICING WORKS ────────────────────────────────── */}
-      <section className="section section--white">
+      <section style={{ padding: '5rem 0', background: 'var(--white)' }}>
         <div className="container">
           <div className="section-header">
-            <span className="overline">Pricing Factors</span>
-            <h2 className="heading-2">What Affects the Price?</h2>
+            <span className="section-label">Pricing Factors</span>
+            <h2 className="section-title">What Affects the Price?</h2>
           </div>
           <div className="pricing-factors">
             {PRICING_FACTORS.map((factor) => (
@@ -237,11 +237,11 @@ export default function Pricing() {
       </section>
 
       {/* ── 3. QUANTITY PRICING TABLE ───────────────────────────── */}
-      <section className="section section--cream">
+      <section style={{ padding: '5rem 0', background: 'var(--cream)' }}>
         <div className="container">
           <div className="section-header">
-            <span className="overline">Quantity Breaks</span>
-            <h2 className="heading-2">More Patches, More Savings</h2>
+            <span className="section-label">Quantity Breaks</span>
+            <h2 className="section-title">More Patches, More Savings</h2>
           </div>
 
           <div style={{ background: 'rgba(200,147,26,0.1)', borderLeft: '4px solid var(--gold)', padding: '0.85rem 1.25rem', marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap' }}>
@@ -287,11 +287,11 @@ export default function Pricing() {
       </section>
 
       {/* ── 3b. PATCH TYPE COMPARISON ───────────────────────────── */}
-      <section className="section section--white">
+      <section style={{ padding: '5rem 0', background: 'var(--white)' }}>
         <div className="container">
           <div className="section-header">
-            <span className="overline">Patch Type Guide</span>
-            <h2 className="heading-2">Which Patch Type Is Right for You?</h2>
+            <span className="section-label">Patch Type Guide</span>
+            <h2 className="section-title">Which Patch Type Is Right for You?</h2>
             <p style={{ color: 'var(--gray-mid)', maxWidth: 600, margin: '0 auto' }}>Not sure which type to order? Use this quick comparison to find the best match for your project.</p>
           </div>
           <div className="table-scroll" style={{ marginTop: '2rem' }}>
@@ -325,15 +325,15 @@ export default function Pricing() {
       </section>
 
       {/* ── 4. INCLUDED FREE ────────────────────────────────────── */}
-      <section className="section section--white">
+      <section style={{ padding: '5rem 0', background: 'var(--white)' }}>
         <div className="container">
           <div className="section-header">
-            <span className="overline">Always Included</span>
-            <h2 className="heading-2">No Hidden Fees</h2>
+            <span className="section-label">Always Included</span>
+            <h2 className="section-title">No Hidden Fees</h2>
           </div>
-          <div className="grid-3">
+          <div className="cards-grid-3">
             {INCLUDED_FREE.map(({ id, title, description, Icon }) => (
-              <div key={id} className="card">
+              <div key={id} className="value-card">
                 <div className="value-card__icon">
                   <Icon />
                 </div>
@@ -348,16 +348,16 @@ export default function Pricing() {
       {/* ── 5. CTA BANNER ───────────────────────────────────────── */}
       <div className="cta-banner">
         <div className="container">
-          <h2 className="heading-1">Get Your Custom Quote Today</h2>
+          <h2 className="section-title light">Get Your Custom Quote Today</h2>
           <p>
             Send us your design and requirements — we'll respond with a detailed quote within 24
             hours.
           </p>
           <div className="cta-banner__actions">
-            <Link to="/free-quote" className="btn btn--gold btn--lg">
+            <Link to="/free-quote" className="btn-gold">
               Request Free Quote
             </Link>
-            <Link to="/products" className="btn btn--outline btn--lg">
+            <Link to="/products" className="btn-outline-light">
               View Our Products
             </Link>
           </div>

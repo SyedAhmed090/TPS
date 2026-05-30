@@ -107,16 +107,16 @@ export default function Blog() {
           </div>
 
           {/* Category filter */}
-          <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap', alignItems: 'center' }}>
-            <span style={{ fontFamily: 'var(--font-heading)', fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--gray-mid)', marginRight: '0.25rem' }}>Category:</span>
+          <div className="gallery-filters" style={{ justifyContent: 'flex-start', marginBottom: 0 }}>
+            <span style={{ fontFamily: 'var(--font-heading)', fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--gray-mid)', alignSelf: 'center', marginRight: '0.25rem' }}>Category:</span>
             <button
               onClick={() => { setActiveCategory(''); setActiveTag('') }}
-              style={{ padding: '0.35rem 0.8rem', fontFamily: 'var(--font-heading)', fontSize: '0.65rem', letterSpacing: '0.1em', textTransform: 'uppercase', border: '1px solid', cursor: 'pointer', background: !activeCategory && !activeTag ? 'var(--navy)' : 'transparent', color: !activeCategory && !activeTag ? '#fff' : 'var(--gray-mid)', borderColor: !activeCategory && !activeTag ? 'var(--navy)' : 'rgba(11,26,46,0.2)' }}>
+              className={`filter-btn${!activeCategory && !activeTag ? ' filter-btn--active' : ''}`}>
               All
             </button>
             {CATEGORIES.map(cat => (
               <button key={cat} onClick={() => selectCategory(cat)}
-                style={{ padding: '0.35rem 0.8rem', fontFamily: 'var(--font-heading)', fontSize: '0.65rem', letterSpacing: '0.1em', textTransform: 'uppercase', border: '1px solid', cursor: 'pointer', background: activeCategory === cat ? 'var(--navy)' : 'transparent', color: activeCategory === cat ? '#fff' : 'var(--gray-mid)', borderColor: activeCategory === cat ? 'var(--navy)' : 'rgba(11,26,46,0.2)' }}>
+                className={`filter-btn${activeCategory === cat ? ' filter-btn--active' : ''}`}>
                 {cat}
               </button>
             ))}
@@ -124,11 +124,11 @@ export default function Blog() {
 
           {/* Tag filter (only shown when tags exist) */}
           {allTags.length > 0 && (
-            <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap', alignItems: 'center' }}>
-              <span style={{ fontFamily: 'var(--font-heading)', fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--gray-mid)', marginRight: '0.25rem' }}>Tags:</span>
+            <div className="gallery-filters" style={{ justifyContent: 'flex-start', marginBottom: 0 }}>
+              <span style={{ fontFamily: 'var(--font-heading)', fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--gray-mid)', alignSelf: 'center', marginRight: '0.25rem' }}>Tags:</span>
               {allTags.map(tag => (
                 <button key={tag} onClick={() => selectTag(tag)}
-                  style={{ padding: '0.25rem 0.65rem', fontFamily: 'var(--font-heading)', fontSize: '0.62rem', letterSpacing: '0.08em', textTransform: 'uppercase', border: '1px solid', cursor: 'pointer', background: activeTag === tag ? 'var(--gold)' : 'transparent', color: activeTag === tag ? 'var(--navy)' : 'var(--gray-mid)', borderColor: activeTag === tag ? 'var(--gold)' : 'rgba(11,26,46,0.15)' }}>
+                  className={`filter-btn${activeTag === tag ? ' filter-btn--active' : ''}`}>
                   #{tag}
                 </button>
               ))}
