@@ -96,7 +96,7 @@ export default function Digitizing() {
           <span className="section-label">Design Services</span>
           <h1>Embroidery Digitizing</h1>
           <p>Turn any logo or artwork into a machine-ready embroidery file. Hand-digitized by experts — not auto-converted — for clean, accurate stitching every time.</p>
-          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', marginTop: '1.5rem' }}>
+          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', marginTop: '1.5rem', justifyContent: 'center', alignItems: 'center' }}>
             <Link to="/free-quote" className="btn-gold">Get Started — From $8</Link>
             <a href="#pricing" className="btn-outline">See Pricing</a>
           </div>

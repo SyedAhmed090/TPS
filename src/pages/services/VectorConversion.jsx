@@ -106,7 +106,7 @@ export default function VectorConversion() {
           <span className="section-label">Design Services</span>
           <h1>Vector Conversion</h1>
           <p>Transform any raster image, blurry logo, or low-resolution file into a clean, scalable vector — ready for print, embroidery, signage, or merchandise.</p>
-          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', marginTop: '1.5rem' }}>
+          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', marginTop: '1.5rem', justifyContent: 'center', alignItems: 'center' }}>
             <Link to="/free-quote" className="btn-gold">Get Started — From $10</Link>
             <a href="#pricing" className="btn-outline">See Pricing</a>
           </div>
