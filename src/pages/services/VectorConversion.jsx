@@ -147,67 +147,8 @@ export default function VectorConversion() {
         </div>
       </section>
 
-      {/* USE CASES */}
-      <section style={{ padding: '5rem 0', background: 'var(--white)' }}>
-        <div className="container">
-          <div className="section-header reveal">
-            <span className="section-label">When You Need It</span>
-            <h2 className="section-title">Common Use Cases</h2>
-          </div>
-          <div className="card-grid-2 reveal">
-            {USE_CASES.map(({ icon, title, desc }) => (
-              <div key={title} style={{ background: 'var(--cream)', padding: '1.75rem 2rem', display: 'flex', gap: '1.25rem', alignItems: 'flex-start', border: '1px solid rgba(11,26,46,0.07)', borderLeft: '3px solid var(--gold)' }}>
-                <span style={{ fontSize: '1.75rem', flexShrink: 0 }}>{icon}</span>
-                <div>
-                  <p style={{ fontFamily: 'var(--font-heading)', fontSize: '0.95rem', fontWeight: 700, color: 'var(--navy)', marginBottom: '0.4rem', letterSpacing: '0.04em' }}>{title}</p>
-                  <p style={{ fontSize: '0.87rem', color: 'var(--gray-mid)', lineHeight: 1.7 }}>{desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* BENEFITS */}
-      <section style={{ padding: '5rem 0', background: 'var(--white)' }}>
-        <div className="container">
-          <div className="section-header reveal">
-            <span className="section-label">Why TPS Vector Conversion</span>
-            <h2 className="section-title">Clean Files. Every Time.</h2>
-          </div>
-          <div className="why-perks reveal">
-            {BENEFITS.map(({ icon, title, desc }, i) => (
-              <div key={title} className={`perk-card reveal-delay-${(i % 3) + 1}`}>
-                <span className="perk-icon">{icon}</span>
-                <p className="perk-title">{title}</p>
-                <p className="perk-desc">{desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* HOW IT WORKS */}
-      <section style={{ background: 'var(--navy-mid)', padding: '5rem 0' }}>
-        <div className="container">
-          <div className="section-header reveal">
-            <span className="section-label">The Process</span>
-            <h2 className="section-title light">Four Simple Steps</h2>
-          </div>
-          <div className="steps-row reveal">
-            {STEPS.map(({ num, title, desc }, i) => (
-              <div key={num} className={`step reveal-delay-${i + 1}`}>
-                <div className="step-num">{num}</div>
-                <p className="step-title">{title}</p>
-                <p className="step-desc">{desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* PRICING */}
-      <section id="pricing" style={{ padding: '5rem 0', background: 'var(--cream)' }}>
+      <section id="pricing" style={{ padding: '5rem 0', background: 'var(--white)' }}>
         <div className="container">
           <div className="section-header reveal">
             <span className="section-label">Simple Pricing</span>
@@ -266,6 +207,65 @@ export default function VectorConversion() {
                 </div>
               ))}
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* USE CASES */}
+      <section style={{ padding: '5rem 0', background: 'var(--cream)' }}>
+        <div className="container">
+          <div className="section-header reveal">
+            <span className="section-label">When You Need It</span>
+            <h2 className="section-title">Common Use Cases</h2>
+          </div>
+          <div className="card-grid-2 reveal">
+            {USE_CASES.map(({ icon, title, desc }) => (
+              <div key={title} style={{ background: 'var(--white)', padding: '1.75rem 2rem', display: 'flex', gap: '1.25rem', alignItems: 'flex-start', border: '1px solid rgba(11,26,46,0.07)', borderLeft: '3px solid var(--gold)' }}>
+                <span style={{ fontSize: '1.75rem', flexShrink: 0 }}>{icon}</span>
+                <div>
+                  <p style={{ fontFamily: 'var(--font-heading)', fontSize: '0.95rem', fontWeight: 700, color: 'var(--navy)', marginBottom: '0.4rem', letterSpacing: '0.04em' }}>{title}</p>
+                  <p style={{ fontSize: '0.87rem', color: 'var(--gray-mid)', lineHeight: 1.7 }}>{desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* BENEFITS */}
+      <section style={{ padding: '5rem 0', background: 'var(--white)' }}>
+        <div className="container">
+          <div className="section-header reveal">
+            <span className="section-label">Why TPS Vector Conversion</span>
+            <h2 className="section-title">Clean Files. Every Time.</h2>
+          </div>
+          <div className="why-perks reveal">
+            {BENEFITS.map(({ icon, title, desc }, i) => (
+              <div key={title} className={`perk-card reveal-delay-${(i % 3) + 1}`}>
+                <span className="perk-icon">{icon}</span>
+                <p className="perk-title">{title}</p>
+                <p className="perk-desc">{desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* HOW IT WORKS */}
+      <section style={{ background: 'var(--navy-mid)', padding: '5rem 0' }}>
+        <div className="container">
+          <div className="section-header reveal">
+            <span className="section-label">The Process</span>
+            <h2 className="section-title light">Four Simple Steps</h2>
+          </div>
+          <div className="steps-row reveal">
+            {STEPS.map(({ num, title, desc }, i) => (
+              <div key={num} className={`step reveal-delay-${i + 1}`}>
+                <div className="step-num">{num}</div>
+                <p className="step-title">{title}</p>
+                <p className="step-desc">{desc}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>

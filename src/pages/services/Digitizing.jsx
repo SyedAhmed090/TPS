@@ -137,46 +137,8 @@ export default function Digitizing() {
         </div>
       </section>
 
-      {/* BENEFITS */}
-      <section style={{ padding: '5rem 0', background: 'var(--white)' }}>
-        <div className="container">
-          <div className="section-header reveal">
-            <span className="section-label">Why TPS Digitizing</span>
-            <h2 className="section-title">Built for Production, Not Just Preview</h2>
-          </div>
-          <div className="why-perks reveal">
-            {BENEFITS.map(({ icon, title, desc }, i) => (
-              <div key={title} className={`perk-card reveal-delay-${(i % 3) + 1}`}>
-                <span className="perk-icon">{icon}</span>
-                <p className="perk-title">{title}</p>
-                <p className="perk-desc">{desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* HOW IT WORKS */}
-      <section style={{ background: 'var(--navy-mid)', padding: '5rem 0' }}>
-        <div className="container">
-          <div className="section-header reveal">
-            <span className="section-label">The Process</span>
-            <h2 className="section-title light">From File to Finished Stitch</h2>
-          </div>
-          <div className="steps-row reveal">
-            {STEPS.map(({ num, title, desc }, i) => (
-              <div key={num} className={`step reveal-delay-${i + 1}`}>
-                <div className="step-num">{num}</div>
-                <p className="step-title">{title}</p>
-                <p className="step-desc">{desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* PRICING */}
-      <section id="pricing" style={{ padding: '5rem 0', background: 'var(--cream)' }}>
+      <section id="pricing" style={{ padding: '5rem 0', background: 'var(--white)' }}>
         <div className="container">
           <div className="section-header reveal">
             <span className="section-label">Simple Pricing</span>
@@ -235,6 +197,44 @@ export default function Digitizing() {
                 </div>
               ))}
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* BENEFITS */}
+      <section style={{ padding: '5rem 0', background: 'var(--cream)' }}>
+        <div className="container">
+          <div className="section-header reveal">
+            <span className="section-label">Why Choose Us</span>
+            <h2 className="section-title">Digitizing Done Right</h2>
+          </div>
+          <div className="why-perks reveal">
+            {BENEFITS.map(({ icon, title, desc }, i) => (
+              <div key={title} className={`perk-card reveal-delay-${(i % 3) + 1}`}>
+                <span className="perk-icon">{icon}</span>
+                <p className="perk-title">{title}</p>
+                <p className="perk-desc">{desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* HOW IT WORKS */}
+      <section style={{ background: 'var(--navy-mid)', padding: '5rem 0' }}>
+        <div className="container">
+          <div className="section-header reveal">
+            <span className="section-label">The Process</span>
+            <h2 className="section-title light">Four Simple Steps</h2>
+          </div>
+          <div className="steps-row reveal">
+            {STEPS.map(({ num, title, desc }, i) => (
+              <div key={num} className={`step reveal-delay-${i + 1}`}>
+                <div className="step-num">{num}</div>
+                <p className="step-title">{title}</p>
+                <p className="step-desc">{desc}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
