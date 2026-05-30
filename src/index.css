@@ -447,7 +447,7 @@ section { padding: 5.5rem 0; }
    HERO
    ============================================================ */
 .hero {
-  min-height: 100vh;
+  min-height: calc(100vh - var(--nav-height) - var(--topbar-height));
   background: var(--navy);
   position: relative;
   display: flex;
@@ -536,13 +536,13 @@ section { padding: 5.5rem 0; }
 }
 
 .hero-calc-wrap {
-  padding: 6rem 0 4rem;
+  padding: 3rem 0 3rem;
 }
 
 .hero-inner {
   position: relative;
   z-index: 2;
-  padding: 8rem 1rem 6rem 3rem;
+  padding: 4rem 1rem 4rem 3rem;
   max-width: none;
 }
 
@@ -2488,4 +2488,182 @@ footer {
 
 @media (max-width: 599px) {
   nav.navbar { top: 0 !important; }
+}
+
+/* ============================================================
+   SHARED UTILITIES — Pricing & Products pages
+   ============================================================ */
+
+/* Section header (centered label + h2 + optional lead) */
+.section-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+.section-header .section-label { display: block; margin-bottom: 0.5rem; }
+.section-header .section-title { margin-bottom: 0.75rem; }
+
+/* CTA Banner — shared by Products and Pricing */
+.cta-banner {
+  background: var(--navy);
+  padding: 5rem 0;
+  text-align: center;
+}
+.cta-banner h2 { color: var(--white); margin-bottom: 1rem; }
+.cta-banner p { color: rgba(255,255,255,0.65); max-width: 580px; margin: 0 auto 2.5rem; }
+.cta-banner__actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* Value cards — "No Hidden Fees" section on Pricing page */
+.value-card {
+  background: var(--cream);
+  border: 1px solid rgba(11,26,46,0.08);
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.value-card__icon { color: var(--gold); }
+.value-card h3 {
+  font-family: var(--font-heading);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--navy);
+  letter-spacing: 0.04em;
+}
+.value-card p { font-size: 0.9rem; color: var(--gray-mid); line-height: 1.7; }
+
+/* ============================================================
+   PRODUCTS PAGE
+   ============================================================ */
+
+.product-type-section {
+  padding: 5rem 0;
+  border-bottom: 1px solid rgba(11,26,46,0.07);
+}
+.product-type-section:nth-child(even) { background: var(--cream); }
+
+.product-type__layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+.product-type__layout--reverse {
+  direction: rtl;
+}
+.product-type__layout--reverse > * { direction: ltr; }
+
+@media (max-width: 760px) {
+  .product-type__layout { grid-template-columns: 1fr; gap: 2.5rem; }
+  .product-type__layout--reverse { direction: ltr; }
+}
+
+.product-type__label {
+  display: inline-block;
+  font-family: var(--font-heading);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.75rem;
+}
+.product-type__title {
+  font-family: var(--font-display);
+  font-size: 2.6rem;
+  letter-spacing: 0.04em;
+  color: var(--navy);
+  line-height: 1.05;
+  margin-bottom: 1rem;
+}
+.product-type__desc {
+  font-size: 1rem;
+  color: var(--gray-mid);
+  line-height: 1.8;
+  margin-bottom: 1.5rem;
+}
+.feature-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+.feature-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  font-size: 0.95rem;
+  color: var(--text-dark);
+  line-height: 1.5;
+}
+.feature-list li::before {
+  content: '✓';
+  color: var(--gold);
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.product-type__visual {
+  border-radius: 4px;
+  min-height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Patch visual background variants */
+.patch-bg-1 { background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%); }
+.patch-bg-2 { background: linear-gradient(135deg, #2D1B0E 0%, #4A2C1A 100%); }
+.patch-bg-3 { background: linear-gradient(135deg, #1A2B1A 0%, #2A4A2A 100%); }
+.patch-bg-4 { background: linear-gradient(135deg, #1A1A2D 0%, #2D2A4A 100%); }
+.patch-bg-5 { background: linear-gradient(135deg, var(--navy-mid) 0%, var(--navy) 100%); }
+.patch-bg-6 { background: linear-gradient(135deg, #1A2D1A 0%, var(--navy-mid) 100%); }
+
+/* Backings strip */
+.backings-strip {
+  background: var(--navy-mid);
+  padding: 5rem 0;
+}
+.backings-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  margin-top: 3rem;
+}
+@media (max-width: 900px) { .backings-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 480px) { .backings-grid { grid-template-columns: 1fr 1fr; } }
+
+.backing-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(200,147,26,0.12);
+  padding: 1.5rem 1.25rem;
+  text-align: center;
+  transition: background var(--transition);
+}
+.backing-card:hover { background: rgba(255,255,255,0.08); }
+.backing-card__icon {
+  color: var(--gold);
+  margin-bottom: 0.75rem;
+  display: flex;
+  justify-content: center;
+}
+.backing-card__name {
+  font-family: var(--font-heading);
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--white);
+  margin-bottom: 0.4rem;
+}
+.backing-card__desc {
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.5);
+  line-height: 1.6;
 }

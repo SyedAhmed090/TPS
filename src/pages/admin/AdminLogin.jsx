@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../contexts/AuthContext'
 import useSEO from '../../hooks/useSEO'
+import logo from '/logo-tps.png'
 
 export default function AdminLogin() {
   useSEO('Admin Login')
@@ -25,8 +26,10 @@ export default function AdminLogin() {
     <div style={{ minHeight: '100vh', background: 'var(--navy)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem' }}>
       <div style={{ width: '100%', maxWidth: 420, background: 'var(--navy-mid)', borderTop: '4px solid var(--gold)', padding: '2.5rem 2rem' }}>
         <div style={{ marginBottom: '2rem', textAlign: 'center' }}>
-          <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.6rem', color: 'var(--gold)', letterSpacing: '0.06em' }}>THE PATCH SOLUTIONS</div>
-          <div style={{ fontFamily: 'var(--font-heading)', fontSize: '0.65rem', letterSpacing: '0.2em', color: 'rgba(255,255,255,0.4)', marginTop: 4 }}>ADMIN DASHBOARD</div>
+          <div style={{ display: 'inline-block', background: '#fff', padding: '10px 20px', marginBottom: 12 }}>
+            <img src={logo} alt="The Patch Solutions" style={{ height: 44, display: 'block', objectFit: 'contain' }} />
+          </div>
+          <div style={{ fontFamily: 'var(--font-heading)', fontSize: '0.65rem', letterSpacing: '0.2em', color: 'rgba(255,255,255,0.4)' }}>ADMIN DASHBOARD</div>
         </div>
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.1rem' }}>
           <div>

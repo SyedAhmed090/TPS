@@ -355,12 +355,12 @@ export default function Products() {
       {/* ── 1. PAGE HERO ─────────────────────────────────────────── */}
       <section className="page-hero">
         <div className="container">
-          <span className="overline">Our Products</span>
-          <h1 className="display-2">Every Patch Type. One Place.</h1>
-          <p className="lead">
+          <span className="section-label">Our Products</span>
+          <h1>Every Patch Type. One Place.</h1>
+          <p>
             We produce 8+ types of custom patches — each crafted to the highest standard.
           </p>
-          <Link to="/contact" className="btn btn--gold btn--lg">
+          <Link to="/free-quote" className="btn-gold" style={{ marginTop: '0.5rem' }}>
             Get a Free Quote
           </Link>
         </div>
@@ -385,7 +385,7 @@ export default function Products() {
                         <li key={feature}>{feature}</li>
                       ))}
                     </ul>
-                    <Link to="/contact" className="btn btn--outline-gold">
+                    <Link to="/free-quote" className="btn-outline">
                       Get a Quote
                     </Link>
                   </div>
@@ -404,9 +404,9 @@ export default function Products() {
       {/* ── 3. BACKING TYPES ─────────────────────────────────────── */}
       <div className="backings-strip">
         <div className="container">
-          <div className="section-header" style={{ color: 'inherit' }}>
-            <span className="overline" style={{ color: '#9A7820' }}>Backing Options</span>
-            <h2 className="heading-1" style={{ color: '#FFFFFF' }}>Choose Your Perfect Backing</h2>
+          <div className="section-header">
+            <span className="section-label">Backing Options</span>
+            <h2 className="section-title light">Choose Your Perfect Backing</h2>
           </div>
           <div className="backings-grid">
             {BACKINGS.map((backing) => {
@@ -428,15 +428,15 @@ export default function Products() {
       {/* ── 4. BOTTOM CTA ────────────────────────────────────────── */}
       <div className="cta-banner">
         <div className="container">
-          <h2 className="heading-1">Not Sure Which Type You Need?</h2>
+          <h2 className="section-title light">Not Sure Which Type You Need?</h2>
           <p>
             Our patch experts will guide you to the perfect solution for your project.
           </p>
           <div className="cta-banner__actions">
-            <Link to="/contact" className="btn btn--gold btn--lg">
+            <Link to="/free-quote" className="btn-gold">
               Get a Free Quote
             </Link>
-            <Link to="/gallery" className="btn btn--outline">
+            <Link to="/gallery" className="btn-outline-light">
               View Our Gallery
             </Link>
           </div>

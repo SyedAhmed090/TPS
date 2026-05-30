@@ -84,7 +84,7 @@ const FAQS = [
   },
   {
     q: 'Can I get a sample before the full order?',
-    a: 'Yes — we offer free samples. Contact us to request a sample of our work. For custom design approval, we send a digital proof before any production begins.',
+    a: 'Yes — we offer free samples. We create a sample patch and send you high-resolution photos and a video so you can see the quality before placing your full order. Request yours at no cost.',
   },
 ]
 
@@ -300,7 +300,7 @@ export default function CustomEmbroideredPatches() {
       <section style={{ background: 'var(--navy)', padding: '5.5rem 0' }}>
         <div className="container" style={{ textAlign: 'center' }}>
           <h2 className="section-title light" style={{ marginBottom: '0.75rem' }}>Order Custom Embroidered Patches</h2>
-          <p style={{ color: 'rgba(255,255,255,0.6)', marginBottom: '2rem' }}>Free quote, free design proof, free samples.</p>
+          <p style={{ color: 'rgba(255,255,255,0.6)', marginBottom: '2rem' }}>Free quote, free design proof, free sample preview.</p>
           <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
             <Link to="/free-quote" className="btn-gold">Get a Free Quote</Link>
             <Link to="/pricing/embroidered-patches" className="btn-outline">View Embroidered Pricing</Link>

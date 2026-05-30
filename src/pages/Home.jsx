@@ -28,8 +28,8 @@ const SERVE = [
 
 const MARQUEE_ITEMS = [
   'Embroidered Patches','Woven Patches','PVC Patches','Chenille Patches',
-  'Leather Patches','Dye Sublimation','Free Samples','Flat-Rate Shipping',
-  'Fast Turnaround','Any Shape · Any Size',
+  'Leather Patches','Dye Sublimation','Free Sample Preview','Flat-Rate Shipping',
+  'Fast Turnaround','25 Piece Minimum','Any Shape · Any Size',
 ]
 
 export default function Home() {
@@ -62,8 +62,8 @@ export default function Home() {
             <div className="hero-trust">
               <div className="trust-item"><span className="trust-num">25+</span><span className="trust-label">Years in Business</span></div>
               <div className="trust-item"><span className="trust-num">100%</span><span className="trust-label">Satisfaction Guarantee</span></div>
-              <div className="trust-item"><span className="trust-num">Free</span><span className="trust-label">Samples &amp; Quotes</span></div>
-              <div className="trust-item"><span className="trust-num">Flat</span><span className="trust-label">Rate Shipping</span></div>
+              <div className="trust-item"><span className="trust-num">Free</span><span className="trust-label">Sample Preview</span></div>
+              <div className="trust-item"><span className="trust-num">25</span><span className="trust-label">Piece Minimum</span></div>
             </div>
           </div>
           <div className="hero-calc-wrap">
@@ -92,9 +92,9 @@ export default function Home() {
             <div className="why-perks">
               {[
                 { icon: '📦', title: 'Flat-Rate Shipping', desc: 'No surprises at checkout. One simple rate, every order.' },
-                { icon: '⚡', title: 'Fast Turnaround', desc: 'Rush and standard options to meet any deadline.' },
-                { icon: '🎨', title: 'Free Design Proof', desc: 'Approve every detail before we go into production.' },
-                { icon: '✉️', title: 'Free Samples', desc: 'See and feel the quality before committing to your order.' },
+                { icon: '⚡', title: 'Fast Turnaround', desc: 'Standard 10–14 days after proof approval. Rush options from 5 days.' },
+                { icon: '🎨', title: 'Free Design Proof', desc: 'Our artists create a digital mockup showing exact stitch colours, dimensions, and finish. You approve before a single stitch is made.' },
+                { icon: '✉️', title: 'Free Sample Preview', desc: 'We create a sample patch and send you high-res photos and a video before you commit to a full order.' },
                 { icon: '📐', title: 'Any Shape & Size', desc: 'Custom die-cut to match your exact artwork or logo.' },
                 { icon: '💬', title: 'Free Quote', desc: 'Quick turnaround on quotes — no obligation required.' },
               ].map(({ icon, title, desc }, i) => (
@@ -164,7 +164,7 @@ export default function Home() {
           <div className="steps-row">
             {[
               { num: '01', title: 'Submit Your Quote', desc: 'Fill out our free quote form with your patch details — size, quantity, and artwork.' },
-              { num: '02', title: 'Approve the Proof', desc: 'Our design team creates a digital proof. No production starts until you sign off.' },
+              { num: '02', title: 'Approve the Proof', desc: 'Our designers create a digital mockup of your patch — exact colours, stitch lines, and dimensions. Review it, request changes for free, and sign off before we make a single patch.' },
               { num: '03', title: 'We Produce It', desc: 'Your patches go into production with our quality-controlled manufacturing process.' },
               { num: '04', title: 'Ships to Your Door', desc: <span>Flat-rate shipping, fast delivery, and 100% satisfaction guaranteed. <Link to="/rush-order" style={{ color: 'var(--gold-light)' }}>Need it faster? Rush production available →</Link></span> },
             ].map(({ num, title, desc }, i) => (
@@ -215,10 +215,10 @@ export default function Home() {
           <p className="section-subtitle reveal">Request a free quote and receive a design proof — no commitment required. Patches for every mission, every team, every story.</p>
           <div className="cta-btns reveal">
             <Link to="/free-quote" className="btn-gold">Get a Free Quote</Link>
-            <Link to="/request-samples" className="btn-primary-dark">Request Free Samples</Link>
+            <Link to="/request-samples" className="btn-primary-dark">Request Sample Preview</Link>
           </div>
           <div className="cta-perks reveal">
-            {['25-piece minimum','Free design proof','Free samples','Flat-rate shipping','100% satisfaction guarantee'].map(p => (
+            {['25-piece minimum','Free design proof','Free sample preview','Flat-rate shipping','100% satisfaction guarantee'].map(p => (
               <span key={p} className="cta-perk">{p}</span>
             ))}
           </div>

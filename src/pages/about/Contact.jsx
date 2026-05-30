@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Turnstile } from '@marsidev/react-turnstile'
 import Breadcrumb from '../../components/Breadcrumb'
 import useReveal from '../../hooks/useReveal'
@@ -6,6 +6,7 @@ import useSEO from '../../hooks/useSEO'
 import { useFormSubmit } from '../../hooks/useFormSubmit'
 import { inputStyle, labelStyle, textareaStyle, fieldErrorStyle } from '../../styles/formStyles'
 import { validateContactForm } from '../../utils/validation'
+import { useAuth } from '../../contexts/AuthContext'
 
 const TURNSTILE_SITE_KEY = import.meta.env.VITE_TURNSTILE_SITE_KEY
 
@@ -18,12 +19,24 @@ const CONTACT_INFO = [
 
 export default function Contact() {
   useSEO('Contact Us', 'Contact The Patch Solutions for a free custom patch quote, samples, or any questions about your order.')
+  const { user, profile } = useAuth()
   const [form, setForm] = useState({ name: '', email: '', phone: '', subject: '', quantity: '', message: '' })
   const [sent, setSent] = useState(false)
   const [errors, setErrors] = useState({})
   const [turnstileToken, setTurnstileToken] = useState('')
   const { submit, loading, submitError } = useFormSubmit('submit-contact')
   useReveal()
+
+  useEffect(() => {
+    if (profile || user) {
+      setForm(f => ({
+        ...f,
+        name: f.name || profile?.full_name || '',
+        email: f.email || user?.email || '',
+        phone: f.phone || profile?.phone || '',
+      }))
+    }
+  }, [profile, user])
 
   function handleChange(e) {
     const { name, value } = e.target

@@ -19,7 +19,7 @@ const TURNAROUND_CARDS = [
   },
   {
     badge: 'FAST',
-    badgeBg: '#1d4ed8',
+    badgeBg: 'var(--navy-light)',
     badgeText: '#fff',
     headline: 'Rush',
     time: '5–7 Business Days',
@@ -27,7 +27,7 @@ const TURNAROUND_CARDS = [
     available: 'Embroidered, PVC, Woven',
     bestFor: 'Events, last-minute orders, time-sensitive projects',
     items: ['✓ Expedited production', '✓ Same quality standards', '✓ Most patch types'],
-    border: '#1d4ed8',
+    border: 'var(--navy-light)',
   },
   {
     badge: 'URGENT',
@@ -122,10 +122,10 @@ export default function RushOrder() {
       {/* SECTION 1 — Hero */}
       <section
         className="page-hero"
-        style={{ background: 'linear-gradient(135deg, #7f1d1d 0%, var(--navy) 60%)' }}
+        style={{ background: 'linear-gradient(135deg, var(--red) 0%, var(--navy) 60%)' }}
       >
         <div className="container">
-          <span className="section-label" style={{ color: '#fca5a5' }}>
+          <span className="section-label" style={{ color: 'rgba(255,200,200,0.9)' }}>
             Fast Turnaround
           </span>
           <h1>Rush Order Patches</h1>
@@ -403,7 +403,7 @@ export default function RushOrder() {
                 Estimated order: ${totalLow.toFixed(2)} – ${totalHigh.toFixed(2)}
               </div>
               {surchargeAmt > 0 && (
-                <div style={{ fontFamily: 'var(--font-heading)', fontSize: '0.85rem', color: '#fca5a5' }}>
+                <div style={{ fontFamily: 'var(--font-heading)', fontSize: '0.85rem', color: 'rgba(255,190,190,0.9)' }}>
                   Rush surcharge: ${surchargeAmt.toFixed(2)}
                 </div>
               )}

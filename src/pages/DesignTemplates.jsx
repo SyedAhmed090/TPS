@@ -68,9 +68,9 @@ export default function DesignTemplates() {
 
       <section className="page-hero">
         <div className="container">
-          <span className="section-label">Free Download</span>
-          <h1>Design Templates</h1>
-          <p>Set up your artwork correctly the first time. Download our free templates for every patch type — includes safe zones, bleed guidelines, and spec sheets.</p>
+          <span className="section-label">Artwork Setup</span>
+          <h1>Design Templates & Specs</h1>
+          <p>Set up your artwork correctly the first time. Review the specs for every patch type — or simply submit your design and our art team will handle the setup for free.</p>
         </div>
       </section>
 
@@ -115,11 +115,11 @@ export default function DesignTemplates() {
                       ↓ Download Template
                     </a>
                   ) : (
-                    <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', alignItems: 'center' }}>
-                      <a href="mailto:info@thepatchsolutions.com?subject=Design Template Request&body=I'd like the design template for: {t.type}" style={{ display: 'inline-block', padding: '0.6rem 1.25rem', background: 'var(--gold)', color: 'var(--navy)', fontFamily: 'var(--font-heading)', fontSize: '0.75rem', letterSpacing: '0.1em', textTransform: 'uppercase', textDecoration: 'none', fontWeight: 700 }}>
-                        Request Template
-                      </a>
-                      <span style={{ fontSize: '0.75rem', color: 'var(--gray-mid)' }}>Sent within 1 business day</span>
+                    <div>
+                      <Link to="/free-quote" style={{ display: 'inline-block', padding: '0.6rem 1.25rem', background: 'var(--gold)', color: 'var(--navy)', fontFamily: 'var(--font-heading)', fontSize: '0.75rem', letterSpacing: '0.1em', textTransform: 'uppercase', textDecoration: 'none', fontWeight: 700 }}>
+                        Start Your Quote
+                      </Link>
+                      <p style={{ fontSize: '0.75rem', color: 'var(--gray-mid)', marginTop: '0.5rem', marginBottom: 0 }}>Our team sets up your artwork as part of the free quote process.</p>
                     </div>
                   )}
                 </div>
@@ -151,7 +151,7 @@ export default function DesignTemplates() {
           <p style={{ color: 'rgba(255,255,255,0.6)', marginBottom: '2rem' }}>Free quote, free design proof, no minimum commitment.</p>
           <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
             <Link to="/free-quote" className="btn-gold">Get a Free Quote</Link>
-            <Link to="/request-samples" className="btn-outline-light">Request Samples</Link>
+            <Link to="/request-samples" className="btn-outline-light">Request Sample Preview</Link>
           </div>
         </div>
       </section>

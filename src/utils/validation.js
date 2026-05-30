@@ -35,11 +35,6 @@ export function validateSampleForm(form) {
   if (!form.name?.trim()) errors.name = 'Name is required'
   if (!form.email?.trim()) errors.email = 'Email is required'
   else if (!isValidEmail(form.email)) errors.email = 'Enter a valid email address'
-  if (!form.address?.trim()) errors.address = 'Street address is required'
-  if (!form.city?.trim()) errors.city = 'City is required'
-  if (!form.state?.trim()) errors.state = 'State is required'
-  if (!form.zip?.trim()) errors.zip = 'ZIP code is required'
-  else if (!isValidZip(form.zip, form.country)) errors.zip = 'Enter a valid ZIP code'
   return errors
 }
 

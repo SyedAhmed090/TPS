@@ -23,11 +23,20 @@ const PRICING_FACTORS = [
 ]
 
 const PRICING_ROWS = [
-  { qty: '25–49',   price: '$3.50–$5.00', turnaround: '12–14 days', notes: 'Standard',        badge: false },
+  { qty: '25–49',   price: '$3.50–$5.00', turnaround: '12–14 days', notes: 'Minimum order',   badge: false },
   { qty: '50–99',   price: '$2.50–$3.75', turnaround: '10–12 days', notes: 'Popular Choice',  badge: true  },
   { qty: '100–249', price: '$1.75–$2.50', turnaround: '8–10 days',  notes: 'Best Value',      badge: true  },
   { qty: '250–499', price: '$1.25–$1.75', turnaround: '7–9 days',   notes: '—',               badge: false },
   { qty: '500+',    price: 'Contact Us',  turnaround: '5–7 days',   notes: 'Volume Discount', badge: false },
+]
+
+const PATCH_COMPARISON = [
+  { type: 'Embroidered', bestFor: 'Uniforms, clubs, military', detail: 'Medium', colors: 'Up to 15 thread colors', durability: 'Excellent', price: 'From $1.75/patch' },
+  { type: 'Woven',       bestFor: 'Fine text, complex logos',  detail: 'High',   colors: 'Up to 15 thread colors', durability: 'Excellent', price: 'From $1.95/patch' },
+  { type: 'PVC',         bestFor: 'Tactical gear, outdoor',    detail: 'High',   colors: 'Unlimited pantone',      durability: 'Outstanding', price: 'From $2.25/patch' },
+  { type: 'Chenille',    bestFor: 'Varsity, letterman jackets',detail: 'Low',    colors: 'Bold solid colors',      durability: 'Good',      price: 'From $3.50/patch' },
+  { type: 'Leather',     bestFor: 'Jackets, bags, hats',       detail: 'Medium', colors: 'Natural + engraved',     durability: 'Excellent', price: 'From $4.00/patch' },
+  { type: 'Dye Sub',     bestFor: 'Photos, gradients, full-color', detail: 'Very High', colors: 'Unlimited full color', durability: 'Good', price: 'From $2.00/patch' },
 ]
 
 /* ── Icon components ─────────────────────────────────────────── */
@@ -156,13 +165,13 @@ const INCLUDED_FREE = [
   {
     id: 1,
     title: 'Free Design Proof',
-    description: 'Our artists create a digital proof before production starts. Changes are free.',
+    description: 'A digital mockup of your patch — exact stitch colours, dimensions, and finish. Review it, request changes, and approve before we make a single patch. Unlimited revisions, always free.',
     Icon: IconCheck,
   },
   {
     id: 2,
-    title: 'Free Sample',
-    description: 'We send a physical sample patch for approval before full production begins.',
+    title: 'Free Sample Preview',
+    description: 'We create a sample patch and send you high-resolution photos and a video so you can see the real finish, texture, and quality before committing to your full order.',
     Icon: IconGift,
   },
   {
@@ -200,9 +209,9 @@ export default function Pricing() {
       {/* ── 1. PAGE HERO ────────────────────────────────────────── */}
       <section className="page-hero">
         <div className="container">
-          <span className="overline">Transparent Pricing</span>
-          <h1 className="heading-1">Fair Prices. Premium Quality.</h1>
-          <p className="lead">
+          <span className="section-label">Transparent Pricing</span>
+          <h1>Fair Prices. Premium Quality.</h1>
+          <p>
             No hidden fees, no surprises. Our pricing is based on a few simple factors — and we
             always offer free quotes.
           </p>
@@ -210,11 +219,11 @@ export default function Pricing() {
       </section>
 
       {/* ── 2. HOW PRICING WORKS ────────────────────────────────── */}
-      <section className="section section--white">
+      <section style={{ padding: '5rem 0', background: 'var(--white)' }}>
         <div className="container">
           <div className="section-header">
-            <span className="overline">Pricing Factors</span>
-            <h2 className="heading-2">What Affects the Price?</h2>
+            <span className="section-label">Pricing Factors</span>
+            <h2 className="section-title">What Affects the Price?</h2>
           </div>
           <div className="pricing-factors">
             {PRICING_FACTORS.map((factor) => (
@@ -228,11 +237,16 @@ export default function Pricing() {
       </section>
 
       {/* ── 3. QUANTITY PRICING TABLE ───────────────────────────── */}
-      <section className="section section--cream">
+      <section style={{ padding: '5rem 0', background: 'var(--cream)' }}>
         <div className="container">
           <div className="section-header">
-            <span className="overline">Quantity Breaks</span>
-            <h2 className="heading-2">More Patches, More Savings</h2>
+            <span className="section-label">Quantity Breaks</span>
+            <h2 className="section-title">More Patches, More Savings</h2>
+          </div>
+
+          <div style={{ background: 'rgba(200,147,26,0.1)', borderLeft: '4px solid var(--gold)', padding: '0.85rem 1.25rem', marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap' }}>
+            <span style={{ fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: '0.85rem', color: 'var(--navy)' }}>Minimum order: 25 patches per design.</span>
+            <span style={{ fontSize: '0.85rem', color: 'var(--gray-mid)' }}>Turnaround times start after you approve your design proof.</span>
           </div>
 
           <div className="table-scroll">
@@ -241,7 +255,7 @@ export default function Pricing() {
               <tr>
                 <th>Quantity</th>
                 <th>Est. Price / Patch</th>
-                <th>Turnaround</th>
+                <th>Turnaround (after proof approval)</th>
                 <th>Notes</th>
               </tr>
             </thead>
@@ -272,16 +286,54 @@ export default function Pricing() {
         </div>
       </section>
 
-      {/* ── 4. INCLUDED FREE ────────────────────────────────────── */}
-      <section className="section section--white">
+      {/* ── 3b. PATCH TYPE COMPARISON ───────────────────────────── */}
+      <section style={{ padding: '5rem 0', background: 'var(--white)' }}>
         <div className="container">
           <div className="section-header">
-            <span className="overline">Always Included</span>
-            <h2 className="heading-2">No Hidden Fees</h2>
+            <span className="section-label">Patch Type Guide</span>
+            <h2 className="section-title">Which Patch Type Is Right for You?</h2>
+            <p style={{ color: 'var(--gray-mid)', maxWidth: 600, margin: '0 auto' }}>Not sure which type to order? Use this quick comparison to find the best match for your project.</p>
           </div>
-          <div className="grid-3">
+          <div className="table-scroll" style={{ marginTop: '2rem' }}>
+            <table className="pricing-table" style={{ minWidth: 700 }}>
+              <thead>
+                <tr>
+                  <th>Type</th>
+                  <th>Best For</th>
+                  <th>Detail Level</th>
+                  <th>Colors</th>
+                  <th>Durability</th>
+                  <th>Starting Price</th>
+                </tr>
+              </thead>
+              <tbody>
+                {PATCH_COMPARISON.map((row) => (
+                  <tr key={row.type}>
+                    <td style={{ fontWeight: 700 }}>{row.type}</td>
+                    <td>{row.bestFor}</td>
+                    <td>{row.detail}</td>
+                    <td>{row.colors}</td>
+                    <td>{row.durability}</td>
+                    <td>{row.price}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p className="pricing-note">* Starting prices based on 100-piece orders. <Link to="/free-quote" style={{ color: 'var(--gold)' }}>Get a free quote</Link> for your exact design and quantity.</p>
+        </div>
+      </section>
+
+      {/* ── 4. INCLUDED FREE ────────────────────────────────────── */}
+      <section style={{ padding: '5rem 0', background: 'var(--white)' }}>
+        <div className="container">
+          <div className="section-header">
+            <span className="section-label">Always Included</span>
+            <h2 className="section-title">No Hidden Fees</h2>
+          </div>
+          <div className="cards-grid-3">
             {INCLUDED_FREE.map(({ id, title, description, Icon }) => (
-              <div key={id} className="card">
+              <div key={id} className="value-card">
                 <div className="value-card__icon">
                   <Icon />
                 </div>
@@ -296,16 +348,16 @@ export default function Pricing() {
       {/* ── 5. CTA BANNER ───────────────────────────────────────── */}
       <div className="cta-banner">
         <div className="container">
-          <h2 className="heading-1">Get Your Custom Quote Today</h2>
+          <h2 className="section-title light">Get Your Custom Quote Today</h2>
           <p>
             Send us your design and requirements — we'll respond with a detailed quote within 24
             hours.
           </p>
           <div className="cta-banner__actions">
-            <Link to="/contact" className="btn btn--gold btn--lg">
+            <Link to="/free-quote" className="btn-gold">
               Request Free Quote
             </Link>
-            <Link to="/products" className="btn btn--outline btn--lg">
+            <Link to="/products" className="btn-outline-light">
               View Our Products
             </Link>
           </div>

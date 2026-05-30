@@ -32,7 +32,24 @@ export function AuthProvider({ children }) {
       supabase.from('customers').select('*').eq('auth_user_id', userId).maybeSingle(),
       supabase.from('admin_users').select('id').eq('auth_user_id', userId).maybeSingle(),
     ])
-    setProfile(customerData || null)
+
+    if (!customerData && !adminData) {
+      // No profile row yet — create it on first authenticated sign-in
+      const { data: { user } } = await supabase.auth.getUser()
+      const { data: created } = await supabase
+        .from('customers')
+        .insert({
+          auth_user_id: userId,
+          email: user?.email || '',
+          full_name: user?.user_metadata?.full_name || '',
+        })
+        .select()
+        .single()
+      setProfile(created || null)
+    } else {
+      setProfile(customerData || null)
+    }
+
     setIsAdmin(!!adminData)
     setLoading(false)
   }

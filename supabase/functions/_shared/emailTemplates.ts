@@ -168,26 +168,26 @@ export function contactNotification({ contact_id, name, email, phone, subject, m
 }
 
 // ─── 5. SAMPLE CONFIRMATION ───────────────────────────────────
-export function sampleConfirmation({ name, address }: { name: string; address: string }) {
+export function sampleConfirmation({ name }: { name: string }) {
   const body = `
     <h2 style="font-family:Georgia,serif;color:#0B1A2E;font-size:26px;margin:0 0 8px;">Sample Request Confirmed!</h2>
-    <p style="color:#555;font-size:15px;line-height:1.6;margin:0 0 20px;">Hi ${name}, your free sample kit is on its way! We'll ship it to:</p>
+    <p style="color:#555;font-size:15px;line-height:1.6;margin:0 0 20px;">Hi ${name}, we've received your request! We'll create your sample patch and send you high-resolution photos and a video so you can see the quality before placing your full order.</p>
     <div style="background:#f9f6f0;border-left:4px solid #C8931A;padding:12px 20px;margin-bottom:20px;">
-      <p style="font-size:14px;color:#333;margin:0;line-height:1.6;">${address}</p>
+      <p style="font-size:14px;color:#333;margin:0;line-height:1.6;">You'll receive photos and a video of your sample patch within a few business days — delivered straight to this email address.</p>
     </div>
-    <p style="color:#555;font-size:14px;line-height:1.6;margin-bottom:20px;">You can expect your sample kit to arrive within <strong>3–5 business days</strong>. It will include examples of our most popular patch types so you can see and feel the quality before ordering.</p>
+    <p style="color:#555;font-size:14px;line-height:1.6;margin-bottom:20px;">Once you've seen the sample and are happy with the quality, we're ready to move forward with your full order whenever you are.</p>
     ${btn('Get a Free Quote While You Wait', 'https://www.thepatchsolutions.com/free-quote')}
   `
   return {
     subject: 'Your free sample request is confirmed — The Patch Solutions',
-    html: baseLayout(body, 'Your free sample kit will arrive in 3-5 business days.'),
-    text: `Hi ${name},\n\nYour sample kit will be shipped to:\n${address}\n\nExpect delivery in 3-5 business days.\n\nThe Patch Solutions`,
+    html: baseLayout(body, 'Sample photos and video will be sent to your email within a few business days.'),
+    text: `Hi ${name},\n\nWe've received your sample request. We'll create your sample patch and send you high-resolution photos and a video within a few business days.\n\nThe Patch Solutions`,
   }
 }
 
 // ─── 6. SAMPLE NOTIFICATION (admin) ──────────────────────────
-export function sampleNotification({ name, email, phone, address, patch_interest }: {
-  name: string; email: string; phone?: string; address: string; patch_interest?: string[]
+export function sampleNotification({ name, email, phone, company, patchTypes, notes, requestId }: {
+  name: string; email: string; phone?: string; company?: string; patchTypes?: string[]; notes?: string; requestId?: string
 }) {
   const body = `
     <h2 style="font-family:Georgia,serif;color:#0B1A2E;font-size:22px;margin:0 0 16px;">New Sample Request</h2>
@@ -195,14 +195,16 @@ export function sampleNotification({ name, email, phone, address, patch_interest
       ${infoRow('Name', name)}
       ${infoRow('Email', `<a href="mailto:${email}" style="color:#C8931A;">${email}</a>`)}
       ${phone ? infoRow('Phone', phone) : ''}
-      ${infoRow('Ship To', address)}
-      ${patch_interest?.length ? infoRow('Interested In', patch_interest.join(', ')) : ''}
+      ${company ? infoRow('Company', company) : ''}
+      ${patchTypes?.length ? infoRow('Interested In', patchTypes.join(', ')) : ''}
+      ${notes ? infoRow('Notes', notes) : ''}
     </table>
+    <p style="color:#555;font-size:13px;">Send high-res photos and a video to <strong>${email}</strong> once the sample is ready.</p>
   `
   return {
-    subject: `📦 New Sample Request — ${name}`,
+    subject: `New Sample Request — ${name}`,
     html: baseLayout(body),
-    text: `New sample request from ${name} (${email})\nShip to: ${address}`,
+    text: `New sample request from ${name} (${email})\nSend sample photos and video to: ${email}`,
   }
 }
 
