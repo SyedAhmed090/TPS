@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import Breadcrumb from '../../components/Breadcrumb'
 import useReveal from '../../hooks/useReveal'
@@ -95,6 +96,38 @@ export default function VectorConversion() {
     'Vector Conversion Service',
     'Professional vector conversion from $10/file. Hand-traced, not auto-converted. SVG, AI, EPS, PDF output. 24-hour turnaround. Perfect for print, embroidery, and branding.'
   )
+
+  useEffect(() => {
+    const schema = {
+      '@context': 'https://schema.org',
+      '@type': 'Service',
+      name: 'Vector Conversion Service',
+      description: 'Professional raster-to-vector conversion — hand-traced, not auto-converted. SVG, AI, EPS, PDF output. Starting at $10 per file.',
+      provider: {
+        '@type': 'Organization',
+        name: 'The Patch Solutions',
+        url: 'https://www.thepatchsolutions.com',
+      },
+      serviceType: 'Vector Conversion',
+      areaServed: { '@type': 'Country', name: 'United States' },
+      url: 'https://www.thepatchsolutions.com/vector-conversion',
+      offers: PLANS.map(p => ({
+        '@type': 'Offer',
+        name: `Vector Conversion ${p.name} Plan`,
+        price: p.price.replace('$', ''),
+        priceCurrency: 'USD',
+        description: p.sub,
+      })),
+    }
+    const existing = document.getElementById('service-schema')
+    if (existing) existing.remove()
+    const script = document.createElement('script')
+    script.type = 'application/ld+json'
+    script.id = 'service-schema'
+    script.textContent = JSON.stringify(schema)
+    document.head.appendChild(script)
+    return () => { document.getElementById('service-schema')?.remove() }
+  }, [])
 
   return (
     <>

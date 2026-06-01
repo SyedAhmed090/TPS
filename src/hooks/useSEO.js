@@ -38,12 +38,14 @@ export default function useSEO(title, description, options = {}) {
     setMeta('description', desc)
 
     // Open Graph
-    setMeta('og:site_name',   SITE_NAME,  true)
+    setMeta('og:site_name',   SITE_NAME,         true)
     setMeta('og:type',        options.type || 'website', true)
-    setMeta('og:title',       fullTitle,  true)
-    setMeta('og:description', desc,       true)
-    setMeta('og:url',         canonical,  true)
-    setMeta('og:image',       image,      true)
+    setMeta('og:locale',      'en_US',            true)
+    setMeta('og:title',       fullTitle,          true)
+    setMeta('og:description', desc,               true)
+    setMeta('og:url',         canonical,          true)
+    setMeta('og:image',       image,              true)
+    setMeta('og:image:alt',   options.imageAlt || `${SITE_NAME} — custom patches`, true)
 
     // Twitter Card
     setMeta('twitter:card',        'summary_large_image')

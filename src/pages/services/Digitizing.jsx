@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import Breadcrumb from '../../components/Breadcrumb'
 import useReveal from '../../hooks/useReveal'
@@ -85,6 +86,38 @@ export default function Digitizing() {
     'Embroidery Digitizing Service',
     'Professional embroidery digitizing from $8/file. Hand-digitized — not auto-converted. 24-hour turnaround, all machine formats, unlimited revisions on Pro plans.'
   )
+
+  useEffect(() => {
+    const schema = {
+      '@context': 'https://schema.org',
+      '@type': 'Service',
+      name: 'Embroidery Digitizing Service',
+      description: 'Professional embroidery digitizing — hand-digitized, not auto-converted. Machine-ready files in DST, PES, EXP, JEF, and more. Starting at $8 per file.',
+      provider: {
+        '@type': 'Organization',
+        name: 'The Patch Solutions',
+        url: 'https://www.thepatchsolutions.com',
+      },
+      serviceType: 'Embroidery Digitizing',
+      areaServed: { '@type': 'Country', name: 'United States' },
+      url: 'https://www.thepatchsolutions.com/digitizing',
+      offers: PLANS.map(p => ({
+        '@type': 'Offer',
+        name: `Digitizing ${p.name} Plan`,
+        price: p.price.replace('$', ''),
+        priceCurrency: 'USD',
+        description: p.sub,
+      })),
+    }
+    const existing = document.getElementById('service-schema')
+    if (existing) existing.remove()
+    const script = document.createElement('script')
+    script.type = 'application/ld+json'
+    script.id = 'service-schema'
+    script.textContent = JSON.stringify(schema)
+    document.head.appendChild(script)
+    return () => { document.getElementById('service-schema')?.remove() }
+  }, [])
 
   return (
     <>

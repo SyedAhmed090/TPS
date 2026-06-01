@@ -1,12 +1,55 @@
+import { useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { PRODUCTS_DATA } from '../../data/siteData'
 import Breadcrumb from '../../components/Breadcrumb'
 import useReveal from '../../hooks/useReveal'
+import useSEO from '../../hooks/useSEO'
 
 export default function ProductDetail() {
   useReveal()
   const { slug } = useParams()
   const item = PRODUCTS_DATA.find(p => p.slug === slug)
+
+  useSEO(
+    item ? item.name : 'Product Not Found',
+    item ? `${item.description?.slice(0, 155)}` : 'Custom patch product not found.',
+    { image: item?.img?.startsWith('http') ? item.img : undefined }
+  )
+
+  useEffect(() => {
+    if (!item) return
+    const schema = {
+      '@context': 'https://schema.org',
+      '@type': 'Product',
+      name: item.name,
+      description: item.description,
+      image: item.img,
+      url: `https://www.thepatchsolutions.com/products/${item.slug}`,
+      brand: { '@type': 'Brand', name: 'The Patch Solutions' },
+      offers: {
+        '@type': 'Offer',
+        priceCurrency: 'USD',
+        price: item.startingPrice ? item.startingPrice.replace(/[^0-9.]/g, '') : undefined,
+        priceSpecification: item.startingPrice ? {
+          '@type': 'PriceSpecification',
+          price: item.startingPrice.replace(/[^0-9.]/g, ''),
+          priceCurrency: 'USD',
+          description: 'Starting price per piece',
+        } : undefined,
+        availability: 'https://schema.org/InStock',
+        url: `https://www.thepatchsolutions.com/products/${item.slug}`,
+        seller: { '@type': 'Organization', name: 'The Patch Solutions' },
+      },
+    }
+    const existing = document.getElementById('product-schema')
+    if (existing) existing.remove()
+    const script = document.createElement('script')
+    script.type = 'application/ld+json'
+    script.id = 'product-schema'
+    script.textContent = JSON.stringify(schema)
+    document.head.appendChild(script)
+    return () => { document.getElementById('product-schema')?.remove() }
+  }, [item])
 
   if (!item) return (
     <div className="container" style={{ padding: '6rem 2rem', textAlign: 'center' }}>

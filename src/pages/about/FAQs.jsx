@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import Breadcrumb from '../../components/Breadcrumb'
 import useReveal from '../../hooks/useReveal'
@@ -73,6 +73,26 @@ function FaqItem({ q, a }) {
 export default function FAQs() {
   useReveal()
   useSEO('FAQs', 'Frequently asked questions about ordering custom patches — materials, minimums, turnaround, pricing, and more.')
+
+  useEffect(() => {
+    const schema = {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: FAQS.map(({ q, a }) => ({
+        '@type': 'Question',
+        name: q,
+        acceptedAnswer: { '@type': 'Answer', text: a },
+      })),
+    }
+    const existing = document.getElementById('faq-schema')
+    if (existing) existing.remove()
+    const script = document.createElement('script')
+    script.type = 'application/ld+json'
+    script.id = 'faq-schema'
+    script.textContent = JSON.stringify(schema)
+    document.head.appendChild(script)
+    return () => { document.getElementById('faq-schema')?.remove() }
+  }, [])
   return (
     <>
       <Breadcrumb items={[
