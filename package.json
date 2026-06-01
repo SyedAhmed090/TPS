@@ -10,7 +10,6 @@
   "dependencies": {
     "@marsidev/react-turnstile": "^1.5.2",
     "@sentry/react": "^10.53.1",
-    "@supabase/auth-helpers-react": "^0.15.0",
     "@supabase/supabase-js": "^2.106.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
